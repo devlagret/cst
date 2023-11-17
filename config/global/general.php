@@ -15,10 +15,10 @@ return array(
 
     // Meta
     'meta'    => array(
-        'title'       => 'Koperasi Konsumen | Artha Bima Sentosa',
-        'description' => 'Aplikasi koperasi untuk Artha Bima Sentosa.',
-        'keywords'    => 'Arthabima, Koperasi Arthabima',
-        'canonical'   => 'https://preview.keenthemes.com/metronic8',
+        'title'       => 'Cipta Solutindo Tech',
+        'description' => 'Aplikasi Cipta Solutindo Tech.',
+        'keywords'    => 'Cipta Solutindo Tech',
+        'canonical'   => 'https://ciptapro.com',
     ),
 
     // General
