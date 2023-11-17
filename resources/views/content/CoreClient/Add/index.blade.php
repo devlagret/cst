@@ -121,7 +121,19 @@ function function_elements_add(name, value){
 //==============================END VALIDATION FORM ADD MEMBER ===============================\\
 </script>
 @endsection
-
+@section('styles')
+<style type="text/css">
+ table,tr,td {
+  border: 1px solid !important;
+  border-color: #B5B5C3 !important;
+  border-bottom-color: #B5B5C3 !important;
+}
+tr{
+border-color: #B5B5C3 !important;
+  border-bottom-color: #B5B5C3 !important;
+}
+</style>
+@endsection
 
 <x-base-layout>
     <div class="card mb-5 mb-xl-10">
@@ -202,7 +214,7 @@ function function_elements_add(name, value){
                     </div>
                     <div class="row">
                         <div class="table-responsive">
-                            <table class="table table-striped table-hover table-bordered align-middle border-3 rounded px-1 border-solid border-gray-500">
+                            <table id="table-member"class="table table-bordered border-dark table-auto border-collapse divide-gray-200 dark:divide-gray-700 table-striped table-hover align-middle rounded datatable" border="1">
                                     <thead class="font-bold text-xl2">
                                         <th>Column 1</th>
                                         <th>Column 2</th>

@@ -3,6 +3,7 @@
     {!! theme()->printHtmlAttributes('html') !!} {{ theme()->printHtmlClasses('html') }}>
 {{-- begin::Head --}}
 <head>
+    @yield('styles')
     <meta charset="utf-8"/>
     <title>{{ ucfirst(theme()->getOption('meta', 'title')) }}</title>
     <meta name="description" content="{{ ucfirst(theme()->getOption('meta', 'description')) }}"/>
@@ -20,7 +21,6 @@
     {{-- begin::Fonts --}}
     {{ theme()->includeFonts() }}
     {{-- end::Fonts --}}
-     @yield('styles')
 
 </head>
 {{-- end::Head --}}
@@ -165,6 +165,14 @@
                 value.focus();
             })
         })
+        $('.datatable').DataTable({
+                    responsive: true,
+                    "aLengthMenu": [
+                        [5, 15, 20, -1],
+                        [5, 15, 20, "All"] // change per page values here
+                    ],
+                    "iDisplayLength": 5,
+                });
         $(document.querySelectorAll('[type=reset]')).click(function(){
             // location.reload();
             // $("#account_type_id").empty();
