@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import path from 'path';
-import {glob, globSync, globStream, globStreamSync, Glob} from "glob";
 export default defineConfig({
     plugins: [
         laravel({
@@ -36,7 +35,8 @@ export default defineConfig({
             "~toastr": path.resolve(__dirname,"node_modules/toastr"),
             "~sweetalert2": path.resolve(__dirname,"node_modules/sweetalert2"),
             "~line-awesome": path.resolve(__dirname,"node_modules/line-awesome"),
-            "@": "/resources"
+            "@": "resources/"
+            "~": "node_modules/"
         }
     }
 });
