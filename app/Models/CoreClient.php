@@ -32,4 +32,7 @@ class CoreClient extends Model
       */
      protected $hidden = [
      ];
+     public function member() {
+        return $this->hasMany(CoreClientMember::class,'client_id','client_id');
+     }
 }
