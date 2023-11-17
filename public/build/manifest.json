@@ -1,0 +1,52 @@
+{
+  "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff": {
+    "file": "assets/bootstrap-icons-4d4572ef.woff",
+    "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff"
+  },
+  "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2": {
+    "file": "assets/bootstrap-icons-bacd70af.woff2",
+    "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2"
+  },
+  "resources/assets/demo2/js/scripts.js": {
+    "file": "assets/scripts-a08e7fa4.js",
+    "isEntry": true,
+    "src": "resources/assets/demo2/js/scripts.js"
+  },
+  "resources/assets/demo2/sass/plugins.scss": {
+    "file": "assets/plugins-1f41f3e2.css",
+    "isEntry": true,
+    "src": "resources/assets/demo2/sass/plugins.scss"
+  },
+  "resources/assets/demo2/sass/style.scss": {
+    "file": "assets/style-f1395730.css",
+    "isEntry": true,
+    "src": "resources/assets/demo2/sass/style.scss"
+  },
+  "resources/assets/extended/button-ajax.js": {
+    "file": "assets/button-ajax-026eff44.js",
+    "isEntry": true,
+    "src": "resources/assets/extended/button-ajax.js"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-f0571a14.css",
+    "isEntry": true,
+    "src": "resources/css/app.css"
+  },
+  "resources/js/app.css": {
+    "file": "assets/app-37559f5d.css",
+    "src": "resources/js/app.css"
+  },
+  "resources/js/app.js": {
+    "css": [
+      "assets/app-37559f5d.css"
+    ],
+    "file": "assets/app-1b67d01e.js",
+    "isEntry": true,
+    "src": "resources/js/app.js"
+  },
+  "resources/sass/app.scss": {
+    "file": "assets/app-3ba2cd03.css",
+    "isEntry": true,
+    "src": "resources/sass/app.scss"
+  }
+}

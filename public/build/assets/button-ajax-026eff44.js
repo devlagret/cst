@@ -1,0 +1,1 @@
+$(document).on("click",".button-ajax",function(o){o.preventDefault();var a=$(this).data("action"),n=$(this).data("method"),e=$(this).data("csrf"),c=$(this).data("reload");axios.request({url:a,method:n,data:{_token:e}}).then(function(t){console.log(t)}).catch(function(t){console.log(t)}).then(function(){c&&window.location.reload()})});
