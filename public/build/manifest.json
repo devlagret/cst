@@ -28,7 +28,7 @@
     "src": "resources/assets/extended/button-ajax.js"
   },
   "resources/css/app.css": {
-    "file": "assets/app-f0571a14.css",
+    "file": "assets/app-91694b0e.css",
     "isEntry": true,
     "src": "resources/css/app.css"
   },
@@ -40,12 +40,12 @@
     "css": [
       "assets/app-37559f5d.css"
     ],
-    "file": "assets/app-1b67d01e.js",
+    "file": "assets/app-93175682.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   },
   "resources/sass/app.scss": {
-    "file": "assets/app-3ba2cd03.css",
+    "file": "assets/app-838f013a.css",
     "isEntry": true,
     "src": "resources/sass/app.scss"
   }
