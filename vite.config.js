@@ -35,7 +35,7 @@ export default defineConfig({
             "~toastr": path.resolve(__dirname,"node_modules/toastr"),
             "~sweetalert2": path.resolve(__dirname,"node_modules/sweetalert2"),
             "~line-awesome": path.resolve(__dirname,"node_modules/line-awesome"),
-            "@": "resources/"
+            "@": "resources/",
             "~": "node_modules/"
         }
     }
