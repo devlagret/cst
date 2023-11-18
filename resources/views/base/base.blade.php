@@ -3,7 +3,6 @@
     {!! theme()->printHtmlAttributes('html') !!} {{ theme()->printHtmlClasses('html') }}>
 {{-- begin::Head --}}
 <head>
-    @yield('styles')
     <meta charset="utf-8"/>
     <title>{{ ucfirst(theme()->getOption('meta', 'title')) }}</title>
     <meta name="description" content="{{ ucfirst(theme()->getOption('meta', 'description')) }}"/>
@@ -15,13 +14,16 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/x-icon" href="{{ asset('img/logo/logo-180x180.png')}}" />
     <link rel="stylesheet" type="text/css" href="{{ asset(theme()->getDemo().'/plugins/custom/datatables/datatables.bundle.css') }}">
-    @vite(['resources/css/app.css','resources/sass/app.scss', 'resources/js/app.js'])
+    @vite('resources/css/app.css')
+    @vite('resources/sass/app.scss')
     <link rel="stylesheet" type="text/css" href="{{ asset('demo2/css/style.bundle.css') }}">
+    @vite('resources/js/app.js')
+    @vite('resources/sass/rewrite.scss')
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     {{-- begin::Fonts --}}
     {{ theme()->includeFonts() }}
     {{-- end::Fonts --}}
-
+    @yield('styles')
 </head>
 {{-- end::Head --}}
 
@@ -86,6 +88,9 @@
     .select2-selection__rendered{
         color: #5E6278 !important;
         font-weight: 500;
+    }
+    .table td:first-child {
+        text-align: center !important;
     }
 </style>
 <script type="module">
