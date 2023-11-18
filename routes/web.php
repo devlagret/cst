@@ -938,8 +938,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/add', 'processAdd')->name('process-add');
         Route::post('/element-add', 'elemenAdd')->name('element-add');
         Route::get('/export',  'export')->name('export');
-        Route::get('/{table}/{col}/{id}', 'restore')->name('data');
-        Route::get('/force/{table}/{col}/{id}','forceDelete')->name('force-delete');
+        Route::post('/add-member', 'addMember')->name('add-member');
+        Route::post('/edit-member', 'addMember')->name('edit-member');
+        Route::post('/delete-member', 'addMember')->name('delete-member');
     });
     //Whatsapp pages
     // Route::prefix('whatsapp')->name('whatsapp.')->group(function () {

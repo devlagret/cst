@@ -1,99 +1,36 @@
 @section('scripts')
 <script>
-const form = document.getElementById('kt_member_add_view_form');
+const form = document.getElementById('kt_client_add_view_form');
 
 var validator = FormValidation.formValidation(
     form,
     {
         fields: {
-            'member_name': {
+            'name': {
                 validators: {
                     notEmpty: {
                         message: 'Nama Lengkap harus diisi'
                     }
                 }
             },
-            'member_gender': {
+            'address': {
                 validators: {
                     notEmpty: {
-                        message: 'Jenis Kelamin harus diisi'
+                        message: 'Alamat harus diisi'
                     }
                 }
             },
-            'member_place_of_birth': {
+            'contact_person': {
                 validators: {
                     notEmpty: {
-                        message: 'Tempat Lahir harus diisi'
+                        message: 'Contact Person harus diisi'
                     }
                 }
             },
-            'member_date_of_birth': {
+            'phone': {
                 validators: {
                     notEmpty: {
-                        message: 'Tanggal Lahir harus diisi'
-                    }
-                }
-            },
-            'member_address': {
-                validators: {
-                    notEmpty: {
-                        message: 'Alamat Sesuai KTP harus diisi'
-                    }
-                }
-            },
-            'member_address_now': {
-                validators: {
-                    notEmpty: {
-                        message: 'Alamat Tinggal Sekarang harus diisi'
-                    }
-                }
-            },
-            'member_mother': {
-                validators: {
-                    notEmpty: {
-                        message: 'Nama Ibu Kandung harus diisi'
-                    }
-                }
-            },
-            'member_principal_savings': {
-                validators: {
-                    notEmpty: {
-                        message: 'Simpanan Pokok harus diisi'
-                    }
-                }
-            },
-            'province_id': {
-                validators: {
-                    notEmpty: {
-                        message: 'Provinsi harus diisi'
-                    }
-                }
-            },
-            'city_id': {
-                validators: {
-                    notEmpty: {
-                        message: 'Kabupaten harus diisi'
-                    }
-                }
-            },
-            'kecamatan_id': {
-                validators: {
-                    notEmpty: {
-                        message: 'Kecamatan harus diisi'
-                    }
-                }
-            },
-            'kelurahan_id': {
-                validators: {
-                    notEmpty: {
-                        message: 'Kelurahan harus diisi'
-                    }
-                }
-            },
-            'member_last_education': {
-                validators: {
-                    notEmpty: {
-                        message: 'Pendidikan terakhir harus diisi'
+                        message: 'Nomer Handphone harus diisi'
                     }
                 }
             },
@@ -109,10 +46,70 @@ var validator = FormValidation.formValidation(
         }
     }
 );
+$(document).ready(function () {
+    $('#add-member').click(function (e) { 
+        e.preventDefault();
+        if ($('#member_name').val()=='') {
+            toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "positionClass": "toast-top-center",
+            "preventDuplicates": true,
+            "showDuration": "300",
+            "timeOut": "10000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+            }
+            toastr["error"]("Harap Masukan Nama Member", "Perhatian")
+        }else{
+            addMember();
+        }
+    });
+});
 function function_elements_add(name, value){
     $.ajax({
         type: "POST",
         url : "{{route('client.element-add')}}",
+        data : {'name':name,'value': value,'_token': '{{csrf_token()}}'
+    },
+        success: function(msg){}
+    });
+}
+function addMember(){
+    var length = $('.client-member').length+1;
+    var name = $('#member_name').val();
+    var position = $('#member_position').val();
+    var phone = $('#member_phone').val();
+    $.ajax({
+        type: "POST",
+        url : "{{route('client.add-member')}}",
+        data : {'length':length,'name':name,'position': position,'phone': phone,'_token': '{{csrf_token()}}',
+    },
+        success: function(msg){
+            console.log(msg);
+            if(length==0){
+                $('#table-member').html(msg);
+            }else{
+                $('#table-member').append(msg);
+            }
+        }
+    });
+}
+function editMember(name, value){
+    $.ajax({
+        type: "POST",
+        url : "{{route('client.edit-member')}}",
+        data : {'name':name,'value': value,'_token': '{{csrf_token()}}'
+    },
+        success: function(msg){}
+    });
+}
+function deleteMember(name, value){
+    $.ajax({
+        type: "POST",
+        url : "{{route('client.delete-member')}}",
         data : {'name':name,'value': value,'_token': '{{csrf_token()}}'
     },
         success: function(msg){}
@@ -128,9 +125,23 @@ function function_elements_add(name, value){
   border-color: #B5B5C3 !important;
   border-bottom-color: #B5B5C3 !important;
 }
-tr{
-border-color: #B5B5C3 !important;
+td {
+  border: 1px solid !important;
+  border-color: #B5B5C3 !important;
   border-bottom-color: #B5B5C3 !important;
+}
+tr{
+    border-color: #B5B5C3 !important;
+  border-bottom-color: #B5B5C3 !important;
+}
+table{
+    border-radius: 0.25rem !important;
+}
+.table tr:first-child, .table th:first-child, .table td:first-child {
+  padding: 0.75rem !important;
+}
+.table tr:last-child, .table th:last-child, .table td:last-child {
+    padding: 0.75rem !important;
 }
 </style>
 @endsection
@@ -192,45 +203,54 @@ border-color: #B5B5C3 !important;
                             <div class="row mb-6">
                                 <b class="col-lg-12 fw-bold fs-3 text-center text-primary">{{ __('Data Member') }}</b>
                             </div>
-                            <div class="row mb-6 company">
+                            <div class="row mb-6">
                                 <label class="col-lg-4 col-form-label fw-bold fs-6">{{ __('Nama') }}</label>
                                 <div class="col-lg-8 fv-row">
-                                    <input type="text" name="member_company_name" class="form-control form-control-lg form-control-solid" placeholder="Nama" value="{{ old('member_company_name', $sessiondata['member_company_name'] ?? '') }}" autocomplete="off" onchange="function_elements_add(this.name, this.value)"/>
+                                    <input type="text" name="member_name" id="member_name" class="form-control form-control-lg form-control-solid" placeholder="Nama" />
                                 </div>
                             </div>
-                            <div class="row mb-6 company">
+                            <div class="row mb-6">
                                 <label class="col-lg-4 col-form-label fw-bold fs-6">{{ __('Jabatan/PIC') }}</label>
                                 <div class="col-lg-8 fv-row">
-                                    <input type="text" name="member_company_job_title" class="form-control form-control-lg form-control-solid" placeholder="Jabatan/PIC" value="{{ old('member_company_job_title', $sessiondata['member_company_job_title'] ?? '') }}" autocomplete="off" onchange="function_elements_add(this.name, this.value)" />
+                                    <input type="text" name="member_position" id="member_position" class="form-control form-control-lg form-control-solid" placeholder="Jabatan/PIC" />
                                 </div>
                             </div> 
-                            <div class="row mb-6 company">
+                            <div class="row mb-6">
                                 <label class="col-lg-4 col-form-label fw-bold fs-6">{{ __('No. Hp') }}</label>
                                 <div class="col-lg-8 fv-row">
-                                    <input type="text" name="member_company_specialities" class="form-control form-control-lg form-control-solid" placeholder="Nomer Handphone" value="{{ old('member_company_specialities', $sessiondata['member_company_specialities'] ?? '') }}" autocomplete="off" onchange="function_elements_add(this.name, this.value)"/>
+                                    <input type="text" name="member_phone" id="member_phone" class="form-control form-control-lg form-control-solid" placeholder="Nomer Handphone" />
+                                </div>
+                            </div>
+                            <div class="row mb-6 justify-content-end">
+                                <div class="col-auto text-right fv-row">
+                                    <button class="btn btn-primary" type="button" id="add-member">Tambah</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="table-responsive">
-                            <table id="table-member"class="table table-bordered border-dark table-auto border-collapse divide-gray-200 dark:divide-gray-700 table-striped table-hover align-middle rounded datatable" border="1">
+                            <table id="table-member"class="table table-bordered table-auto border-collapse table-striped table-hover align-middle rounded datatable">
                                     <thead class="font-bold text-xl2">
-                                        <th>Column 1</th>
-                                        <th>Column 2</th>
-                                        <th>Column 3</th>
+                                        <th class="w-0.4">No</th>
+                                        <th class="w-1/2">Nama</th>
+                                        <th>Jabatan/PIC</th>
+                                        <th>No Handphone</th>
+                                        <th class="w-0.2">Aksi</th>
                                     </thead>
-                                    <tbody class="table-group-divider">
-                                        <tr>
-                                            <td scope="row">Item</td>
-                                            <td>Item</td>
-                                            <td>Item</td>
+                                    @php
+                                        $no = 1;
+                                    @endphp
+                                    <tbody class="table-group-divider" id="table-member">
+                                        @foreach ($member as $key=>$val)
+                                        <tr class="client-member" id="cm-{{$key}}" data-id="{{$key}}">
+                                            <td>{{$no++}}</td>
+                                            <td>{{$val['name']}}</td>
+                                            <td>{{$val['position']}}</td>
+                                            <td>{{$val['phone']}}</td>
+                                            <td class="text-center"><button class="btn btn-sm btn-danger" onclick="deleteMember({{$key}})" type="button">Hapus</button></td>
                                         </tr>
-                                        <tr>
-                                            <td scope="row">Item</td>
-                                            <td>Item</td>
-                                            <td>Item</td>
-                                        </tr>
+                                        @endforeach
                                     </tbody>
                                     <tfoot>
                                         

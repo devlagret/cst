@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CoreClient;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\DataTables\CoreClientDataTable;
@@ -12,14 +13,15 @@ class CoreClientController extends Controller
 {
     public function index(CoreClientDataTable $table) {
         Session::forget('client-data');
+        Session::forget('client-member-data');
         return $table->render('content.CoreClient.List.index');
     }
     public function add() {
         $sessiondata = Session::get('client-data');
-        return view('content.CoreClient.Add.index',compact('sessiondata'));
+        $member = Session::get('client-member-data')??[];
+        return view('content.CoreClient.Add.index',compact('sessiondata','member'));
     }
     public function processAdd(Request $request) {
-        $sessiondata = Session::get('client-data');
         try {
         DB::beginTransaction();
         CoreClient::create([
@@ -80,11 +82,26 @@ class CoreClientController extends Controller
             return redirect()->route('client.index')->with(['pesan' => 'Client gagal dihapus','alert' => 'error']);
             }
     }
-    
+    public function addMember(Request $request) {
+        $id = Str::uuid()->toString();
+        $data = collect()->put('name',$request->name);
+        $member = collect(Session::get('client-member-data'));
+        $data->put('position',$request->position);
+        $data->put('phone',$request->phone);
+        $member->put($id,$data);
+        Session::put('client-member-data',$member->toArray());
+        $table="<tr class='client-member' id='cm-{$id}' data-id={$id}>
+        <td>{$request->length}</td>
+        <td>{$request->name}</td>
+        <td>{$request->position}</td>
+        <td>{$request->phone}</td>
+        <tr>";
+        return response($table);
+    }
    public function elemenAdd(Request $request) {
    $data=Session::get('client-data');
    $data[$request->name]=$request->value;
    Session::put('client-data',$data);
-   return response(1);
+   return response(11);
    }
 }
