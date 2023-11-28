@@ -24,6 +24,7 @@ return new class extends Migration
                 $table->string('credits_account_no',50)->nullable();
                 $table->string('credits_account_serial',50)->nullable();
                 $table->integer('payment_type_id')->nullable();
+                $table->integer('payment_preference_id')->nullable();
                 $table->integer('credits_payment_period')->nullable();
                 $table->integer('credits_account_period')->nullable();
                 $table->date('credits_account_date')->nullable();
