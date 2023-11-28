@@ -9,7 +9,7 @@
     <meta name="keywords" content="{{ theme()->getOption('meta', 'keywords') }}"/>
     <link rel="canonical" href="{{ ucfirst(theme()->getOption('meta', 'canonical')) }}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="shortcut icon" href="{{ asset('img/logo/logo_only.png')}}"/>
+    <link rel="shortcut icon" href="{{ asset('img/logo/logo-180x180.png')}}"/>
     <link rel="manifest" href="{{asset('manifest.json')}}" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/x-icon" href="{{ asset('img/logo/logo-180x180.png')}}" />
