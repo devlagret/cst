@@ -16,8 +16,8 @@ return new class extends Migration
                 $table->id('client_member_id');
                 $table->unsignedBigInteger('client_id');
                 $table->foreign('client_id')->references('client_id')->on('core_client')->onUpdate('cascade')->onDelete('cascade');
-                $table->string('nama')->nullable();
-                $table->string('posisi')->nullable()->comment('PIC');
+                $table->string('name')->nullable();
+                $table->string('position')->nullable()->comment('PIC');
                 $table->string('phone')->nullable();
                 $table->unsignedBigInteger('created_id')->nullable();
                 $table->unsignedBigInteger('updated_id')->nullable();

@@ -19,6 +19,7 @@ return new class extends Migration
                 $table->string('contact_person')->nullable();
                 $table->string('phone')->nullable();
                 $table->string('email')->nullable();
+                $table->uuid('client_token')->nullable();
                 $table->unsignedBigInteger('created_id')->nullable();
                 $table->unsignedBigInteger('updated_id')->nullable();
                 $table->unsignedBigInteger('deleted_id')->nullable();
