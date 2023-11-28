@@ -1,188 +1,145 @@
-@section('scripts')
-<script>
-const form = document.getElementById('kt_member_detail_view_form');
-
-</script>
+@section('styles')
+    <style type="text/css">
+        table,
+        tr,
+        td {
+            border: 1px solid !important;
+            border-color: #B5B5C3 !important;
+            border-bottom-color: #B5B5C3 !important;
+        }
+        td {
+            border: 1px solid !important;
+            border-color: #B5B5C3 !important;
+            border-bottom-color: #B5B5C3 !important;
+        }
+        tr {
+            border-color: #B5B5C3 !important;
+            border-bottom-color: #B5B5C3 !important;
+        }
+        table {
+            border-radius: 0.25rem !important;
+        }
+        .table tr:first-child,
+        .table th:first-child,
+        .table td:first-child {
+            padding: 0.75rem !important;
+        }
+        .table tr:last-child,
+        .table th:last-child,
+        .table td:last-child {
+            padding: 0.75rem !important;
+        }
+    </style>
 @endsection
-
 <x-base-layout>
     <div class="card mb-5 mb-xl-10">
         <div class="card-header border-0">
             <div class="card-title m-0">
-                <h3 class="fw-bolder m-0">{{ __('Form Detail Anggota') }}</h3>
+                <h3 class="fw-bolder m-0">{{ __('Form Detail Client') }}</h3>
             </div>
-
-            <a href="{{ theme()->getPageUrl('member.index') }}" class="btn btn-light align-self-center">
-                {!! theme()->getSvgIcon("icons/duotune/arrows/arr079.svg", "svg-icon-4 me-1") !!}
+            <a href="{{ url()->previous() }}" class="btn btn-light align-self-center">
+                <i class="bi bi-arrow-left fs-2 font-bold"></i>
                 {{ __('Kembali') }}</a>
         </div>
-
-        <div id="kt_member_detail_view">
-            <div class="card-body border-top p-9">
-                <div class="row mb-6">
-                    <div class="col-lg-6">
-                        <div class="row mb-6">
-                            <label class="col-lg-4 col-form-label fw-bold fs-6">{{ __('No Anggota') }}</label>
-                            <div class="col-lg-8 fv-row">
-                                <input type="text" name="member_no" class="form-control form-control-lg form-control-solid" placeholder="No Anggota" value="{{ $coremember['member_no'] }}" autocomplete="off" readonly/>
-                            </div>
+        <div id="kt_client_add_view">
+            <form id="kt_client_add_view_form" class="form" method="POST" action="{{ route('client.process-edit') }}"
+                enctype="multipart/form-data">
+                @csrf
+                @method('POST')
+                <div class="card-body border-top p-9">
+                    <div class="row">
+                        <div class="row mb-5">
+                            <b class="col-lg-12 fw-bold fs-3 text-center text-primary">{{ __('Data Anggota') }}</b>
                         </div>
-                        <div class="row mb-6">
-                            <label class="col-lg-4 col-form-label fw-bold fs-6">{{ __('Nama Anggota') }}</label>
-                            <div class="col-lg-8 fv-row">
-                                <input type="text" name="member_name" class="form-control form-control-lg form-control-solid" placeholder="Nama Anggota" value="{{ $coremember['member_name'] }}" autocomplete="off" readonly/>
+                            <div class="row mb-6">
+                                <label
+                                    class="col-lg-2 col-form-label fw-bold fs-6 required">{{ __('Nama Lengkap') }}</label>
+                                <div class="col-lg-10 fv-row">
+                                    <input type="text" name="name" id="name"
+                                        class="form-control form-control-lg form-control-solid"
+                                        placeholder="Masukan Nama Client"
+                                        value="{{ old('name', $data->name??'-') }}" autocomplete="off"
+                                        readonly  />
+                                </div>
                             </div>
-                        </div>
-                        <div class="row mb-6">
-                            <label class="col-lg-4 col-form-label fw-bold fs-6">{{ __('Sifat Anggota') }}</label>
-                            <div class="col-lg-8 fv-row">
-                                <input type="text" name="member_character" class="form-control form-control-lg form-control-solid" placeholder="Sifat Anggota" value="{{ $membercharacter[$coremember['member_character']] }}" autocomplete="off" readonly/>
+                            <div class="row mb-6">
+                                <label
+                                    class="col-lg-2 col-form-label fw-bold fs-6 required">{{ __('Contact Person') }}</label>
+                                <div class="col-lg-10 fv-row">
+                                    <input type="text" name="contact_person" id="contact_person"
+                                        class="form-control form-control-lg form-control-solid" placeholder="Nama CP"
+                                        value="{{ old('contact_person', $data->contact_person??'-') }}"
+                                        autocomplete="off" readonly />
+                                </div>
                             </div>
-                        </div>
-                        <div class="row mb-6">
-                            <label class="col-lg-4 col-form-label fw-bold fs-6">{{ __('Jenis Kelamin') }}</label>
-                            <div class="col-lg-8 fv-row">
-                                <input type="text" name="member_gender" class="form-control form-control-lg form-control-solid" placeholder="Jenis Kelamin" value="{{ $membergender[$coremember['member_gender']] }}" autocomplete="off" readonly/>
+                            <div class="row mb-6">
+                                <label
+                                    class="col-lg-2 col-form-label fw-bold fs-6 required">{{ __('No. Hp') }}</label>
+                                <div class="col-lg-10 fv-row">
+                                    <input name="phone" id="phone"
+                                        class="form-control form-control-solid form-select-lg"
+                                        placeholder="Nomor Handphone"
+                                        value="{{ old('phone', $data->phone??'-') }}"
+                                        readonly />
+                                </div>
                             </div>
-                        </div>
-                        <div class="row mb-6">
-                            <label class="col-lg-4 col-form-label fw-bold fs-6">{{ __('Provinsi') }}</label>
-                            <div class="col-lg-8 fv-row">
-                                <input type="text" name="province_name" class="form-control form-control-lg form-control-solid" placeholder="Provinsi" value="{{ $coremember['province_name'] }}" autocomplete="off" readonly/>
+                            <div class="row mb-6">
+                                <label class="col-lg-2 col-form-label fw-bold fs-6">{{ __('Email') }}</label>
+                                <div class="col-lg-10 fv-row">
+                                    <input name="email" id="email"
+                                        class="form-control form-control-solid form-select-lg"
+                                        placeholder="Masukan Email"
+                                        value="{{ old('email', $data->email??'-') }}"
+                                        readonly />
+                                </div>
                             </div>
-                        </div>
-                        <div class="row mb-6">
-                            <label class="col-lg-4 col-form-label fw-bold fs-6">{{ __('Kabupaten') }}</label>
-                            <div class="col-lg-8 fv-row">
-                                <input type="text" name="city_name" class="form-control form-control-lg form-control-solid" placeholder="Kabupaten" value="{{ $coremember['city_name'] }}" autocomplete="off" readonly/>
+                            <div class="row mb-6">
+                                <label
+                                    class="col-lg-2 col-form-label fw-bold fs-6 required">{{ __('Alamat') }}</label>
+                                <div class="col-lg-10 fv-row">
+                                    <textarea id="address" name="address" class="form-control form-control form-control-solid" data-kt-autosize="true"
+                                        placeholder="Alamat Lengkap" readonly>{{ old('address', $data->address??'-') }}</textarea>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row mb-6">
-                            <label class="col-lg-4 col-form-label fw-bold fs-6">{{ __('Kecamatan') }}</label>
-                            <div class="col-lg-8 fv-row">
-                                <input type="text" name="kecamatan_name" class="form-control form-control-lg form-control-solid" placeholder="Kecamatan" value="{{ $coremember['kecamatan_name'] }}" autocomplete="off" readonly/>
-                            </div>
-                        </div>
-                        <div class="row mb-6">
-                            <label class="col-lg-4 col-form-label fw-bold fs-6">{{ __('Kode Pos') }}</label>
-                            <div class="col-lg-8 fv-row">
-                                <input type="text" name="member_postal_code" class="form-control form-control-lg form-control-solid" placeholder="Kode Pos" value="{{ $coremember['member_postal_code'] }}" autocomplete="off" readonly/>
-                            </div>
-                        </div>
-                        <div class="row mb-6">
-                            <label class="col-lg-4 col-form-label fw-bold fs-6">{{ __('Alamat') }}</label>
-                            <div class="col-lg-8 fv-row">
-                                <textarea id="member_address" name="member_address" class="form-control form-control form-control-solid" data-kt-autosize="true" placeholder="Alamat Sesuai KTP" readonly>{{ $coremember['member_address'] }}</textarea>
-                            </div>
-                        </div>
                     </div>
-                    <div class="col-lg-6">
-                        <div class="row mb-6">
-                            <label class="col-lg-4 col-form-label fw-bold fs-6">{{ __('Tempat Lahir') }}</label>
-                            <div class="col-lg-8 fv-row">
-                                <input type="text" name="member_place_of_birth" class="form-control form-control-lg form-control-solid" placeholder="Tempat Lahir" value="{{ $coremember['member_place_of_birth'] }}" autocomplete="off" readonly/>
-                            </div>
-                        </div>
-                        <div class="row mb-6">
-                            <label class="col-lg-4 col-form-label fw-bold fs-6">{{ __('Tanggal Lahir') }}</label>
-                            <div class="col-lg-8 fv-row">
-                                <input type="text" name="member_date_of_birth" class="form-control form-control-lg form-control-solid" placeholder="Tanggal Lahir" value="{{ date('d-m-Y', strtotime($coremember['member_date_of_birth'])) }}" autocomplete="off" readonly/>
-                            </div>
-                        </div>
-                        <div class="row mb-6">
-                            <label class="col-lg-4 col-form-label fw-bold fs-6">{{ __('No Telepon') }}</label>
-                            <div class="col-lg-8 fv-row">
-                                <input type="text" name="member_phone" class="form-control form-control-lg form-control-solid" placeholder="No Telepon" value="{{ $coremember['member_phone'] }}" autocomplete="off" readonly/>
-                            </div>
-                        </div>
-                        <div class="row mb-6">
-                            <label class="col-lg-4 col-form-label fw-bold fs-6">{{ __('No Identitas') }}</label>
-                            <div class="col-lg-8 fv-row">
-                                <input type="text" name="member_identity_no" class="form-control form-control-lg form-control-solid" placeholder="No Identitas" value="{{ $coremember['member_identity_no'] }}" autocomplete="off" readonly/>
-                            </div>
-                        </div>
-                        <div class="row mb-6">
-                            <label class="col-lg-4 col-form-label fw-bold fs-6">{{ __('Nama Ibu Kandung') }}</label>
-                            <div class="col-lg-8 fv-row">
-                                <input type="text" name="member_mother" class="form-control form-control-lg form-control-solid" placeholder="Nama Ibu Kandung" value="{{ $coremember['member_mother'] }}" autocomplete="off" readonly/>
-                            </div>
-                        </div>
-                        <div class="row mb-6">
-                            <label class="col-lg-4 col-form-label fw-bold fs-6">{{ __('Saldo Simp Pokok') }}</label>
-                            <div class="col-lg-8 fv-row">
-                                <input type="text" name="member_principal_savings_last_balance" class="form-control form-control-lg form-control-solid" placeholder="Saldo Simp Pokok" value="{{ number_format($coremember['member_principal_savings_last_balance'], 2) }}" autocomplete="off" readonly/>
-                            </div>
-                        </div>
-                        <div class="row mb-6">
-                            <label class="col-lg-4 col-form-label fw-bold fs-6">{{ __('Saldo Simp Wajib') }}</label>
-                            <div class="col-lg-8 fv-row">
-                                <input type="text" name="member_mandatory_savings_last_balance" class="form-control form-control-lg form-control-solid" placeholder="Saldo Simp Wajib" value="{{ number_format($coremember['member_mandatory_savings_last_balance'], 2) }}" autocomplete="off" readonly/>
-                            </div>
-                        </div>
-                        <div class="row mb-6">
-                            <label class="col-lg-4 col-form-label fw-bold fs-6">{{ __('Saldo Simp Khusus') }}</label>
-                            <div class="col-lg-8 fv-row">
-                                <input type="text" name="member_special_savings_last_balance" class="form-control form-control-lg form-control-solid" placeholder="Saldo Simp Khusus" value="{{ number_format($coremember['member_special_savings_last_balance'], 2) }}" autocomplete="off" readonly/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="table-responsive"> 
-                    <div class="row mb-6"> 
-                        <div class="col-lg-6">
-                            <table class="table table-rounded border gy-7 gs-7 show-border">
-                                <thead>
-                                    <tr align="center">
-                                        <th colspan="3"><b>Daftar Tabungan</b></th>
-                                    </tr>
-                                    <tr align="center">
-                                        <th align="center"><b>No</b></th>
-                                        <th><b>No Rek Tabungan</b></th>
-                                        <th><b>Jenis Tabungan</b></th>
-                                    </tr>
+                    <div class="row">
+                        <div class="table-responsive">
+                            <table
+                                id="table-member"class="table table-bordered table-auto border-collapse table-striped table-hover align-middle rounded datatable">
+                                <thead class="font-bold text-xl2">
+                                    <th class="w-0.4">No</th>
+                                    <th class="w-1/2">Nama</th>
+                                    <th>Jabatan/PIC</th>
+                                    <th>No Handphone</th>
                                 </thead>
-                                <tbody>
-                                    <?php $no = 1; ?>
-                                    @foreach($acctsavingsaccount as $key => $val)
-                                        <tr>
-                                            <th style="text-align: center">{{ $no }}</th>
-                                            <th>{{ $val['savings_account_no'] }}</th>
-                                            <th>{{ $val['savings_name'] }}</th>
+                                @php
+                                    $no = 1;
+                                @endphp
+                                <tbody class="table-group-divider" id="table-member-content">
+                                    @foreach ($data->member as $key => $val)
+                                        <tr class="client-member" id="cm-{{ $key }}"
+                                            data-id="{{ $key }}">
+                                            <td>{{ $no++ }}</td>
+                                            <td>{{ $val['name'] }}</td>
+                                            <td>{{ $val['position']??'-' }}</td>
+                                            <td>{{ $val['phone']??'-' }}</td>
                                         </tr>
-                                    <?php $no++ ?>
                                     @endforeach
                                 </tbody>
-                            </table>
-                        </div>
-                        <div class="col-lg-6">
-                            <table class="table table-rounded border gy-7 gs-7 show-border">
-                                <thead>
-                                    <tr align="center">
-                                        <th colspan="3"><b>Daftar Pinjaman</b></th>
-                                    </tr>
-                                    <tr align="center">
-                                        <th><b>No</b></th>
-                                        <th><b>No Akad Pinjaman</b></th>
-                                        <th><b>Jenis Pinjaman</b></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php $no = 1; ?>
-                                    @foreach($acctcreditsaccount as $key => $val)
-                                        <tr>
-                                            <th style="text-align: center">{{ $no }}</th>
-                                            <th>{{ $val['credits_account_serial'] }}</th>
-                                            <th>{{ $val['credits_name'] }}</th>
-                                        </tr>
-                                    <?php $no++ ?>
-                                    @endforeach
-                                </tbody>
+                                <tfoot>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
                 </div>
-            </div>
+                <div class="card-footer d-flex justify-content-end py-6 px-9">
+                    <button type="reset"
+                        class="btn btn-white btn-active-light-primary me-2">{{ __('Batal') }}</button>
+                    <button type="submit" class="btn btn-primary" id="kt_member_add_submit">
+                        @include('partials.general._button-indicator', ['label' => __('Simpan')])
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </x-base-layout>
-

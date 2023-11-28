@@ -936,11 +936,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/',  'index')->name('index');
         Route::get('/add', 'add')->name('add');
         Route::post('/add', 'processAdd')->name('process-add');
+        Route::get('/edit/{client_id}', 'edit')->name('edit');
+        Route::post('/edit', 'processEdit')->name('process-edit');
         Route::post('/element-add', 'elemenAdd')->name('element-add');
+        Route::get('/detail/{client_id}', 'detail')->name('detail');
+        Route::get('/delete/{client_id}', 'delete')->name('delete');
         Route::get('/export',  'export')->name('export');
         Route::post('/add-member', 'addMember')->name('add-member');
-        Route::post('/edit-member', 'addMember')->name('edit-member');
-        Route::post('/delete-member', 'addMember')->name('delete-member');
+        Route::post('/delete-member', 'deleteMember')->name('delete-member');
     });
     //Whatsapp pages
     // Route::prefix('whatsapp')->name('whatsapp.')->group(function () {

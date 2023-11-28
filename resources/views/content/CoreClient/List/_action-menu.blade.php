@@ -1,6 +1,9 @@
 
 <td class="text-center">
-    <a type="button" href="{{ '#' }}" class="btn btn-sm btn-warning btn-active-light-warning">
+    <a type="button" href="{{route('client.detail',$model->client_id)}}" class="btn btn-sm btn-info btn-active-light-info">
+        Detail
+    </a>
+    <a type="button" href="{{route('client.edit',$model->client_id)}}" class="btn btn-sm btn-warning btn-active-light-warning">
         Edit
     </a>
     <button type="button" class="btn btn-sm btn-danger btn-active-light-danger" data-bs-toggle="modal" data-bs-target="#kt_modal_delete_{{$model->client_id}}">
@@ -22,7 +25,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Tidak</button>
-                <a href="" class="btn btn-primary">Iya</a>
+                <a href="{{route('client.delete',$model->client_id)}}" class="btn btn-primary">Iya</a>
             </div>
         </div>
     </div>

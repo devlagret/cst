@@ -177,7 +177,9 @@
                         [5, 15, 20, "All"] // change per page values here
                     ],
                     "iDisplayLength": 5,
-                });
+                    "dom":'frtip',
+
+        });
         $(document.querySelectorAll('[type=reset]')).click(function(){
             // location.reload();
             // $("#account_type_id").empty();
@@ -203,9 +205,9 @@
         })
     }); 
 </script>
-@if(session('pesan'))
+{{-- @if(session('pesan'))
     @dd(session('pesan'))
-@endif
+@endif --}}
 <script type="text/javascript" charset="utf8" src="{{ asset(theme()->getDemo().'/plugins/custom/datatables/datatables.bundle.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 @yield('scripts')
