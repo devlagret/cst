@@ -48,5 +48,10 @@
     "file": "assets/app-838f013a.css",
     "isEntry": true,
     "src": "resources/sass/app.scss"
+  },
+  "resources/sass/rewrite.scss": {
+    "file": "assets/rewrite-538ecfa9.css",
+    "isEntry": true,
+    "src": "resources/sass/rewrite.scss"
   }
 }

@@ -350,11 +350,9 @@ class LoginRequest extends FormRequest
                 $simpanan 			= AcctSavingsAccount::select('acct_savings_account.member_id','acct_savings.savings_name', 'acct_savings_account.savings_account_last_balance','acct_savings.savings_id')
                 ->join('core_member', 'acct_savings_account.member_id','=','core_member.member_id')
                 ->join('acct_savings', 'acct_savings_account.savings_id','=','acct_savings.savings_id')
-                ->where('acct_savings_account.data_state', 0)
                 ->where('acct_savings_account.savings_account_id', $norek)
                 ->first();
                 $pinjaman 			= AcctCreditsAccount::select('credits_account_last_balance')
-                ->where('data_state',0)
                 ->where('credits_account_id', $id_pinjaman)
                 ->first();
                 $last_balance 		= $pinjaman['credits_account_last_balance']-$pokok;
@@ -521,7 +519,6 @@ class LoginRequest extends FormRequest
                     ->account_id;
 
                     $account_id_default_status 	= AcctAccount::where('account_id',$savingsaccount_id)
-                    ->where('data_state',0)
                     ->first()
                     ->account_default_status;
 
@@ -543,7 +540,6 @@ class LoginRequest extends FormRequest
                     ->receivable_account_id;
 
                     $account_id_default_status 	= AcctAccount::where('account_id',$receivable_account_id)
-                    ->where('data_state',0)
                     ->first()
                     ->account_default_status;
 
@@ -561,7 +557,6 @@ class LoginRequest extends FormRequest
                     AcctJournalVoucherItem::create($data_credit);
 
                     $account_id_default_status 			=  AcctAccount::where('account_id',$preferencecompany['account_interest_id'])
-                    ->where('data_state',0)
                     ->first()
                     ->account_default_status;
 
@@ -581,7 +576,6 @@ class LoginRequest extends FormRequest
                     if($data_cash['credits_interest_income'] > 0){
 
                         $account_id_default_status 			= AcctAccount::where('account_id',$preferencecompany['account_interest_income_id'])
-                        ->where('data_state',0)
                         ->first()
                         ->account_default_status;
 
@@ -602,7 +596,6 @@ class LoginRequest extends FormRequest
                     if($data_cash['credits_others_income'] > 0){
 
                         $account_id_default_status 			= AcctAccount::where('account_id',$preferencecompany['account_others_income_id'])
-                        ->where('data_state',0)
                         ->first()
                         ->account_default_status;
 
@@ -623,7 +616,6 @@ class LoginRequest extends FormRequest
                     if($data_cash['credits_payment_fine'] > 0){
 
                         $account_id_default_status 			= AcctAccount::where('account_id',$savingsaccount_id)
-                        ->where('data_state',0)
                         ->first()
                         ->account_default_status;
 
@@ -641,7 +633,6 @@ class LoginRequest extends FormRequest
                         AcctJournalVoucherItem::create($data_debit);
 
                         $account_id_default_status 			= AcctAccount::where('account_id',$preferencecompany['account_credits_payment_fine'])
-                        ->where('data_state',0)
                         ->first()
                         ->account_default_status;
 
@@ -672,7 +663,6 @@ class LoginRequest extends FormRequest
     {
         $coremember	= CoreMember::select('core_member.member_id', 'core_member.member_mandatory_savings', 'core_member.member_mandatory_savings_last_balance',  'acct_savings_account.savings_id', 'acct_savings_account.savings_account_id', 'acct_savings_account.savings_account_last_balance')
         ->join('acct_savings_account', 'acct_savings_account.savings_account_id','=','core_member.member_debet_savings_account_id')
-        ->where('core_member.data_state', 0)
         ->orderBy('core_member.member_id','ASC')
         ->get();
 
@@ -744,7 +734,6 @@ class LoginRequest extends FormRequest
                             ->account_id;
 
                             $account_id_default_status = AcctAccount::where('account_id',$account_id)
-                            ->where('data_state',0)
                             ->first()
                             ->account_default_status;
 
@@ -766,7 +755,6 @@ class LoginRequest extends FormRequest
                             ->account_id;
 
                             $account_id_default_status = AcctAccount::where('account_id',$account_id)
-                            ->where('data_state',0)
                             ->first()
                             ->account_default_status;
 
@@ -786,7 +774,6 @@ class LoginRequest extends FormRequest
 
                     }else{
                         $lastmembertransfermutation = CoreMemberTransferMutation::where('member_id',$val['member_id'])
-                        ->where('data_state', 0)
                         ->orderBy('member_transfer_mutation_id','DESC')
                         ->first();
                         if($lastmembertransfermutation['member_transfer_mutation_date'] <=  date("Y-m-d", strtotime("-1 months"))){
@@ -852,7 +839,6 @@ class LoginRequest extends FormRequest
                                 ->account_id;
 
                                 $account_id_default_status = AcctAccount::where('account_id',$account_id)
-                                ->where('data_state',0)
                                 ->first()
                                 ->account_default_status;
 
@@ -874,7 +860,6 @@ class LoginRequest extends FormRequest
                                 ->account_id;
 
                                 $account_id_default_status = AcctAccount::where('account_id',$account_id)
-                                ->where('data_state',0)
                                 ->first()
                                 ->account_default_status;
 

@@ -93,7 +93,7 @@
         text-align: center !important;
     }
 </style>
-<script type="module">
+<script>
     @if(Session::has('pesan'))
         toastr.options = {
             positionClass: 'toast-top-center',
