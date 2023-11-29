@@ -25,6 +25,8 @@ return new class extends Migration
             DB::table('system_menu_mapping')->insert([
                 ['user_group_level' => 1,'id_menu' => 1],
                 ['user_group_level' => 1,'id_menu' => 2],
+                ['user_group_level' => 1,'id_menu' => 3],
+                ['user_group_level' => 1,'id_menu' => 31],
             ]);
         }
     }

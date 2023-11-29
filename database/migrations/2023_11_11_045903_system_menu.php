@@ -28,6 +28,8 @@ return new class extends Migration
             DB::table('system_menu')->insert([
                [ 'id_menu' => 1,'id' => 'index','type' => 'file','text' => 'Beranda','parent' => "#",'menu_level' => "1",],
                [ 'id_menu' => 2,'id' => 'client','type' => 'file','text' => 'Client','parent' => "#",'menu_level' => "1",],
+               [ 'id_menu' => 3,'id' => '#','type' => 'folder','text' => 'Preferensi','parent' => "#",'menu_level' => "1",],
+               [ 'id_menu' => 31,'id' => 'product-type','type' => 'file','text' => 'Tipe Produk','parent' => "3",'menu_level' => "2",],
             ]);
         }
     }
