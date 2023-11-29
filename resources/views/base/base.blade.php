@@ -13,17 +13,26 @@
     <link rel="manifest" href="{{asset('manifest.json')}}" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/x-icon" href="{{ asset('img/logo/logo-180x180.png')}}" />
+    {{-- <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script> --}}
     <link rel="stylesheet" type="text/css" href="{{ asset(theme()->getDemo().'/plugins/custom/datatables/datatables.bundle.css') }}">
     @vite('resources/css/app.css')
     @vite('resources/sass/app.scss')
     <link rel="stylesheet" type="text/css" href="{{ asset('demo2/css/style.bundle.css') }}">
     @vite('resources/js/app.js')
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    @vite('resources/sass/rewrite.scss')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     {{-- begin::Fonts --}}
     {{ theme()->includeFonts() }}
     {{-- end::Fonts --}}
-    @yield('styles')
+    @if (theme()->hasOption('assets', 'css'))
+    {{-- begin::Global Stylesheets Bundle(used by all pages) --}}
+    @foreach (theme()->getOption('assets', 'css') as $file)
+        <link href="{{ assetCustom($file) }}" rel="stylesheet" type="text/css"/>
+    @endforeach
+    {{-- end::Global Stylesheets Bundle --}}
+@endif
+@vite('resources/sass/rewrite.scss')
+
+@yield('styles')
 </head>
 {{-- end::Head --}}
 
@@ -65,6 +74,7 @@
     .toast{
         opacity: 1 !important;
         width: 50%;
+        top: 10px;
     }
     th{
         font-weight: bold !important;

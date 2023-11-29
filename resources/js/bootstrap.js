@@ -30,8 +30,8 @@
 //     forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'https') === 'https',
 //     enabledTransports: ['ws', 'wss'],
 // });
-import $ from 'jquery';
-window.$ = $;
+// import $ from 'jquery';
+// window.$ = $;
 import moment from 'moment';
 window.moment = moment;
 import Swal from 'sweetalert2'
