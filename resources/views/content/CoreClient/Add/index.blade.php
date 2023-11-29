@@ -34,6 +34,7 @@
                     },
                 },
                 plugins: {
+                    kt_client_add_submit: new FormValidation.plugins.SubmitButton(),
                     trigger: new FormValidation.plugins.Trigger(),
                     bootstrap: new FormValidation.plugins.Bootstrap5({
                         rowSelector: '.fv-row',
@@ -197,7 +198,7 @@
     <div class="card mb-5 mb-xl-10">
         <div class="card-header border-0">
             <div class="card-title m-0">
-                <h3 class="fw-bolder m-0">{{ __('Form Tambah Anggota') }}</h3>
+                <h3 class="fw-bolder m-0">{{ __('Form Tambah Client') }}</h3>
             </div>
             <a href="{{ url()->previous() }}" class="btn btn-light align-self-center">
                 <i class="bi bi-arrow-left fs-2 font-bold"></i>
@@ -336,7 +337,7 @@
                 <div class="card-footer d-flex justify-content-end py-6 px-9">
                     <button type="reset"
                         class="btn btn-white btn-active-light-primary me-2">{{ __('Batal') }}</button>
-                    <button type="submit" class="btn btn-primary" id="kt_member_add_submit">
+                    <button type="submit" class="btn btn-primary" id="kt_client_add_submit">
                         @include('partials.general._button-indicator', ['label' => __('Simpan')])
                     </button>
                 </div>
