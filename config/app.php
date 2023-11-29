@@ -232,6 +232,7 @@ return [
         'Helpers' => App\Helper\Helpers::class,
         'PDF' => Elibyy\TCPDF\Facades\TCPDF::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+        'Html' => Spatie\Html\Facades\Html::class,
     ],
 
 ];
