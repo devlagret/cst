@@ -81,6 +81,7 @@ use App\Http\Controllers\PPOBSettingController;
 use App\Http\Controllers\PPOBTopUpController;
 use App\Http\Controllers\PreferenceCollectibilityController;
 use App\Http\Controllers\PreferenceIncomeController;
+use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\RestoreDataController;
 use App\Http\Controllers\SampleDataController;
 use App\Http\Controllers\SavingsDailyTransferMutationController;
@@ -943,6 +944,20 @@ Route::middleware('auth')->group(function () {
         Route::get('/delete/{client_id}', 'delete')->name('delete');
         Route::get('/export',  'export')->name('export');
         Route::post('/add-member', 'addMember')->name('add-member');
+        Route::post('/edit-member', 'addMember')->name('edit-member');
+        Route::post('/delete-member', 'deleteMember')->name('delete-member');
+    });
+    Route::prefix('product-type')->controller(ProductTypeController::class)->name('product-type.')->group(function () {
+        Route::get('/',  'index')->name('index');
+        Route::get('/add', 'add')->name('add');
+        Route::post('/add', 'processAdd')->name('process-add');
+        Route::get('/edit/{client_id}', 'edit')->name('edit');
+        Route::post('/edit', 'processEdit')->name('process-edit');
+        Route::post('/element-add', 'elemenAdd')->name('element-add');
+        Route::get('/delete/{client_id}', 'delete')->name('delete');
+        Route::get('/export',  'export')->name('export');
+        Route::post('/add-member', 'addMember')->name('add-member');
+        Route::post('/edit-member', 'addMember')->name('edit-member');
         Route::post('/delete-member', 'deleteMember')->name('delete-member');
     });
     //Whatsapp pages
