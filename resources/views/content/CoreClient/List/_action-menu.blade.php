@@ -24,8 +24,8 @@
                 <p>Apakah anda yakin ingin menghapus Client?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Tidak</button>
-                <a href="{{route('client.delete',$model->client_id)}}" class="btn btn-primary">Iya</a>
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal">Tidak</button>
+                <a href="{{route('client.delete',$model->client_id)}}" class="btn btn-danger">Iya</a>
             </div>
         </div>
     </div>
