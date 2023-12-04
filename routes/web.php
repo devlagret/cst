@@ -54,6 +54,7 @@ use App\Http\Controllers\CoreMemberStatusController;
 use App\Http\Controllers\CoreMemberPrintBookController;
 use App\Http\Controllers\CoreMemberPrintMutationController;
 use App\Http\Controllers\CoreOfficeController;
+use App\Http\Controllers\CoreProductController;
 use App\Http\Controllers\CreditsCollectibilityReportController;
 use App\Http\Controllers\CreditsHasntPaidReportController;
 use App\Http\Controllers\CreditsPaymentDailyReportController;
@@ -918,13 +919,6 @@ Route::middleware('auth')->group(function () {
         Route::post('/process-edit', 'processEdit')->name('process-edit');
         Route::get('/delete/{income_id}', 'delete')->name('delete');
     });
-    //CreditsDailyMutation pages
-    Route::prefix('credits-daily-mutation')->controller(AcctCreditsDailyMutationController::class)->name('crd-daily-mutation.')->group(function () {
-        Route::get('/payment',  'payment')->name('payment');
-        Route::get('/account',  'account')->name('account');
-        Route::post('/payment/viewport',  'paymentViewport')->name('p-viewport');
-        Route::post('/account/viewport',  'accountViewport')->name('a-viewport');
-    });
        //RestoreData pages
     Route::prefix('restore')->controller(RestoreDataController::class)->name('restore.')->group(function () {
         Route::get('/',  'index')->name('index');
@@ -956,9 +950,21 @@ Route::middleware('auth')->group(function () {
         Route::post('/element-add', 'elemenAdd')->name('element-add');
         Route::get('/delete/{client_id}', 'delete')->name('delete');
         Route::get('/export',  'export')->name('export');
-        Route::post('/add-member', 'addMember')->name('add-member');
-        Route::post('/edit-member', 'addMember')->name('edit-member');
-        Route::post('/delete-member', 'deleteMember')->name('delete-member');
+    });
+    Route::prefix('product')->controller(CoreProductController::class)->name('product.')->group(function () {
+        Route::get('/',  'index')->name('index');
+        Route::get('/add', 'add')->name('add');
+        Route::post('/add', 'processAdd')->name('process-add');
+        Route::get('/edit/{product_id}', 'edit')->name('edit');
+        Route::get('/detail/{product_id}', 'detail')->name('detail');
+        Route::get('/modal-client',  'modalClient')->name('modal-client');
+        Route::post('/edit', 'processEdit')->name('process-edit');
+        Route::post('/element-add', 'elemenAdd')->name('element-add');
+        Route::get('/delete/{product_id}', 'delete')->name('delete');
+        Route::get('/select-client/{product_id}', 'selectClient')->name('select-client');
+        Route::get('/export',  'export')->name('export');
+        Route::post('/add-addon', 'addAddon')->name('add-addon');
+        Route::post('/delete-addon', 'deleteAddon')->name('delete-addon');
     });
     //Whatsapp pages
     // Route::prefix('whatsapp')->name('whatsapp.')->group(function () {
