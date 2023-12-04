@@ -43,7 +43,10 @@ return new class extends Migration
                 'user_group_id' => 1,
                 'branch_id' => 1,
                 'email' => 'admin@email.com',
-                'password'=>Hash::make('123456')
+                'password'=>Hash::make('123456'),
+                'created_at'=> date('Y-m-d H:i:s'),
+                'updated_at'=> date('Y-m-d H:i:s'),
+                'password_date'=> date('Y-m-d H:i:s')
         ));
         }
     }

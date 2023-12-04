@@ -26,6 +26,11 @@ return new class extends Migration
                 $table->timestamps();
                 $table->softDeletesTz();
             });
+            DB::table('core_client')->insert([
+                [ 'name' => 'BAZNAS Kab. Sragen',  'address' => ' Jl. Raya Timur KM. 4 Pilangsari Ngrampal Sragen',              'contact_person' => 'Ibu Dewi',],
+                [ 'name' => 'KOPERASI MAKMUR SEJAHTERA INDONESIA',  'address' => 'Gd Spazio Tower Lt.2 No. 212 JL. MayJend Yono Soewoyo 3, Surabaya JAWA TIMUR ',             'contact_person' => 'Bp. RUSEEL / Ibu SHINTA',],
+                [ 'name' => 'KOPERASI SUMBER DANA MAKMUR',  'address' => 'JL. Ir H JUANDA 171 Kel. Tonatan Kec. Ponorogo Kab. Ponorogo',            'contact_person' => 'Ibu Hariyani',],
+             ]);
         }
     }
 
