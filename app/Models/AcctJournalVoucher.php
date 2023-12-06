@@ -32,7 +32,7 @@ class AcctJournalVoucher extends Model
 
     public function items()
     {
-        return $this->hasMany(AcctJournalVoucherItem::class);
+        return $this->hasMany(AcctJournalVoucherItem::class,'journal_voucher_id','journal_voucher_id');
     }
 
 }

@@ -2,43 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Carbon\Carbon;
 use App\Models\CoreBranch;
-use App\Models\AcctJournalVoucherItem;
+use Illuminate\Http\Request;
+use App\Models\AcctJournalVoucher;
 
 class JournalMemorialController extends Controller
 {
     public function index()
     {
         $session = session()->get('filter_journalmemorial');
-        if (empty($session['start_date'])) {
-            $start_date = date('Y-m-d');
-        } else {
-            $start_date = date('Y-m-d', strtotime($session['start_date']));
-        }
-        if (empty($session['end_date'])) {
-            $end_date = date('Y-m-d');
-        } else {
-            $end_date = date('Y-m-d', strtotime($session['end_date']));
-        }
-        $corebranch = CoreBranch::select('branch_id', 'branch_name')
-        ->where('data_state',0)
-        ->get();
-        $acctmemorialjournal = AcctJournalVoucherItem::select('acct_journal_voucher_item.journal_voucher_item_id', 'acct_journal_voucher_item.journal_voucher_description', 'acct_journal_voucher_item.journal_voucher_debit_amount', 'acct_journal_voucher_item.journal_voucher_credit_amount', 'acct_journal_voucher_item.account_id', 'acct_account.account_code', 'acct_account.account_name', 'acct_journal_voucher_item.account_id_status', 'acct_journal_voucher.transaction_module_code', 'acct_journal_voucher.journal_voucher_date', 'acct_journal_voucher.journal_voucher_id')
-        ->join('acct_journal_voucher','acct_journal_voucher_item.journal_voucher_id','=','acct_journal_voucher.journal_voucher_id')
-        ->join('acct_account','acct_journal_voucher_item.account_id','=','acct_account.account_id')
-        ->where('acct_journal_voucher.journal_voucher_date','>=', $start_date)
-        ->where('acct_journal_voucher.journal_voucher_date','<=', $end_date)
-        ->where('acct_journal_voucher.data_state', 0)
-        ->where('acct_journal_voucher_item.data_state', 0)
-        ->where('acct_journal_voucher.posted', 0)
-        ->where('acct_journal_voucher_item.journal_voucher_amount','<>', 0)
-        ->where('acct_journal_voucher.transaction_module_id','!=', 10)
-        ->orderBy('acct_journal_voucher_item.journal_voucher_item_id', 'ASC');
+        $corebranch = CoreBranch::select('branch_id', 'branch_name')->get();
+        $acctmemorialjournal = AcctJournalVoucher::with('items.account')->where('journal_voucher_status',1)
+        ->where('journal_voucher_date','>=', $session['start_date']??Carbon::now()->format('Y-m-d'))
+        ->where('journal_voucher_date','<=', $session['end_date']??Carbon::now()->format('Y-m-d'));
         if(!empty($session['branch_id'])) {
-            $acctmemorialjournal = $acctmemorialjournal->where('acct_journal_voucher.branch_id', $session['branch_id']);
+            $acctmemorialjournal = $acctmemorialjournal->where('branch_id', $session['branch_id']);
         }
-        $acctmemorialjournal = $acctmemorialjournal->get();
+        $acctmemorialjournal = $acctmemorialjournal->orderByDesc('created_at')->get();
 
         return view('content.JournalMemorial.List.index',compact('corebranch','session','acctmemorialjournal'));
     }

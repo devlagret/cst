@@ -29,5 +29,7 @@ class AcctJournalVoucherItem extends Model
      */
     protected $hidden = [
     ];
-
+    public function account() {
+        return $this->belongsTo(AcctAccount::class,'account_id','account_id');
+    }
 }
