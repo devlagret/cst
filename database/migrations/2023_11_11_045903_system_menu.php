@@ -28,9 +28,11 @@ return new class extends Migration
                [ 'id_menu' => 1,  'id' => 'index',              'type' => 'file','text' => 'Beranda','parent' => "#",'menu_level' => "1",],
                [ 'id_menu' => 2,  'id' => 'client',             'type' => 'file','text' => 'Client','parent' => "#",'menu_level' => "1",],
                [ 'id_menu' => 3,  'id' => 'product',            'type' => 'file','text' => 'Produk','parent' => "#",'menu_level' => "1",],
+               [ 'id_menu' => 4,  'id' => 'invoice',            'type' => 'file','text' => 'Invoice','parent' => "#",'menu_level' => "1",],
                [ 'id_menu' => 8,  'id' => '#',                  'type' => 'folder','text' => 'Akutansi','parent' => "#",'menu_level' => "1",],
-               [ 'id_menu' => 81, 'id' => 'journal',            'type' => 'file','text' => 'Jurnal Umum','parent' => "8",'menu_level' => "2",],
+               [ 'id_menu' => 81, 'id' => 'journal-voucher',            'type' => 'file','text' => 'Jurnal Umum','parent' => "8",'menu_level' => "2",],
                [ 'id_menu' => 82, 'id' => 'journal-memorial',   'type' => 'file','text' => 'Jurnal Memorial','parent' => "8",'menu_level' => "2",],
+               [ 'id_menu' => 83, 'id' => 'balance-sheet',   'type' => 'file','text' => 'Laporan Neraca','parent' => "8",'menu_level' => "2",],
                [ 'id_menu' => 9,  'id' => '#',                  'type' => 'folder','text' => 'Preferensi','parent' => "#",'menu_level' => "1",],
                [ 'id_menu' => 91, 'id' => 'product-type',       'type' => 'file','text' => 'Tipe Produk','parent' => "9",'menu_level' => "2",],
             ]);
