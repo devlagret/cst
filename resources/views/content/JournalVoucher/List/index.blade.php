@@ -1,7 +1,7 @@
 
 <x-base-layout>
     <div class="card">
-        <div class="card-header collapsible cursor-pointer rotate" data-bs-toggle="collapse" data-bs-target="#kt_card_collapsible">
+        <div class="card-header collapsible cursor-pointer rotate" data-bs-toggle="collapse" aria-expanded="false" data-bs-target="#kt_card">
             <h3 class="card-title">Filter</h3>
             <div class="card-toolbar rotate-180">
                 <span class="bi bi-chevron-up fs-2">
@@ -11,7 +11,7 @@
         <form id="kt_filter_journal_voucher_form" class="form" method="POST" action="{{ route('journal-voucher.filter') }}" enctype="multipart/form-data">
             @csrf
             @method('POST')
-            <div id="kt_card_collapsible" class="collapse">
+            <div id="kt_card" aria-expanded="false" class="collapse">
                 <div class="card-body pt-6">
                     <div class="row mb-6">
                         <div class="col-lg-4 fv-row">
@@ -50,9 +50,9 @@
         <div class="card-header">
             <h3 class="card-title">Daftar Jurnal Umum</h3>
             <div class="card-toolbar">
-                <a type="button" href="{{ route('journal-voucher.add') }}"  class="btn btn-sm btn-light-primary">
-                    {!! theme()->getSvgIcon("icons/duotune/general/gen035.svg", "svg-icon-2x me-1") !!}
-                    {{ __('Tambah Jurnal Umum Baru') }}
+                <a type="button" href="{{ route('journal-voucher.add') }}" class="btn btn-m btn-light-primary me-1">
+                    <i class="bi bi-plus-square fs-2"></i>
+                    {{  __('Tambah Jurnal Umum Baru') }}
                 </a>
             </div>
         </div>
