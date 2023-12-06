@@ -18,6 +18,7 @@ return new class extends Migration
                 $table->foreign('product_id')->references('product_id')->on('core_product')->onUpdate('cascade')->onDelete('set null');
                 $table->tinyInteger('order')->nullable();
                 $table->decimal('amount',20)->nullable();
+                $table->tinyInteger('payment_status')->nullable()->default(0);
                 $table->unsignedBigInteger('created_id')->nullable();
                 $table->unsignedBigInteger('updated_id')->nullable();
                 $table->unsignedBigInteger('deleted_id')->nullable();

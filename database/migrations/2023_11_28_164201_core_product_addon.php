@@ -20,6 +20,7 @@ return new class extends Migration
                 $table->date('date')->nullable();
                 $table->text('remark')->nullable();
                 $table->decimal('amount',20)->default(0);
+                $table->tinyInteger('payment_status')->nullable()->default(0);
                 $table->unsignedBigInteger('created_id')->nullable();
                 $table->unsignedBigInteger('updated_id')->nullable();
                 $table->unsignedBigInteger('deleted_id')->nullable();

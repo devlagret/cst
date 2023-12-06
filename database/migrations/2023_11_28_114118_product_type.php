@@ -25,9 +25,10 @@ return new class extends Migration
                 $table->softDeletesTz();
             });
             DB::table('product_type')->insert([
-                [ 'name' => 'Software','code' => 'SD','account_id' => 1],
-                [ 'name' => 'Grafik','code' => 'GD','account_id' =>1],
-                [ 'name' => 'Penjualan Alat','code' => 'PD','account_id' => 1],
+                [ 'name' => 'Divisi Software','code' => 'SD','account_id' => 1],
+                [ 'name' => 'Divisi Multimedia','code' => 'MD','account_id' =>1],
+                [ 'name' => 'Penjualan Hardware','code' => 'PD','account_id' => 1],
+                [ 'name' => 'Dagang Device','code' => 'DD','account_id' => 1],
              ]);
         }
     }
