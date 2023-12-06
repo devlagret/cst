@@ -21,16 +21,11 @@ class BalanceSheetController extends Controller
         $session = session()->get('filter_balencesheet');
         $preferencecompany = PreferenceCompany::first();
         $monthlist = Configuration::Month();
-        $corebranch = CoreBranch::select('branch_id','branch_name')
-        ->where('data_state',0)
-        ->get();
-        $acctbalancesheetreport_left = AcctBalanceSheetReport::select('acct_balance_sheet_report.balance_sheet_report_id', 'acct_balance_sheet_report.report_no', 'acct_balance_sheet_report.account_id1', 'acct_balance_sheet_report.account_code1', 'acct_balance_sheet_report.account_name1', 'acct_balance_sheet_report.report_formula1', 'acct_balance_sheet_report.report_operator1', 'acct_balance_sheet_report.report_type1', 'acct_balance_sheet_report.report_tab1', 'acct_balance_sheet_report.report_bold1', 'acct_balance_sheet_report.report_formula3', 'acct_balance_sheet_report.report_operator3')
-        ->from('acct_balance_sheet_report')
-        ->where('acct_balance_sheet_report.account_name1','!=','')
+        $corebranch = CoreBranch::select('branch_id','branch_name')->get();
+        $acctbalancesheetreport_left = AcctBalanceSheetReport::where('acct_balance_sheet_report.account_name1','!=','')
         ->orderBy('acct_balance_sheet_report.report_no', 'ASC')
         ->get();
-        $acctbalancesheetreport_right = AcctBalanceSheetReport::select('acct_balance_sheet_report.balance_sheet_report_id', 'acct_balance_sheet_report.report_no', 'acct_balance_sheet_report.account_id2', 'acct_balance_sheet_report.account_code2', 'acct_balance_sheet_report.account_name2', 'acct_balance_sheet_report.report_formula2', 'acct_balance_sheet_report.report_operator2', 'acct_balance_sheet_report.report_type2', 'acct_balance_sheet_report.report_tab2', 'acct_balance_sheet_report.report_bold2', 'acct_balance_sheet_report.report_formula3', 'acct_balance_sheet_report.report_operator3')
-        ->where('acct_balance_sheet_report.account_name2','!=','')
+        $acctbalancesheetreport_right = AcctBalanceSheetReport::where('acct_balance_sheet_report.account_name2','!=','')
         ->orderBy('acct_balance_sheet_report.report_no', 'ASC')
         ->get();
 
