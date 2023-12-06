@@ -221,14 +221,11 @@
                                 .catch(function(error) {
                                     let dataMessage = error.response.data.message;
                                     let dataErrors = error.response.data.errors;
-                                    console.log(error);
                                     for (const errorsKey in dataErrors) {
                                         if (!dataErrors.hasOwnProperty(errorsKey)) continue;
                                         dataMessage += "\r\n" + dataErrors[errorsKey];
                                     }
                                     if (error.response) {
-                                        console.log(dataMessage);
-                                        console.log(dataErrors);
                                         Swal.fire({
                                             text: dataMessage,
                                             icon: "error",
