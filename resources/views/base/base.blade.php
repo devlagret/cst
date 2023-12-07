@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
-    {!! theme()->printHtmlAttributes('html') !!} {{ theme()->printHtmlClasses('html') }}>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" {!! theme()->printHtmlAttributes('html') !!} {{ theme()->printHtmlClasses('html') }}>
 {{-- begin::Head --}}
 <head>
     <meta charset="utf-8"/>
@@ -14,23 +13,17 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/x-icon" href="{{ asset('img/logo/logo-180x180.png')}}" />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" type="text/css" href="{{ asset(theme()->getDemo().'/plugins/custom/datatables/datatables.bundle.css') }}">
-    @vite('resources/css/app.css')
     @vite('resources/sass/app.scss')
-    <link rel="stylesheet" type="text/css" href="{{ asset('demo2/css/style.bundle.css') }}">
+    @vite('resources/css/app.css')
     @vite('resources/js/app.js')
-    {{-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> --}}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    @vite('resources/assets/core/plugins/plugins.scss')
+    @vite('resources/assets/demo2/sass/plugins.scss')
+    @vite('resources/assets/demo2/sass/style.scss')
     {{-- begin::Fonts --}}
     {{ theme()->includeFonts() }}
     {{-- end::Fonts --}}
-    @if (theme()->hasOption('assets', 'css'))
-    {{-- begin::Global Stylesheets Bundle(used by all pages) --}}
-    @foreach (theme()->getOption('assets', 'css') as $file)
-        <link href="{{ assetCustom($file) }}" rel="stylesheet" type="text/css"/>
-    @endforeach
-    {{-- end::Global Stylesheets Bundle --}}
-@endif
-@vite('resources/sass/rewrite.scss')
+    @vite('resources/sass/rewrite.scss')
 
 @yield('styles')
 </head>
@@ -44,7 +37,7 @@
 
 @yield('content')
 
-
+<!--SCRIPTBELOW -->
 {{-- begin::Javascript --}}
 @if (theme()->hasOption('assets', 'js'))
     {{-- begin::Global Javascript Bundle(used by all pages) --}}
@@ -53,7 +46,7 @@
     @endforeach
     {{-- end::Global Javascript Bundle --}}
 @endif
-
+<!--SCRIPTBELOW TT-->
 @if (theme()->hasOption('page', 'assets/vendors/js'))
     {{-- begin::Page Vendors Javascript(used by this page) --}}
     @foreach (theme()->getOption('page', 'assets/vendors/js') as $file)
@@ -70,6 +63,7 @@
     {{-- end::Page Custom Javascript --}}
 @endif
 {{-- end::Javascript --}}
+
 <style>
     .toast{
         opacity: 1 !important;
@@ -101,6 +95,9 @@
     }
     .table td:first-child {
         text-align: center !important;
+    }
+    .collapse.show{
+        visibility: visible;
     }
 </style>
 <script>
@@ -219,7 +216,7 @@
     @dd(session('pesan'))
 @endif --}}
 <script type="text/javascript" charset="utf8" src="{{ asset(theme()->getDemo().'/plugins/custom/datatables/datatables.bundle.js') }}"></script>
-{{-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> --}}
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 @yield('scripts')
 @yield('bladeScripts')
 @stack('scripts')

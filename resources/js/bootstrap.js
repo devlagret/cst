@@ -38,3 +38,10 @@ import Swal from 'sweetalert2'
 window.Swal = Swal;
 import toastr from 'toastr'
 window.toastr = toastr;
+import select2 from 'select2'
+window.select2 = select2;
+import { createPopper } from '@popperjs/core';
+window.createPopper = createPopper;
+
+// import DataTable from "datatables.net-bs5";
+// DataTable(window, window.$);
