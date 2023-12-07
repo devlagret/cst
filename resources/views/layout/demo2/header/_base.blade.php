@@ -16,7 +16,7 @@ data-kt-sticky="true"
     @endif
 >
     <!--begin::Container-->
-    <div class="{{ theme()->printHtmlClasses('header-container', false) }} max-w-none                d-flex align-items-center">
+    <div class="max-w-none mw-100 {{ theme()->printHtmlClasses('header-container', false) }}  d-flex align-items-center">
         <!--begin::Heaeder menu toggle-->
         <div class="d-flex topbar align-items-center d-lg-none ms-n2 me-3" title="Show aside menu">
             <div class="btn btn-icon btn-active-light-primary w-30px h-30px w-md-40px h-md-40px" id="kt_header_menu_mobile_toggle">

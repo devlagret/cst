@@ -21,7 +21,7 @@
 				@endif
 
                 <!--begin::Container-->
-                    <div id="kt_content_container" class="d-flex flex-column-fluid align-items-start max-w-none {{ theme()->printHtmlClasses('content-container', false) }}">
+                    <div id="kt_content_container" class="max-w-none mw-100 d-flex flex-column-fluid align-items-start {{ theme()->printHtmlClasses('content-container', false) }}">
                     @if (theme()->getOption('layout', 'aside/display') === true)
 						{{ theme()->getView('layout/aside/_base') }}
 					@endif

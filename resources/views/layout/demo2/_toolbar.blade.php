@@ -7,7 +7,7 @@
 <!--begin::Toolbar-->
 <div class="toolbar py-5 py-lg-5" id="kt_toolbar">
     <!--begin::Container-->
-    <div id="kt_toolbar_container" class="{{ theme()->printHtmlClasses('toolbar-container', false) }} d-flex flex-stack flex-wrap">
+    <div id="kt_toolbar_container" class="max-w-none mw-100 {{ theme()->printHtmlClasses('toolbar-container', false) }} d-flex flex-stack flex-wrap">
         {{ theme()->getView('layout/_page-title') }}
 
 		<!--begin::Actions-->

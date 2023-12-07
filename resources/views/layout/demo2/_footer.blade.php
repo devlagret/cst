@@ -1,5 +1,5 @@
 <div class="footer py-4 d-flex flex-lg-column {{ theme()->printHtmlClasses('footer', false) }}" id="kt_footer">
-	<div class="{{ theme()->printHtmlClasses('footer-container', false) }} d-flex flex-column flex-md-row align-items-center justify-content-between">
+	<div class="max-w-none mw-100 {{ theme()->printHtmlClasses('footer-container', false) }} d-flex flex-column flex-md-row align-items-center justify-content-between">
 		<div class="text-dark order-2 order-md-1">
 			<span class="text-muted fw-bold me-1">{{ date("Y") }}&copy; Cipta Solutindo Tech</span>
 			<a href="{{ theme()->getOption('product', 'website') }}" target="_blank" class="text-gray-800 text-hover-primary"></a>
