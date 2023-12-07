@@ -7,6 +7,9 @@ export default defineConfig({
             input: [
                 'resources/assets/demo2/js/scripts.js',
                 'resources/assets/extended/button-ajax.js',
+                'resources/assets/core/plugins/plugins.js',
+                'resources/assets/core/plugins/plugins.scss',
+                'resources/assets/demo2/sass/plugins.scss',
                 'resources/assets/demo2/sass/plugins.scss',
                 'resources/assets/demo2/sass/style.scss',
                 'resources/js/app.js',
@@ -36,6 +39,7 @@ export default defineConfig({
             "~toastr": path.resolve(__dirname,"node_modules/toastr"),
             "~sweetalert2": path.resolve(__dirname,"node_modules/sweetalert2"),
             "~line-awesome": path.resolve(__dirname,"node_modules/line-awesome"),
+            "~datatables.net-bs5": path.resolve(__dirname,"node_modules/datatables.net-bs5"),
             "@": "resources/",
             "~": "node_modules/"
         }
