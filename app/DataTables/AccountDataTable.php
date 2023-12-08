@@ -39,15 +39,12 @@ class AccountDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\AccountDataTable $model
+     * @param \App\Models\AcctAccount $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(AcctAccount $model)
     {
-        return $model->newQuery()
-        ->select('account_id', 'account_type_id', 'account_code', 'account_name', 'account_group', 'account_status')
-        ->where('data_state', 0)
-        ->orderBy('account_code', 'ASC');
+        return $model->newQuery()->orderBy('account_code', 'ASC');
     }
 
     /**
@@ -63,6 +60,7 @@ class AccountDataTable extends DataTable
                     ->minifiedAjax()
                     ->stateSave(true)
                     ->orderBy(0, 'asc')
+                    ->dom('frtip')
                     ->responsive()
                     ->autoWidth(true)
                     ->parameters(['scrollX' => true])
@@ -97,7 +95,7 @@ class AccountDataTable extends DataTable
      *
      * @return string
      */
-    protected function filename()
+    protected function filename() : string
     {
         return 'Account_' . date('YmdHis');
     }
