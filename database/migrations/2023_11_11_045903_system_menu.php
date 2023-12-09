@@ -35,8 +35,9 @@ return new class extends Migration
                [ 'id_menu' => 83, 'id' => 'journal-memorial',   'type' => 'file','text' => 'Jurnal Memorial','parent' => "8",'menu_level' => "2",],
                [ 'id_menu' => 84, 'id' => 'balance-sheet',      'type' => 'file','text' => 'Laporan Neraca','parent' => "8",'menu_level' => "2",],
                [ 'id_menu' => 9,  'id' => '#',                  'type' => 'folder','text' => 'Preferensi','parent' => "#",'menu_level' => "1",],
-               [ 'id_menu' => 91, 'id' => 'product-type',       'type' => 'file','text' => 'Tipe Produk','parent' => "9",'menu_level' => "2",],
-               [ 'id_menu' => 92, 'id' => 'acct-account-setting','type' => 'file','text' => 'Pengaturan Akun','parent' => "9",'menu_level' => "2",],
+               [ 'id_menu' => 91, 'id' => 'preference-company',       'type' => 'file','text' => 'Perusahaan','parent' => "9",'menu_level' => "2",],
+               [ 'id_menu' => 92, 'id' => 'product-type',       'type' => 'file','text' => 'Tipe Produk','parent' => "9",'menu_level' => "2",],
+               [ 'id_menu' => 93, 'id' => 'acct-account-setting','type' => 'file','text' => 'Pengaturan Akun','parent' => "9",'menu_level' => "2",],
             ]);
         }
     }

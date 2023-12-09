@@ -29,5 +29,7 @@ class PreferenceCompany extends Model
      */
     protected $hidden = [
     ];
-
+    public function settings() {
+        return $this->hasMany(CompanySetting::class,'company_id','company_id');
+    }
 }

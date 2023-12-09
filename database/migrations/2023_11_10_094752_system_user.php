@@ -20,6 +20,8 @@ return new class extends Migration
             $table->foreign('user_group_id')->references('user_group_id')->on('system_user_group')->onUpdate('cascade')->onDelete('set null');
             $table->unsignedBigInteger('branch_id')->nullable();
             $table->foreign('branch_id')->references('branch_id')->on('core_branch')->onUpdate('cascade')->onDelete('set null');
+            $table->unsignedBigInteger('company_id')->nullable();
+            $table->foreign('company_id')->references('company_id')->on('preference_company')->onUpdate('cascade')->onDelete('set null');
             $table->string('username');
             $table->string('full_name')->nullable();
             $table->string('password');
@@ -42,6 +44,7 @@ return new class extends Migration
                 'username' => 'administrator',
                 'user_group_id' => 1,
                 'branch_id' => 1,
+                'company_id' => 1,
                 'email' => 'admin@email.com',
                 'password'=>Hash::make('123456'),
                 'created_at'=> date('Y-m-d H:i:s'),
