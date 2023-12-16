@@ -15,6 +15,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        DB::unprepared(file_get_contents('core-alamat-16112023.sql'));
+        // DB::unprepared(file_get_contents('core-alamat-16112023.sql'));
+        $this->call([
+            ProductSeeder::class,
+        ]);
     }
 }
