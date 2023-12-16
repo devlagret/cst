@@ -15,6 +15,7 @@ return new class extends Migration
             Schema::create('acct_invoice_item', function (Blueprint $table) {
                 $table->id('invoice_item_id');
                 $table->date('payment_date')->nullable();
+                $table->unsignedBigInteger('item_id')->nullable();
                 $table->unsignedBigInteger('invoice_id')->nullable();
                 $table->foreign('invoice_id')->references('invoice_id')->on('acct_invoice')->onUpdate('cascade')->onDelete('set null');
                 $table->unsignedBigInteger('account_id')->nullable();
@@ -26,7 +27,7 @@ return new class extends Migration
                 $table->decimal('discount_amount',20)->nullable()->default(0);
                 $table->tinyInteger('payment_type')->nullable();
                 $table->tinyInteger('payment_status')->nullable()->default(0);
-                $table->tinyInteger('invoice_type')->nullable()->default(0);
+                $table->tinyInteger('invoice_type')->nullable()->default(0)->comment('for :: 0:general,1:addon,2:termin');
                 $table->tinyInteger('invoice_status')->nullable()->default(0);
                 $table->unsignedBigInteger('created_id')->nullable();
                 $table->unsignedBigInteger('updated_id')->nullable();

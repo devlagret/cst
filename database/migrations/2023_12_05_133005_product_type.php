@@ -16,8 +16,8 @@ return new class extends Migration
                 $table->id('product_type_id');
                 $table->string('name')->nullable();
                 $table->string('code')->nullable();
-                $table->unsignedBigInteger('account_setting_group_id')->nullable();
-                $table->foreign('account_setting_group_id')->references('account_setting_group_id')->on('acct_account_setting_group')->onUpdate('cascade')->onDelete('set null');
+                $table->unsignedBigInteger('account_id')->nullable();
+                $table->foreign('account_id')->references('account_id')->on('acct_account')->onUpdate('cascade')->onDelete('set null');
                 $table->unsignedBigInteger('created_id')->nullable();
                 $table->unsignedBigInteger('updated_id')->nullable();
                 $table->unsignedBigInteger('deleted_id')->nullable();
@@ -25,10 +25,10 @@ return new class extends Migration
                 $table->softDeletesTz();
             });
             DB::table('product_type')->insert([
-                [ 'name' => 'Divisi Software','code' => 'SD','account_setting_group_id' => 1],
-                [ 'name' => 'Divisi Multimedia','code' => 'MD','account_setting_group_id' =>1],
-                [ 'name' => 'Penjualan Hardware','code' => 'PD','account_setting_group_id' => 1],
-                [ 'name' => 'Dagang Device','code' => 'DD','account_setting_group_id' => 1],
+                [ 'name' => 'Divisi Software','code' => 'SD','account_id' => 1],
+                [ 'name' => 'Divisi Multimedia','code' => 'MD','account_id' =>1],
+                [ 'name' => 'Penjualan Hardware','code' => 'PD','account_id' => 1],
+                [ 'name' => 'Dagang Device','code' => 'DD','account_id' => 1],
              ]);
         }
     }

@@ -29,6 +29,7 @@ return new class extends Migration
             });
             DB::table('preference_transaction_module')->insert([
                 [ 'transaction_module_name' => 'Jurnal Umum', 'transaction_module_code' => 'JU', 'transaction_controller' => 'AcctJournalVoucher','transaction_table'=>'acct_journal_voucher','transaction_primary_key'=>'journal_voucher_id'],
+                [ 'transaction_module_name' => 'Invoice', 'transaction_module_code' => 'SI', 'transaction_controller' => 'AcctInvoice','transaction_table'=>'acct_invoice','transaction_primary_key'=>'invoice_id'],
              ]);
         }
     }

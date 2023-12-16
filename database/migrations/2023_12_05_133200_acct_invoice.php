@@ -21,6 +21,8 @@ return new class extends Migration
                 $table->foreign('product_id')->references('product_id')->on('core_product')->onUpdate('cascade')->onDelete('set null');
                 $table->decimal('subtotal_amount',20)->nullable()->default(0);
                 $table->decimal('total_amount',20)->nullable()->default(0);
+                $table->decimal('payed_amount',20)->nullable()->default(0);
+                $table->decimal('receivables_amount',20)->nullable()->default(0);
                 $table->tinyInteger('discount_percentage')->nullable()->default(0);
                 $table->decimal('discount_amount',20)->nullable()->default(0);
                 $table->tinyInteger('invoice_type')->nullable()->default(0);

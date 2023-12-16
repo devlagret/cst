@@ -27,6 +27,10 @@ return new class extends Migration
                 $table->timestamps();
                 $table->softDeletesTz();
             });
+            DB::table('company_setting')->insert([
+                [ 'account_id' => 8,  'name' => 'receivables_account','company_id'=>1],
+                [ 'account_id' => 3,  'name' => 'cash_account','company_id'=>1],
+             ]);
         }
     }
 

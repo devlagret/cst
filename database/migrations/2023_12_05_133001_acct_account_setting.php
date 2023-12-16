@@ -17,9 +17,7 @@ return new class extends Migration
                 $table->unsignedBigInteger('account_id')->nullable();
                 $table->foreign('account_id')->references('account_id')->on('acct_account')->onUpdate('cascade')->onDelete('set null');
                 $table->unsignedBigInteger('branch_id')->nullable();
-                $table->foreign('branch_id')->references('branch_id')->on('core_branch')->onUpdate('cascade')->onDelete('set null'); 
-                $table->unsignedBigInteger('account_setting_group_id')->nullable();
-                $table->foreign('account_setting_group_id')->references('account_setting_group_id')->on('acct_account_setting_group')->onUpdate('cascade')->onDelete('set null');
+                $table->foreign('branch_id')->references('branch_id')->on('core_branch')->onUpdate('cascade')->onDelete('set null');
                 $table->string('account_setting_name')->nullable();
                 $table->tinyInteger('account_setting_status')->nullable()->default(0);
                 $table->tinyInteger('account_default_status')->nullable()->default(0);
