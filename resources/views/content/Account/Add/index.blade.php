@@ -85,7 +85,7 @@ submitButton.addEventListener('click', function (e) {
             </div>
 
             <a href="{{ theme()->getPageUrl('account.index') }}" class="btn btn-light align-self-center">
-                {!! theme()->getSvgIcon("icons/duotune/arrows/arr079.svg", "svg-icon-4 me-1") !!}
+                <i class="bi bi-arrow-left fs-2 font-bold"></i>
                 {{ __('Kembali') }}</a>
         </div>
 

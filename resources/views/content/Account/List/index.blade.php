@@ -4,7 +4,7 @@
             <h3 class="card-title">Daftar Perkiraan</h3>
             <div class="card-toolbar">
                 <a type="button" href="{{ route('account.add') }}"  class="btn btn-sm btn-light-primary">
-                    {!! theme()->getSvgIcon("icons/duotune/general/gen035.svg", "svg-icon-2x me-1") !!}
+                    <i class="bi bi-plus-square fs-2"></i>
                     {{ __('Tambah Perkiraan Baru') }}
                 </a>
             </div>
