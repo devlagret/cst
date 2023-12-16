@@ -35,8 +35,23 @@ class CoreProductController extends Controller
     public function edit($product_id)
     {
         $sessiondata = Session::get('product-data');
-        $data = CoreProduct::find($product_id);
-        return view('content.CoreProduct.Edit.index', compact('sessiondata','account'));
+        $type = ProductType::get()->pluck('name','product_type_id');
+        $pymentType = Configuration::productPaymentType();
+        $addons = Session::get('product-addon-data');
+        $data = CoreProduct::with('client','addons')->find($product_id);
+        if(empty($addons)){
+            foreach($data->addons as $val){
+                $dataadon = collect()->put('name', $val->name);
+                $addon = collect(Session::get('product-addon-data'));
+                $dataadon->put('date', $val->date);
+                $dataadon->put('amount', $val->amount);
+                $dataadon->put('amount_view', number_format($val->amount,2));
+                $dataadon->put('remark', $val->remark);
+                $addon->put($val->product_addon_id, $dataadon);
+                Session::put('product-addon-data', $addon->toArray());
+            }
+        }
+        return view('content.CoreProduct.Edit.index', compact('sessiondata','data','type','pymentType','addons'));
     }
     public function elemenAdd(Request $request)
     {
