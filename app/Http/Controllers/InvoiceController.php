@@ -143,7 +143,7 @@ class InvoiceController extends Controller
         $pdf::SetFont('helvetica', '', 8);
         $header = "<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\">
                         <tr>
-                            <td rowspan=\"3\" width=\"76%\"><img src=\"http://127.0.0.1:8015/img/logo_nota.jpg\" height=\"50\" width=\"120\"></td>
+                            <td rowspan=\"3\" width=\"76%\"><img src=\"" . asset('img/logo_nota.png') . "\" width=\"120\"></td>
                             <td width=\"10%\"><div style=\"text-align: left;\">Halaman</div></td>
                             <td width=\"2%\"><div style=\"text-align: center;\">:</div></td>
                         </tr>
