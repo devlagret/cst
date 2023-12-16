@@ -2,18 +2,18 @@
 
 namespace App\DataTables\InvoiceProduct;
 
-use App\Models\CoreProduct;
 use App\Helpers\Configuration;
+use App\Models\AcctInvoice;
+use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Yajra\DataTables\EloquentDataTable;
+use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
-use Yajra\DataTables\Html\Builder as HtmlBuilder;
-use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 
-class ProductDataTable extends DataTable
+class InvoiceDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -24,22 +24,19 @@ class ProductDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addIndexColumn()
-            ->addColumn('action', 'content.InvoiceProduct.add._action-menu')
+            ->addColumn('action', 'content.InvoiceProduct.List._action-menu')
             ->editColumn('client.client_id',fn($query)=>"{$query->client->name}")
-            ->editColumn('type.product_type_id',fn($query)=>"{$query->type->name}")
+            ->editColumn('product.type.product_type_id',fn($query)=>"{$query->product->type->name}")
+            ->editColumn('product.product_id',fn($query)=>"{$query->product->name}")
             ->setRowId('id');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(CoreProduct $model): QueryBuilder
+    public function query(AcctInvoice $model): QueryBuilder
     {
-        return $model->newQuery()->with('client','type','addons','termin')->whereHas('addons', function (QueryBuilder $query) {
-            $query->where('payment_status', 0);
-        })->whereHas('termin', function (QueryBuilder $query) {
-            $query->where('payment_status', 0);
-        });
+        return $model->newQuery()->with('client',"product.type");
     }
 
     /**
@@ -67,13 +64,14 @@ class ProductDataTable extends DataTable
     {
         return [
             Column::make('product_id')->title(__('No'))->data('DT_RowIndex') ->addClass('text-center')->width(5),
-            Column::make('name')->title("Nama")->width(10),
-            Column::make('client.client_id')->title("Client")->width(10),
-            Column::make('type.product_type_id')->title("Tipe")->width(10),
+            Column::make('invoice_date')->title("Tanggal")->width(5),
+            Column::make('client.client_id')->title("Client")->width(20),
+            Column::make('product.product_id')->title("Produk")->width(10),
+            Column::make('product.type.product_type_id')->title("Tipe")->width(10),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
-                  ->width(50)
+                  ->width(10)
                   ->addClass('text-center'),
         ];
     }
