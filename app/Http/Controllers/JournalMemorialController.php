@@ -20,7 +20,6 @@ class JournalMemorialController extends Controller
             $acctmemorialjournal = $acctmemorialjournal->where('branch_id', $session['branch_id']);
         }
         $acctmemorialjournal = $acctmemorialjournal->orderByDesc('created_at')->get();
-
         return view('content.JournalMemorial.List.index',compact('corebranch','session','acctmemorialjournal'));
     }
 
