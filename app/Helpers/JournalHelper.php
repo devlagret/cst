@@ -17,6 +17,8 @@ class JournalHelper extends AppHelper
     protected static $journal_voucher_id;
     protected static $journal;
     protected static $appendTitle;
+    protected static $client_id;
+    protected static $transaction_journal_id;
     public  $append_title;
     protected static $prependTitle;
     protected static $appendDescription;
@@ -76,7 +78,9 @@ class JournalHelper extends AppHelper
         $journal = AcctJournalVoucher::create([
             'company_id' => Auth::user()->company_id,
             'journal_voucher_status' => $jvs,
+            'client_id' => self::$client_id,
             'transaction_journal_no' => self::$transaction_journal_no,
+            'transaction_journal_id' => self::$transaction_journal_id,
             'journal_voucher_description' => self::$prependDescription . $journal_voucher_description . self::$appendDescription,
             'journal_voucher_title' => self::$prependTitle . $title . self::$appendTitle,
             'transaction_module_id' => $transactionModuleId,
@@ -454,5 +458,28 @@ class JournalHelper extends AppHelper
     {
             $helper = new self;
             return $helper->journal($journal);
+    }
+
+
+    /**
+     * Set the value of client_id
+     *
+     * @return  self
+     */ 
+    public static function clientId($client_id)
+    {
+        self::$client_id = $client_id;
+        return new self;
+      }
+
+    /**
+     * Set the value of transaction_journal_id
+     *
+     * @return  self
+     */ 
+    public static function trsJournalId($transaction_journal_id)
+    {
+        self::$transaction_journal_id = $transaction_journal_id;
+        return new self;
     }
 }
