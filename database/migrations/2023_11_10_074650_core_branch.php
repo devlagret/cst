@@ -15,6 +15,8 @@ return new class extends Migration
         if(!Schema::hasTable('core_branch')) {
             Schema::create('core_branch', function (Blueprint $table) {
                 $table->id('branch_id');
+                $table->unsignedBigInteger('company_id')->nullable();
+                $table->foreign('company_id')->references('company_id')->on('preference_company')->onUpdate('cascade')->onDelete('set null');
                 $table->string('branch_code',50)->nullable();
                 $table->string('branch_name')->nullable();
                 $table->string('branch_manager',50)->nullable();
