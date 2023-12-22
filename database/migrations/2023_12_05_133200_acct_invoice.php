@@ -30,6 +30,7 @@ return new class extends Migration
                 $table->decimal('discount_amount',20)->nullable()->default(0);
                 $table->tinyInteger('tax_ppn_percentage')->nullable()->default(0);
                 $table->decimal('tax_ppn_amount',20)->nullable()->default(0);
+                $table->tinyInteger('payment_type')->nullable()->default(0)->comment('0:cash,1:transfer');
                 $table->tinyInteger('invoice_type')->nullable()->default(0)->comment('0:multi,3:maintenance');
                 $table->tinyInteger('invoice_status')->nullable()->default(0)->comment("0:hasn't payed, 1:payed");
                 $table->unsignedBigInteger('created_id')->nullable();

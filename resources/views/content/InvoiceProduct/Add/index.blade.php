@@ -11,7 +11,7 @@
                     <i class="bi bi-plus-square fs-2"></i>
                     {{ __('Tambah Invoice Baru') }}
                 </a> --}}
-                <a href="{{ url()->previous() }}" class="btn btn-light align-self-center">
+                <a href="{{ route('invoice.index') }}" class="btn btn-light align-self-center">
                     <i class="bi bi-arrow-left fs-2 font-bold"></i>
                     {{ __('Kembali') }}</a>
             </div>

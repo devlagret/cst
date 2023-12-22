@@ -49,7 +49,7 @@ class ProductTypeDataTable extends DataTable
                     ->orderBy(0, 'asc')
                     ->dom('frtip')
                     ->responsive()
-                    ->autoWidth(false)
+                    ->autoWidth(false)  
                     ->parameters(['scrollX' => true])
                     ->addTableClass('align-middle table table-row-dashed fs-4 gy-4');
     }

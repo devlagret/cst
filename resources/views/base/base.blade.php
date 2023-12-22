@@ -219,6 +219,7 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 @yield('scripts')
 @yield('bladeScripts')
+@yield('bladeScripts2')
 @stack('scripts')
 </body>
 {{-- end::Body --}}

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\CreatedUpdatedID;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -43,5 +44,8 @@ class CoreProduct extends Model
    }
    public function termin() {
       return $this->hasMany(CoreProductTermin::class,'product_id','product_id');
+   }
+   public function invoice() {
+      return $this->hasMany(AcctInvoice::class,'product_id','product_id');
    }
 }

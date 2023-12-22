@@ -971,7 +971,11 @@ Route::middleware('auth')->group(function () {
     });
     Route::prefix('invoice')->controller(InvoiceController::class)->name('invoice.')->group(function () {
         Route::get('/',  'index')->name('index');
+        Route::get('/pay/{invoice_id}', 'repayment')->name('pay');
         Route::get('/product-print/{product_id}', 'product')->name('product');
+        Route::get('/maintenance/{product_id}', 'maintenance')->name('maintenance');
+        Route::post('maintenance-process', 'processMaintenance')->name('process-maintenance');
+        Route::get('maintenance-print/{invoice_id}', 'printMaintenance')->name('print-maintenance');
         Route::get('/add/{product_id}', 'add')->name('add');
         Route::get('/list-add', 'listAdd')->name('list-add');
         Route::post('/add', 'processAdd')->name('process-add');

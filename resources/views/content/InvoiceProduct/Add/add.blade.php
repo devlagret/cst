@@ -106,7 +106,7 @@
             <div class="card-title m-0">
                 <h3 class="fw-bolder m-0">{{ __('Form Tambah Invoice') }}</h3>
             </div>
-            <a href="{{ url()->previous() }}" class="btn btn-light align-self-center">
+            <a href="{{ route('invoice.list-add') }}" class="btn btn-light align-self-center">
                 <i class="bi bi-arrow-left fs-2 font-bold"></i>
                 {{ __('Kembali') }}</a>
         </div>
@@ -175,6 +175,9 @@
                                         onchange="function_elements_add(this.name, this.value)" />
                                 </div>
                             </div>
+                           
+                        </div>
+                        <div class="col-lg-6">
                             <div class="row mb-6">
                                 <label
                                     class="col-lg-4 col-form-label fw-bold fs-6 ">{{ __('Tgl Mulai Penggunaan') }}</label>
@@ -203,8 +206,6 @@
                                     placeholder="Tipe Produk" id="payment_type" value="{{$pType[$data->payment_type]}}">
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-6">
                             <div class="row mb-6">
                                 <label
                                     class="col-lg-4 col-form-label fw-bold fs-6">{{ __('Nominal per User Maintenance') }}</label>
@@ -224,43 +225,50 @@
                                         placeholder="Msukan Keterangan Produk">{{ old('product_remark', $sessiondata['product_remark'] ?? $data->remark) }}</textarea>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="row mb-6">
-                                    <b class="col-lg-12 fw-bold fs-1 text-center text-primary">{{ __('Bayar Termin') }}</b>
-                                </div>
-                                <div class="row p-3">
-                                <div class="table-responsive mx-4">
-                                    <table
-                                        id="table-product-addons"class="table table-bordered table-auto border-collapse table-striped table-hover align-middle rounded datatable">
-                                        <thead class="font-bold text-xl2">
-                                            <th class="w-0.4">No</th>
-                                            <th class="w-1">Harga </th>
-                                            <th class="w-0.2">Aksi</th>
-                                        </thead>
-                                        @php
-                                            $no = 1;
-                                        @endphp
-                                        <tbody class="table-group-divider" id="table-termin-content">
-                                            @foreach ($data->termin as $key => $val)
-                                                <tr class="product-termin" id="pa-{{ $key }}"
-                                                    data-id="{{ $key }}">
-                                                    <td>{{ $no++ }}</td>
-                                                    <td>Rp.{{ number_format($val->amount,2) }} <input type="hidden" name="termin[{{$val->termin_id}}][amount]" class="termin-amount" id="termin-amount-{{$val->termin_id}}" value="{{$val->amount}}"> </td>
-                                                    <td class="text-center checkbox-xl"><input type="checkbox" id="termin-{{$val->termin_id}}" class="cb-termin form-check-input w-4 h-4" name="termin[{{$val->termin_id}}][id]" {{ $sessiondata["termin-".$val->termin_id]??'' }} onclick="total(this.id,{{$val->amount}})" value="{{$val->termin_id}}"/></td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                        <tfoot>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                                </div>
-                            </div>
+                          
                         </div>
                     </div>
-
+                    @if($data->termin->count())
                     <div class="row">
-                        <div class="row mb-6">
+                        <div class="row mb-1">
+                            <b class="col-lg-12 fw-bold fs-1 text-center text-primary">{{ __('Bayar Termin') }}</b>
+                        </div>
+                        <div class="row p-3">
+                        <div class="table-responsive mx-4">
+                            <table
+                                id="table-product-addons"class="table table-bordered table-auto border-collapse table-striped table-hover align-middle rounded datatable">
+                                <thead class="font-bold text-xl2">
+                                    <th class="w-0.1">No</th>
+                                    <th class="w-5">Harga </th>
+                                    <th class="w-1/2">Keterangan</th>
+                                    <th class="w-0.2">Aksi</th>
+                                </thead>
+                                @php
+                                    $no = 1;
+                                @endphp
+                                <tbody class="table-group-divider" id="table-termin-content">
+                                    @foreach ($data->termin as $key => $val)
+                                        <tr class="product-termin" id="pa-{{ $key }}"
+                                            data-id="{{ $key }}">
+                                            <td>{{ $no++ }}</td>
+                                            <td>Rp.{{ number_format($val->amount,2) }} <input type="hidden" name="termin[{{$val->termin_id}}][amount]" class="termin-amount" id="termin-amount-{{$val->termin_id}}" value="{{$val->amount}}"> </td>
+                                            <td class="p-0"><input name="termin[{{$val->termin_id}}][remark]" id="termin_remark_{{$val->termin_id}}"
+                                                class="form-control form-control-solid form-control-sm "
+                                                placeholder="Masukan Keterangan Termin " /></td>
+                                            <td class="text-center checkbox-xl"><input type="checkbox" id="termin-{{$val->termin_id}}" class="cb-termin form-check-input w-4 h-4" name="termin[{{$val->termin_id}}][id]" {{ $sessiondata["termin-".$val->termin_id]??'' }} onclick="total(this.id,{{$val->amount}})" value="{{$val->termin_id}}"/></td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                                <tfoot>
+                                </tfoot>
+                            </table>
+                        </div>
+                        </div>
+                    </div>
+                    @endif
+                    @if($data->addons->count())
+                    <div class="row">
+                        <div class="row mb-1">
                             <b class="col-lg-12 fw-bold fs-1 text-center text-primary">{{ __('Bayar Addons') }}</b>
                         </div>
                         <div class="table-responsive">
@@ -295,6 +303,7 @@
                             </table>
                         </div>
                     </div>
+                    @endif
                 </div>
                 <div class="card-footer d-flex justify-content-end py-6 px-9">
                     <div class="border row w-1/3 border-slate-400 rounded p-3">
@@ -312,9 +321,23 @@
                                 class="col-lg-4 col-form-label fw-bold fs-6">{{ __('Diskon') }}</label>
                             <div class="col-lg-8 fv-row">
                                 <div class="input-group">
-                                    <input type="number" name="discount_percentage" min='0' max='100' class="form-control" value="{{old('discount_percentage',$sessiondata['discount_percentage']??0)}}" data-kt-autosize="true" onchange="function_elements_add(this.name, this.value)" placeholder="Diskon %" id="discount_percentage" />
+                                    <input type="number" name="discount_percentage" min='0' max='100' class="form-control" value="{{old('discount_percentage',$sessiondata['discount_percentage']??0)}}" placeholder="Diskon" id="discount_percentage" />
                                     <span class="input-group-text">%</span>
+                                    <span class="input-group-text">Rp.</span>
+                                    <input type="text" name="discount_amount" class="form-control w-25" value="{{old('discount_amount',$sessiondata['discount_amount']??0)}}" data-kt-autosize="true" placeholder="Diskon" id="discount_amount" />
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row mb-6">
+                            <label
+                                class="col-lg-4 col-form-label fw-bold fs-6">{{ __('PPN') }}</label>
+                            <div class="col-lg-8 fv-row">
+                                <div class="input-group">
+                                    <input type="number" name="ppn_percentage" min='0' max='100' class="form-control" value="{{old('ppn_percentage',$sessiondata['ppn_percentage']??0)}}" placeholder="PPN" id="ppn_percentage" />
+                                    <span class="input-group-text">%</span>
+                                    <span class="input-group-text">Rp.</span>
+                                    <input type="text" name="ppn_amount" class="form-control w-25" value="{{old('ppn_amount',$sessiondata['ppn_amount']??0)}}" data-kt-autosize="true" placeholder="PPN" id="ppn_amount" />
+                                 </div>
                             </div>
                         </div>
                         <div class="row mb-6">
@@ -324,6 +347,13 @@
                                 <input type="text" name="total_amount_view" class="form-control form-control form-control-solid" data-kt-autosize="true" readonly
                                 placeholder="Total" id="total_amount_view" />
                                 <input type="hidden" name="total_amount" value="0" id="total_amount" />
+                            </div>
+                        </div>
+                        <div class="row mb-6">
+                            <label
+                                class="col-lg-4 col-form-label fw-bold fs-6">{{ __('Keterangan') }}</label>
+                            <div class="col-lg-8 fv-row">
+                                <textarea name="remark" class="form-control form-control-solid"  placeholder="Keterangan" id="remark" ></textarea>
                             </div>
                         </div>
                         <div class="row justify-content-end">

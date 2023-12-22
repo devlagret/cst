@@ -14,6 +14,7 @@
             </div>
         </div>
         <div class="card-body pt-6">
+
             <!--begin::Table-->
             {{ $dataTable->table() }}
             <!--end::Table-->
@@ -22,7 +23,36 @@
             @push('scripts')
                 {{ $dataTable->scripts() }}
             @endpush
-
+            @section('scripts')
+            <script>
+                function calcReturn(id) { 
+                    var total = $('#total_amount_'+id).val();
+                    var payed = parseInt($('#payed_amount_view_'+id).val());
+                    if(payed<0){
+                        payed =0;
+                    }
+                    $('#payed_amount_'+id).val(payed);
+                    $('#change_amount_'+id).val((payed-total));
+                    $('#change_amount_view_'+id).val(toRp((payed-total)));
+                    $('#payed_amount_view_'+id).val(toRp(payed));
+                 }
+                 function checkPayed(id) {
+                    var total = parseInt($('#total_amount_'+id).val());
+                    var payed = parseInt($('#payed_amount_view_'+id).val()||0);
+                    if(total>payed){
+                        if(payed==0){
+                            alert("Kolom dibayar harus diisi");
+                            return 0;
+                        }
+                        // if(confirm("Uang yang dibayarkan masih kurang, Apakah "))
+                        alert("Uang dibayar setidaknya sama dengan total tagihan")
+                        return 0;
+                    }else{
+                        $('#form_pay_'+id).submit();
+                    }
+                 }
+            </script>
+            @stop
         </div>
     </div>
 </x-base-layout>

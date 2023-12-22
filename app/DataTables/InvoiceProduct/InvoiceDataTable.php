@@ -24,7 +24,7 @@ class InvoiceDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addIndexColumn()
-            ->addColumn('action', 'content.InvoiceProduct.List._action-menu')
+            ->addColumn('action', fn($model) =>view('content.InvoiceProduct.List._action-menu')->with(['model'=>$model,'paymentType'=>$this->paymentType]))
             ->editColumn('client.client_id',fn($query)=>"{$query->client->name}")
             ->editColumn('product.type.product_type_id',fn($query)=>"{$query->product->type->name}")
             ->editColumn('product.product_id',fn($query)=>"{$query->product->name}")
@@ -63,8 +63,9 @@ class InvoiceDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('product_id')->title(__('No'))->data('DT_RowIndex') ->addClass('text-center')->width(5),
-            Column::make('invoice_date')->title("Tanggal")->width(5),
+            Column::make('product_id')->title(__('No'))->data('DT_RowIndex') ->addClass('text-center')->style('width:5%;'),
+            Column::make('invoice_no')->title("No Invoice")->style('width:12%;'),
+            Column::make('invoice_date')->title("Tanggal")->style('width:12%;')->addClass('text-center'),
             Column::make('client.client_id')->title("Client")->width(20),
             Column::make('product.product_id')->title("Produk")->width(10),
             Column::make('product.type.product_type_id')->title("Tipe")->width(10),

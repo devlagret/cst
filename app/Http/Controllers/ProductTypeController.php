@@ -21,6 +21,7 @@ class ProductTypeController extends Controller
     }
     public function edit($product_type_id)
     {
+        collect()->toArray();
         $sessiondata = Session::get('product-type');
         $data = ProductType::find($product_type_id);
         $account = AcctAccount::select('account_id', DB::raw('CONCAT(account_code, " - ", account_name) as name'))->get()->pluck('name', 'account_id');

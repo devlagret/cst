@@ -2,6 +2,7 @@
 
 namespace App\DataTables\InvoiceProduct;
 
+use Carbon\Carbon;
 use App\Models\CoreProduct;
 use App\Helpers\Configuration;
 use Yajra\DataTables\Html\Button;
@@ -35,10 +36,19 @@ class ProductDataTable extends DataTable
      */
     public function query(CoreProduct $model): QueryBuilder
     {
-        return $model->newQuery()->with('client','type','addons','termin')->whereHas('addons', function (QueryBuilder $query) {
+        return $model->newQuery()->with(['invoice'=>function($query){
+            $query->where('invoice_type', 3);
+            $query->whereYear('invoice_date', Carbon::now()->parse('Y'));
+            $query->whereMonth('invoice_date', Carbon::now()->parse('m'));
+        },'client','type','addons'=>function($query){$query->where('payment_status', 0);},'termin'=>function($query){$query->where('payment_status', 0);
+        }])->whereHas('addons', function (QueryBuilder $query) {
             $query->where('payment_status', 0);
         })->whereHas('termin', function (QueryBuilder $query) {
             $query->where('payment_status', 0);
+        })->orWhereDoesntHave('invoice', function (QueryBuilder $query) {
+            $query->where('invoice_type', 3);
+            $query->whereYear('invoice_date', Carbon::now()->parse('Y'));
+            $query->whereMonth('invoice_date', Carbon::now()->parse('m'));
         });
     }
 
