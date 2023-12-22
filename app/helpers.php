@@ -191,3 +191,14 @@ if (!function_exists('isRTL')) {
         return (bool) request()->input('rtl');
     }
 }
+if (!function_exists('appHelper')) {
+    /**
+     * Check if the request has RTL param
+     *
+     * @return \App\Helpers\AppHelper::class
+     */
+    function appHelper()
+    {
+        return app(\App\Helpers\AppHelper::class);
+    }
+}

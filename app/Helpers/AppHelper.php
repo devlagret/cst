@@ -2,6 +2,7 @@
 namespace App\Helpers;
 use App\Models\AcctAccount;
 use App\Models\AcctAccountSetting;
+use App\Models\CompanySetting;
 use App\Models\PreferenceTransactionModule;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -120,6 +121,48 @@ class AppHelper
             }
         }
         return $returnValue;
+    }
+    /**
+     * Get app config
+     * return false if config not found
+     * @param mixed|string $name
+     * @return mixed|bool
+     */
+    public static function config($name) {
+        return (CompanySetting::where('company_id',Auth::user()->company_id)->where('name',$name)->first()->value??false);
+    }
+     /**
+     * Set app config
+     * return false if config not found
+     * @param mixed|string $name (key)
+     * @return void
+     */
+    public static function setConfig($name,$value) {
+         CompanySetting::updateOrCreate(['company_id'=>Auth::user()->company_id,'name'=>$name],['value'=>$value]);
+    }
+    /**
+     * Get Payment Type Array
+     *
+     * @return array|string
+     */
+    public static function paymentType($id=null) {
+        $type = [0=>"Tunai",1=>"Transfer"];
+        if(is_null($id)){
+            return $type;
+        }
+        return $type[$id];
+    }
+    /**
+     * Get Payment Status Array
+     *
+     * @return array|string
+     */
+    public static function paymentStatus($id=null) {
+        $type = [0=>"Belum Dibayar",1=>"Lunas"];
+        if(is_null($id)){
+            return $type;
+        }
+        return $type[$id];
     }
     function __destruct() {
        self::$data = ''; 

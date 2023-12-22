@@ -136,25 +136,30 @@ class JournalHelper extends AppHelper
         }
     }
     /**
-     * Reverse journal
-     *
+     * Reverse Jouenal
+     * Space for prepend is included default value is 'Hapus'. Transaction code will automaticaly generate from $prepend_desc capital leters if not provided
      * @param integer $journal_voucher_id
+     * @param string|null $prepedn_desc
+     * @param string|null $prepend_transaction_code
      * @return void
      */
-    public static function reverse(int $journal_voucher_id)
+    public static function reverse(int $journal_voucher_id,string $prepedn_desc=null,string $prepend_transaction_code=null)
     {
-        $token = Str::uuid();
+        $token = Str::uuid(); $code ='H';
         $journal = AcctJournalVoucher::with('items')->find($journal_voucher_id);
+        if(is_null($prepend_transaction_code)&&!is_null($prepedn_desc)){
+            $code = preg_replace('/[^A-Z]/', '', $prepedn_desc);
+        }
         AcctJournalVoucher::create([
             'company_id' => $journal['company_id'],
             'transaction_module_id' => $journal['transaction_module_id'],
             'journal_voucher_status' => $journal['journal_voucher_status'],
             'transaction_journal_no' => $journal['transaction_journal_no'],
-            'transaction_module_code' => 'H' . $journal['transaction_module_code'],
+            'transaction_module_code' => $code.$journal['transaction_module_code'],
             'journal_voucher_date' => date('Y-m-d'),
-            'journal_voucher_description' => 'Hapus ' . $journal['journal_voucher_description'],
+            'journal_voucher_description' => ($prepedn_desc??'Hapus').' '. $journal['journal_voucher_description'],
+            'journal_voucher_title' => ($prepedn_desc??'Hapus').' '. $journal['journal_voucher_title'],
             'journal_voucher_period' => $journal['journal_voucher_period'],
-            'journal_voucher_title' => 'Hapus ' . $journal['journal_voucher_title'],
             'data_state' => $journal['data_state'],
             'journal_voucher_token' => $token,
             'reverse_state' => 1,
