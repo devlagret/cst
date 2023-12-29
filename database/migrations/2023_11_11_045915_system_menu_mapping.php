@@ -16,7 +16,7 @@ return new class extends Migration
             Schema::create('system_menu_mapping', function (Blueprint $table) {
                 $table->id('menu_mapping_id');
                 $table->integer('user_group_level')->nullable();
-                $table->integer('id_menu')->nullable();
+                $table->string('id_menu')->nullable();
                 $table->foreign('id_menu')->references('id_menu')->on('system_menu')->onUpdate('cascade')->onDelete('cascade');
                 $table->timestamps();
                 $table->softDeletesTz();
