@@ -14,7 +14,7 @@ return new class extends Migration
     {
         if(!Schema::hasTable('system_menu')) {
             Schema::create('system_menu', function (Blueprint $table) {
-                $table->integer('id_menu');
+                $table->string('id_menu',10);
                 $table->primary('id_menu');
                 $table->string('id',100)->nullable();
                 $table->enum('type',['folder','file','function'])->nullable();
