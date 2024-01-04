@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\InvoiceReportController;
 use App\Models\CoreClient;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PagesController;
@@ -898,6 +899,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [CreditsPaymentReportController::class, 'index'])->name('index');
         Route::post('/viewport', [CreditsPaymentReportController::class, 'viewport'])->name('viewport');
     });
+   
      //CoreDusun pages
      Route::prefix('dusun')->controller(CoreDusunController::class)->name('dusun.')->group(function () {
         Route::get('/', 'index')->name('index');
@@ -999,6 +1001,12 @@ Route::middleware('auth')->group(function () {
         Route::post('/process-add','processAdd')->name('process-add');
     });
 
+     //InvoiceReport pages
+     Route::prefix('invoice-report')->name('in-report.')->group(function () {
+        Route::get('/', [InvoiceReportController::class, 'index'])->name('index');
+        Route::post('/viewport', [InvoiceReportController::class, 'viewport'])->name('viewport');
+    });
+    
     //Whatsapp pages
     // Route::prefix('whatsapp')->name('whatsapp.')->group(function () {
     //     Route::get('/', [WhatsappController::class, 'index'])->name('index');
