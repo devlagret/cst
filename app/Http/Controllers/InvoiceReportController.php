@@ -104,7 +104,7 @@ class InvoiceReportController extends Controller
 
         $head = "<table cellspacing=\"0\" cellpadding=\"1\" border=\"0\">
                         <tr>
-                            <td><div style=\"text-align: center; font-size:14px\">DAFTAR PIUTANG</div></td>
+                            <td><div style=\"text-align: center; font-size:20px; font-weight:bold;\">LAPORAN INVOICE</div></td>
                         </tr>
                         <tr>
 				        <td><div style=\"text-align: center; font-size:12px\">Periode ".date('d-m-Y',strtotime($sesi['start_date']))." S.D. ".date('d-m-Y',strtotime($sesi['end_date']))."</div></td>
@@ -113,15 +113,15 @@ class InvoiceReportController extends Controller
         ";
         $pdf::writeHTML($head, true, false, false, false, '');
         $export = "
-        <br><table cellspacing=\"0\" cellpadding=\"1\" border=\"0\" width=\"100%\"><tr>
-                <td width=\"3%\" style=\"border-bottom: 1px solid black;border-top: 1px solid black\"><div style=\"text-align: center;font-size:10;\">No.</div></td>
-                <td width=\"15%\" style=\"border-bottom: 1px solid black;border-top: 1px solid black\"><div style=\"text-align: center;font-size:10;\">No. Invoice</div></td>
-                <td width=\"10%\" style=\"border-bottom: 1px solid black;border-top: 1px solid black\"><div style=\"text-align: center;font-size:10;\">Tanggal</div></td>
-                <td width=\"17%\" style=\"border-bottom: 1px solid black;border-top: 1px solid black\"><div style=\"text-align: center;font-size:10;\">Client</div></td>
-                <td width=\"15%\" style=\"border-bottom: 1px solid black;border-top: 1px solid black\"><div style=\"text-align: center;font-size:10;\">Alamat</div></td>
-                <td width=\"15%\" style=\"border-bottom: 1px solid black;border-top: 1px solid black\"><div style=\"text-align: center;font-size:10;\">Produk</div></td>
-                <td width=\"15%\" style=\"border-bottom: 1px solid black;border-top: 1px solid black\"><div style=\"text-align: center;font-size:10;\">Tipe</div></td>
-                <td width=\"10%\" style=\"border-bottom: 1px solid black;border-top: 1px solid black\"><div style=\"text-align: center;font-size:10;\">Status Pembayaran</div></td>
+        <br><table cellspacing=\"1\" cellpadding=\"3\" border=\"1\" width=\"100%\"><tr>
+                <td width=\"3%\"  style=\" text-align: center;font-weight:bold;\">No.</td>
+                <td width=\"10%\" style=\" text-align: center;font-weight:bold;\">No. Invoice</td>
+                <td width=\"8%\" style=\" text-align: center;font-weight:bold;\">Tanggal</td>
+                <td width=\"17%\" style=\" text-align: center;font-weight:bold;\">Client</td>
+                <td width=\"27%\" style=\" text-align: center;font-weight:bold;\">Alamat</td>
+                <td width=\"12%\" style=\" text-align: center;font-weight:bold;\">Produk</td>
+                <td width=\"15%\" style=\" text-align: center;font-weight:bold;\">Tipe</td>
+                <td width=\"8%\" style=\" text-align: center;font-weight:bold;\">Status</td>
             </tr>";
 
         $no                 = 1;
@@ -133,19 +133,19 @@ class InvoiceReportController extends Controller
         foreach ($invoice as $key => $val) {
                 $export .= "
                 <tr>
-                <td width=\"3%\"><div style=\"text-align: center;\">".$no."</div></td>
-                <td width=\"15%\"><div style=\"text-align: center;\">".$val['invoice_no']."</div></td>
-                <td width=\"10%\"><div style=\"text-align: center;\">".$val['invoice_date']."</div></td>
-                <td width=\"17%\"><div style=\"text-left: center;\">".$val->client->name."</div></td>
-                <td width=\"15%\"><div style=\"text-left: center;\">".$val->client->address."</div></td>
-                <td width=\"15%\"><div style=\"text-align: center;\">".$val->product->name."</div></td>
-                <td width=\"15%\"><div style=\"text-align: center;\">".$val->product->type->name."</div></td>
-                <td width=\"10%\"><div style=\"text-align: center;\">".AppHelper::paymentStatus($val->invoice_status)."</div></td>
+                <td ><div style=\"text-align: center;\">".$no."</div></td>
+                <td><div style=\"text-align: center;\">".$val['invoice_no']."</div></td>
+                <td><div style=\"text-align: center;\">".$val['invoice_date']."</div></td>
+                <td><div style=\"text-left: left;\">".$val->client->name."</div></td>
+                <td><div style=\"text-left: left;\">".$val->client->address."</div></td>
+                <td><div style=\"text-align: left;\">".$val->product->name."</div></td>
+                <td><div style=\"text-align: left;\">".$val->product->type->name."</div></td>
+                <td><div style=\"text-align: left;\">".AppHelper::paymentStatus($val->invoice_status)."</div></td>
                 </tr>";
 				$no++;
 		}
         $export .="<tr>
-                        <td colspan =\"4\"><div style=\"font-size:9;text-align:left;font-style:italic\">Printed : ".date('d-m-Y H:i:s')."  ".Auth::user()->username."</div></td>
+                        <td colspan =\"8\"><div style=\"font-size:9;text-align:left;font-style:italic\">Printed : ".date('d-m-Y H:i:s')."  ".Auth::user()->username."</div></td>
                     </tr></table>";
         $pdf::Image( $path, 4, 4, 40, 20, 'PNG', '', 'LT', false, 300, 'L', false, false, 1, false, false, false);
         $pdf::writeHTML($export, true, false, false, false, '');

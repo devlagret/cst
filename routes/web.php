@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\InvoiceReportController;
 use App\Models\CoreClient;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Route;
