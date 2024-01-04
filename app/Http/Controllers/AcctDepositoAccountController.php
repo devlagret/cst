@@ -34,11 +34,9 @@ class AcctDepositoAccountController extends Controller
         $sessiondata = session()->get('filter_depositoaccount');
 
         $corebranch = CoreBranch::select('branch_id', 'branch_name')
-        ->where('data_state', 0)
         ->get();
 
         $acctdeposito = AcctDeposito::select('deposito_id', 'deposito_name')
-        ->where('data_state', 0)
         ->get();
         
         return $dataTable->render('content.AcctDepositoAccount.List.index', compact('corebranch', 'acctdeposito', 'sessiondata'));

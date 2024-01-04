@@ -32,11 +32,11 @@ class AcctCreditsAccountController extends Controller
         session()->forget('member_creditsaccount');
         session()->forget('data_creditsaccount');
         $acctcredits = AcctCredits::select('credits_id','credits_name')
-        ->where('data_state',0)
+        // ->where('data_state',0)
         ->orderBy('credits_number','ASC')
         ->get();
         $corebranch = CoreBranch::select('branch_id', 'branch_name')
-        ->where('data_state',0)
+        // ->where('data_state',0)
         ->get();
         $datasession = session()->get('filter_creditsaccount');
         
@@ -52,15 +52,15 @@ class AcctCreditsAccountController extends Controller
     {
         $coremember = session()->get('member_creditsaccount');
         $creditid = AcctCredits::select('credits_id','credits_name')
-        ->where('data_state',0)
+        // ->where('data_state',0)
         ->orderBy('credits_number','ASC')
         ->get();
         $datasession = session()->get('data_creditsaccount');
         $coreoffice = CoreOffice::select('office_id','office_name')
-        ->where('data_state', 0)
+        // ->where('data_state', 0)
         ->get();
         $sumberdana = AcctSourceFund::select('source_fund_id','source_fund_name')
-        ->where('data_state', 0)
+        // ->where('data_state', 0)
         ->get();
         $acctsavingsaccount = AcctSavingsAccount::select('acct_savings_account.savings_account_id','acct_savings_account.savings_account_no','core_member.member_name')
         ->join('core_member', 'acct_savings_account.member_id','=','core_member.member_id')
