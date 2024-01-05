@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\AppHelper;
 use App\Models\AcctAccount;
 use Illuminate\Http\Request;
 use App\Helpers\Configuration;
-use App\Models\AcctAccountSetting;
 use App\Models\PreferenceCompany;
-use Illuminate\Support\Facades\Auth;
+use App\Models\AcctAccountSetting;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class PreferenceCompanyController extends Controller
 {
@@ -25,6 +26,11 @@ class PreferenceCompanyController extends Controller
         DB::beginTransaction();
         $company->company_name=$request->company['company_name'];
         $company->company_address=$request->company['company_address'];
+        if($request->has('use_ppn')){
+            AppHelper::setConfig(['use_ppn'=>$request->company['use_ppn'],'ppn_percentage'=>$request->company['ppn_percentage']]);
+        }else{
+            AppHelper::setConfig(['use_ppn'=>0,'ppn_percentage'=>0]);
+        }
         $company->save();
         foreach($request->account as $key => $val){
             $company->settings()->updateOrCreate(['name' => $key],['account_id'=>$val]);
