@@ -31,12 +31,12 @@ class AcctSavingsAccountController extends Controller
         $sessiondata = session()->get('filter_savingsaccount');
 
         $corebranch = CoreBranch::select('branch_id', 'branch_name')
-        ->where('data_state', 0)
+        
         ->get();
 
         $acctsavings = AcctSavings::select('savings_id', 'savings_name')
         ->where('savings_status', 0)
-        ->where('data_state', 0)
+        
         ->get();
 
         return $dataTable->render('content.AcctSavingsAccount.List.index', compact('corebranch', 'acctsavings', 'sessiondata'));
@@ -94,11 +94,11 @@ class AcctSavingsAccountController extends Controller
         
         $acctsavings            = AcctSavings::select('savings_id', 'savings_name')
         ->where('savings_status', 0)
-        ->where('data_state', 0)
+            
         ->get();
         
         $coreoffice             = CoreOffice::select('office_id', 'office_name')
-        ->where('data_state', 0)
+            
         ->get();
 
         $coremember             = array();

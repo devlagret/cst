@@ -35,7 +35,7 @@ class AcctInvoice extends Model
     * @var array
     */
    protected $hidden = [
-   ];
+   ]; 
    public static function booted() {
     $userid = Auth::id();
     static::creating(function (AcctInvoice $model) use($userid) {

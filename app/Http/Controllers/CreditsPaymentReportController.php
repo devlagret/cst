@@ -19,8 +19,8 @@ class CreditsPaymentReportController extends Controller
 {
     public function index()
     {
-        $corebranch = CoreBranch::where('data_state', 0)->get();
-        $coreoffice = CoreOffice::where('data_state', 0)->get()->pluck('office_name','office_id');
+        $corebranch = CoreBranch::all();
+        $coreoffice = CoreOffice::all()->pluck('office_name','office_id');
 
         return view('content.CreditsPaymentReport.index', compact('corebranch','coreoffice'));
     }
@@ -45,18 +45,17 @@ class CreditsPaymentReportController extends Controller
     public function processPrinting($sesi){
         $branch_id          = auth()->user()->branch_id;
         $branch_status      = auth()->user()->branch_status;
-        $preferencecompany	= PreferenceCompany::select('logo_koperasi', 'company_name')->first();
-        $path               = public_path('storage/'.$preferencecompany['logo_koperasi']);
+        $preferencecompany	= PreferenceCompany::select('company_name')->first();
+        $path               = public_path('storage/'.$preferencecompany);
 
         if($branch_status == 1){
             if($sesi['branch_id'] == '' || $sesi['branch_id'] == 0){
                 $branch_id = '';
             } else {
                 $branch_id = $sesi['branch_id'];
-            }
+            }           
         }
         $creditacc = AcctCreditsAccount::with('member','office')
-        ->where('data_state',0)
         ->where('credits_approve_status', 1)
         ->where('credits_account_status', 0)
         ->where('credits_account_last_balance','>', 0)
@@ -135,10 +134,14 @@ class CreditsPaymentReportController extends Controller
                 $export .= "
                 <tr>
                 <td width=\"3%\"><div style=\"text-align: left;\">".$no."</div></td>
+                //acct credits account
                 <td width=\"7%\"><div style=\"text-align: left;\">".$val['credits_account_serial']."</div></td>
-                <td width=\"10%\"><div style=\"text-align: left;\">".$val->member->member_name."</div></td>
+                //core member
+                <td width=\"10%\"><div style=\"text-align: left;\">".$val->member->member_name."</div></td> 
                 <td width=\"12%\"><div style=\"text-align: left;\">".$val->member->member_address."</div></td>
+                //core office
                 <td width=\"5%\"><div style=\"text-align: left;\">".(is_null($val->office)?'':$val->office->office_name)."</div></td>
+                //acct credits account
                 <td width=\"10%\"><div style=\"text-align: right;\">".number_format($val['credits_account_amount'], 2)."</div></td>
                 <td width=\"10%\"><div style=\"text-align: right;\">".number_format($val['credits_account_last_balance'], 2)."</div></td>
                 <td width=\"8%\"><div style=\"text-align: right;\">".number_format($val['credits_account_principal_amount'], 2)."</div></td>
@@ -186,7 +189,7 @@ class CreditsPaymentReportController extends Controller
             }
         }
         $creditacc = AcctCreditsAccount::with('member','office')
-        ->where('data_state',0)
+        
         ->where('credits_approve_status', 1)
         ->where('credits_account_status', 0)
         ->where('credits_account_last_balance','>', 0)
@@ -309,4 +312,3 @@ class CreditsPaymentReportController extends Controller
         }
     }
 }
-
