@@ -25,7 +25,6 @@
             var discountpercentage = $('#discount_percentage').val() || 0;
             var discountamount = (sbs * discountpercentage / 100);
             var total = sbs - discountamount;
-            console.log(total);
             if (discountpercentage) {
                 $('#discount_amount').val(discountamount);
                 $('#discount_amount_view').val(toRp(discountamount));
@@ -56,6 +55,30 @@
             $('#total_amount').val((total+ppnamount));
             $('#total_amount_view').val(toRp((total+ppnamount)));
         }
+        function getMonth() {
+            var year = $('#year').val();
+            var id = $('#product_id').val();
+            $.ajax({
+                type: "post",
+                url: "{{route('invoice.month')}}",
+                data: {
+                '_token'        : '{{csrf_token()}}',
+                'product_id'    :id,
+                'year'          :year
+                },
+                success: function (response) {
+                    $('#month').html(response);
+                    autoRemark();
+                }
+            });
+        }
+        function autoRemark() {
+            var month =$( "#month option:selected" ).text();;
+            var year = $('#year').val();
+            var name = $('#name').val();
+            var text = `Maintenance Bulan ${month} ${year} ${name}`;
+            $('#remark').html(text);
+        }
         $(document).ready(function() {
             totalAll();
             if ($('#discount_amount').val() != '') {
@@ -65,7 +88,7 @@
                 $('#discount_amount_view').val(toRp(dskon));
                 totalAll();
             }
-            if ($('#ppn_amount').val() != '') {
+            if ($('#ppn_amount').val() != ''&&$('#ppn_amount').val() !== undefined) {
                 var total = $('#sbs_after_adsjustment').val();
                 var ppn = $('#ppn_amount').val();
                 $('#ppn_percentage').val((parseInt((ppn)) / parseInt(total) * 100));
@@ -113,9 +136,7 @@
             });
             $('#ppn_amount_view').change(function(e) {
                 e.preventDefault();
-                console.log(this.value);
                 var total = $('#sbs_after_adsjustment').val();
-                console.log((parseInt((this.value)) / parseInt(total) * 100));
                 if (total != '') {
                     $('#ppn_percentage').val((parseInt((this.value)) / parseInt(total) * 100));
                     $('#ppn_amount').val(this.value);
@@ -123,6 +144,9 @@
                 }
                 totalAll();
             });
+            if ($('#year').val() != ''){
+                getMonth();
+            }
         });
         //==============================END VALIDATION FORM ADD MEMBER ===============================\\
     </script>
@@ -163,13 +187,26 @@
         .table td:last-child {
             padding: 0.75rem !important;
         }
+        .input-group > .select2-container--bootstrap5 {
+            width: auto !important;
+            flex: 1 1 auto !important;
+        }
+        .input-group > .select2-container--bootstrap5 .select2-selection--single {
+            height: 100% !important;
+            line-height: inherit !important;
+            padding: 0.5rem 1rem !important;
+        }
+        .input-group:not(.has-validation) > .select2-container--bootstrap5 .select2-selection--single :not(:last-child) {
+            border-top-right-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+        }
     </style>
 @endsection
 <x-base-layout>
     <div class="card mb-5 mb-xl-10">
         <div class="card-header border-0">
             <div class="card-title m-0">
-                <h3 class="fw-bolder m-0">{{ __('Form Tambah Invoice') }}</h3>
+                <h3 class="fw-bolder m-0">{{ __('Form Tambah Invoice Maintenance') }}</h3>
             </div>
             <a href="{{ url()->previous() }}" class="btn btn-light align-self-center">
                 <i class="bi bi-arrow-left fs-2 font-bold"></i>
@@ -322,11 +359,21 @@
                             </div>
                         </div>
                         <div class="row mb-6">
+                            <label class="col-lg-4 col-form-label fw-bold fs-6">{{ __('Bulan') }}</label>
+                            <div class="col-lg-8 fv-row">
+                                <div class="input-group">
+                                {{ html()->select('month', $bln, ($sessiondata['month'] ?? 0))->class(['form-select', 'form-select-lg'])->attributes(['data-control' => 'select2', 'aria-label' => 'Pilih Bulan', 'data-placeholder' => 'Pilih Bulan', 'data-allow-clear' => 'true', 'autocomplete' => 'off','onchange'=>'autoRemark()']) }}
+                                <span class="input-group-text">Tahun</span>
+                                {{ html()->select('year', $year, ($sessiondata['year'] ?? date('Y')))->class(['form-select', 'form-select-lg'])->attributes(['data-control' => 'select2', 'aria-label' => 'Pilih Tahun', 'data-placeholder' => 'Pilih Tahun', 'data-allow-clear' => 'true', 'autocomplete' => 'off','onchange'=>'getMonth()']) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-6">
                             <label class="col-lg-4 col-form-label fw-bold fs-6">{{ __('Diskon') }}</label>
                             <div class="col-lg-8 fv-row">
                                 <div class="input-group">
                                     <input type="number" name="discount_percentage" min='0' max='100'
-                                        class="form-control"
+                                        class="form-control" autocomplete="off"
                                         value="{{ old('discount_percentage', $sessiondata['discount_percentage'] ?? 0) }}"
                                         data-kt-autosize="true"
                                         onchange="function_elements_add(this.name, this.value)" placeholder="Diskon %"
@@ -334,9 +381,9 @@
                                     <span class="input-group-text">%</span>
                                     <span class="input-group-text">Rp.</span>
                                     <input type="text" name="discount_amount_view" class="form-control"
-                                        data-kt-autosize="true" placeholder="Jumlah Diskon"
+                                        data-kt-autosize="true" placeholder="Jumlah Diskon" autocomplete="off"
                                         id="discount_amount_view" />
-                                    <input name="discount_amount" type="hidden"
+                                    <input name="discount_amount" type="hidden" autocomplete="off"
                                         value="{{ old('discount_amount', $sessiondata['discount_amount'] ?? 0) }}"id="discount_amount" />
                                 </div>
                             </div>
@@ -347,14 +394,14 @@
                             <div class="col-lg-8 fv-row">
                                 <div class="input-group">
                                     <input type="number" name="ppn_percentage" min='0'
-                                        class="form-control"
+                                        class="form-control" autocomplete="off"
                                         value="{{ old('ppn_percentage', $sessiondata['ppn_percentage'] ?? 0) }}"
                                         data-kt-autosize="true"
                                         onchange="function_elements_add(this.name, this.value)" placeholder="PPN %"
                                         id="ppn_percentage" />
                                     <span class="input-group-text">%</span>
                                     <span class="input-group-text">Rp.</span>
-                                    <input type="text" name="ppn_amount_view" class="form-control"
+                                    <input type="text" name="ppn_amount_view" class="form-control" autocomplete="off"
                                         data-kt-autosize="true" placeholder="Jumlah PPN" id="ppn_amount_view" />
                                     <input name="ppn_amount" type="hidden"
                                         value="{{ old('ppn_amount', $sessiondata['ppn_amount'] ?? 0) }}"id="ppn_amount" />
@@ -365,7 +412,7 @@
                         <div class="row mb-6">
                             <label class="col-lg-4 col-form-label fw-bold fs-6">{{ __('Total') }}</label>
                             <div class="col-lg-8 fv-row">
-                                <input type="text" name="total_amount_view"
+                                <input type="text" name="total_amount_view" autocomplete="off"
                                     class="form-control form-control form-control-solid" data-kt-autosize="true"
                                     readonly placeholder="Total" id="total_amount_view" />
                                 <input type="hidden" name="total_amount" id="total_amount" />
@@ -374,7 +421,7 @@
                         <div class="row mb-6">
                             <label class="col-lg-4 col-form-label fw-bold fs-6">{{ __('Keterangan') }}</label>
                             <div class="col-lg-8 fv-row">
-                                <textarea name="remark" class="form-control form-control-solid" placeholder="Keterangan" id="remark"></textarea>
+                                <textarea name="remark" class="form-control form-control-solid" placeholder="Keterangan" autocomplete="off" id="remark"></textarea>
                             </div>
                         </div>
                         <div class="row justify-content-end">

@@ -180,12 +180,12 @@
     </x-auth-layout>
     <footer class="page-footer deep-purple darken-3">
     </footer>
-    <script>
-        $(document).ready(function () {
-            setTimeout(() => {
-               $('#splash-overlay').hide();
-               $('#welcome').hide();
-               }, 3000);
-        });
-    </script>
+        <script>
+            $(document).ready(function () {
+                setTimeout(() => {
+                $('#splash-overlay').hide();
+                $('#welcome').hide();
+                }, 3000);
+            });
+        </script>
 </body>

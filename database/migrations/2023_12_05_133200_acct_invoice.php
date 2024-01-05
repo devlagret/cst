@@ -15,6 +15,7 @@ return new class extends Migration
             Schema::create('acct_invoice', function (Blueprint $table) {
                 $table->id('invoice_id');
                 $table->date('invoice_date')->nullable();
+                $table->date('maintenance_date')->nullable();
                 $table->unsignedBigInteger('client_id')->nullable();
                 $table->foreign('client_id')->references('client_id')->on('core_client')->onUpdate('cascade')->onDelete('set null');
                 $table->unsignedBigInteger('product_id')->nullable();

@@ -30,6 +30,7 @@ return new class extends Migration
             DB::table('company_setting')->insert([
                 [ 'account_id' => 8,  'name' => 'receivables_account','company_id'=>1],
                 [ 'account_id' => 3,  'name' => 'cash_account','company_id'=>1],
+                [ 'account_id' => 36,  'name' => 'maintenance_account','company_id'=>1],
              ]);
         }
     }

@@ -32,7 +32,12 @@
 // });
 // import $ from 'jquery';
 // window.$ = $;
-import moment from 'moment';
+// import moment from 'moment';
+import moment from 'moment/min/moment-with-locales';
+// import 'moment/locale/id';
+// import 'moment/locale/fr';
+// moment.locale('f');
+// console.log(moment(1316116057189).fromNow());
 window.moment = moment;
 import Swal from 'sweetalert2'
 window.Swal = Swal;

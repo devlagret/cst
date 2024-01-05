@@ -48,7 +48,6 @@ class ProductDataTable extends DataTable
         })->orWhereDoesntHave('invoice', function (QueryBuilder $query) {
             $query->where('invoice_type', 3);
             $query->whereYear('invoice_date', Carbon::now()->parse('Y'));
-            $query->whereMonth('invoice_date', Carbon::now()->parse('m'));
         });
     }
 
