@@ -4,31 +4,10 @@
         var validator = FormValidation.formValidation(
             form, {
                 fields: {
-                    'name': {
+                    'company[company_address]': {
                         validators: {
                             notEmpty: {
-                                message: 'Nama Produk harus diisi'
-                            }
-                        }
-                    },
-                    'client_name': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Klien harus diisi'
-                            }
-                        }
-                    },
-                    'product_type_id': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Tipe Produk harus diisi'
-                            }
-                        }
-                    },
-                    'phone': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Nomer Handphone harus diisi'
+                                message: 'Nama Perusahaan harus diisi'
                             }
                         }
                     },
@@ -45,51 +24,30 @@
                 }
             }
         );
+
+        function checkPPN() {
+            if ($('#use_ppn').is(":checked")) {
+                $('#ppn_percentage').attr('disabled', false);
+                $('#ppn_percentage').removeClass('disabled');
+            } else {
+                $('#ppn_percentage').attr('disabled', true);
+                $('#ppn_percentage').addClass('disabled');
+            }
+        }
+        $(document).ready(function() {
+            checkPPN();
+            $('#use_ppn').click(function(e) {
+               checkPPN();
+            });
+        });
     </script>
 @endsection
-@section('styles')
-    <style type="text/css">
-        table,
-        tr,
-        td {
-            border: 1px solid !important;
-            border-color: #B5B5C3 !important;
-            border-bottom-color: #B5B5C3 !important;
-        }
 
-        td {
-            border: 1px solid !important;
-            border-color: #B5B5C3 !important;
-            border-bottom-color: #B5B5C3 !important;
-        }
-
-        tr {
-            border-color: #B5B5C3 !important;
-            border-bottom-color: #B5B5C3 !important;
-        }
-
-        table {
-            border-radius: 0.25rem !important;
-        }
-
-        .table tr:first-child,
-        .table th:first-child,
-        .table td:first-child {
-            padding: 0.75rem !important;
-        }
-
-        .table tr:last-child,
-        .table th:last-child,
-        .table td:last-child {
-            padding: 0.75rem !important;
-        }
-    </style>
-@endsection
 <x-base-layout>
     <div class="card mb-5 mb-xl-10">
         <div class="card-header border-0">
             <div class="card-title m-0">
-                <h3 class="fw-bolder m-0">{{ __('Pengaturan Perusahaan '.$company->company_name??'') }}</h3>
+                <h3 class="fw-bolder m-0">{{ __('Pengaturan Perusahaan ' . $company->company_name ?? '') }}</h3>
             </div>
             <a href="{{ url()->previous() }}" class="btn btn-light align-self-center">
                 <i class="bi bi-arrow-left fs-2 font-bold"></i>
@@ -104,36 +62,61 @@
                     <div class="row mb-6 px-12 mx-12">
                         <div class="row mb-4">
                             <b
-                                class="col-lg-12 fw-bold fs-3 text-center text-primary">{{ __("Pengaturan Perusahaan") }}</b>
+                                class="col-lg-12 fw-bold fs-3 text-center text-primary">{{ __('Pengaturan Perusahaan') }}</b>
                         </div>
                         <div class="row mb-2">
-                            <label class="col-lg-2 col-form-label fw-bold fs-6 required">{{ __('Nama Perusahaan') }}</label>
-                            <div class="col-lg-10 fv-row">
-                                <input type="text" id="company_name" name="company[company_name]" class="form-control form-control-solid" data-kt-autosize="true"
-                                placeholder="Masukan Nama Perusahaan"  value="{{ old('company_name', $company->company_name??'') }}"></input>
+                            <label
+                                class="col-lg-3 col-form-label fw-bold fs-6 required">{{ __('Nama Perusahaan') }}</label>
+                            <div class="col-lg-9 fv-row">
+                                <input type="text" id="company_name" name="company[company_name]"
+                                    class="form-control form-control-solid" data-kt-autosize="true"
+                                    placeholder="Masukan Nama Perusahaan"
+                                    value="{{ old('company_name', $company->company_name ?? '') }}"></input>
                             </div>
                         </div>
                         <div class="row mb-2">
-                            <label class="col-lg-2 col-form-label fw-bold fs-6 required">{{ __('Alamat Perusahaan') }}</label>
-                            <div class="col-lg-10 fv-row">
-                                <textarea name="company[company_address]" id="company_address" class="form-control form-control-solid">{{ old('company_address', $company->company_address??'') }}</textarea>
+                            <label
+                                class="col-lg-3 col-form-label fw-bold fs-6 required">{{ __('Alamat Perusahaan') }}</label>
+                            <div class="col-lg-9 fv-row">
+                                <textarea name="company[company_address]" id="company_address" class="form-control form-control-solid">{{ old('company_address', $company->company_address ?? '') }}</textarea>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label class="col-lg-3 col-form-label fw-bold fs-6 required">{{ __('Pakai PPN') }}</label>
+                            <div class="col-lg-9 fv-row">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-text">
+                                    <input name="company[use_ppn]" class="form-check-input mt-0" {{(old('use_ppn', $company->use_ppn ?? 0)?'checked':'')}} id="use_ppn"
+                                            type="checkbox" value="1" aria-label="Checkbox for ppn input">
+                                    </div>
+                                    <input name="company[ppn_percentage]" type="number"
+                                        min="0"id="ppn_percentage" max="100" step="0.1"
+                                        class="form-control" placeholder="Jumlah PPN" value="{{old('ppn_percentage', $company->ppn_percentage ?? '')}}" aria-label="PPN">
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="row mb-6 px-12 mx-12">
                         <div class="row mb-4">
-                            <b class="col-lg-12 fw-bold fs-3 text-center text-primary">{{ __("Pengaturan Akun") }}</b>
+                            <b class="col-lg-12 fw-bold fs-3 text-center text-primary">{{ __('Pengaturan Akun') }}</b>
                         </div>
                         <div class="row mb-2">
-                            <label class="col-lg-2 col-form-label fw-bold fs-6 required">{{ __('KAS') }}</label>
-                            <div class="col-lg-10 fv-row">
+                            <label class="col-lg-3 col-form-label fw-bold fs-6 required">{{ __('KAS') }}</label>
+                            <div class="col-lg-9 fv-row">
                                 {{ html()->select('account[cash_account]', $account, $data->where('name', 'cash_account')->pluck('account_id'))->class(['form-select', 'form-select-solid', 'form-select-lg'])->attributes(['data-control' => 'select2', 'aria-label' => 'Pilih Akun', 'data-placeholder' => 'Pilih Akun', 'data-allow-clear' => 'true', 'autocomplete' => 'off']) }}
                             </div>
                         </div>
                         <div class="row mb-2">
-                            <label class="col-lg-2 col-form-label fw-bold fs-6 required">{{ __('Piutang') }}</label>
-                            <div class="col-lg-10 fv-row">
+                            <label class="col-lg-3 col-form-label fw-bold fs-6 required">{{ __('Piutang') }}</label>
+                            <div class="col-lg-9 fv-row">
                                 {{ html()->select('account[receivables_account]', $account, $data->where('name', 'receivables_account')->pluck('account_id'))->class(['form-select', 'form-select-solid', 'form-select-lg'])->attributes(['data-control' => 'select2', 'aria-label' => 'Pilih Akun', 'data-placeholder' => 'Pilih Akun', 'data-allow-clear' => 'true', 'autocomplete' => 'off']) }}
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label
+                                class="col-lg-3 col-form-label fw-bold fs-6 required">{{ __('Pendapatan Maintenance') }}</label>
+                            <div class="col-lg-9 fv-row">
+                                {{ html()->select('account[maintenance_account]', $account, $data->where('name', 'maintenance_account')->pluck('account_id'))->class(['form-select', 'form-select-solid', 'form-select-lg'])->attributes(['data-control' => 'select2', 'aria-label' => 'Pilih Akun', 'data-placeholder' => 'Pilih Akun', 'data-allow-clear' => 'true', 'autocomplete' => 'off']) }}
                             </div>
                         </div>
                     </div>
