@@ -156,7 +156,7 @@
             </div>
             <div class="fv-row mb-10">
                 <label class="form-label fs-6 fw-bolder text-dark">{{ __('Username') }}</label>
-                <input class="form-control form-control-lg form-control-solid" type="username" name="username"
+                <input class="form-control form-control-lg form-control-solid" type="text" name="username"
                     autocomplete="off" value="{{ old('username', 'administrator') }}" required autofocus />
             </div>
             <div class="fv-row mb-10">
@@ -180,4 +180,12 @@
     </x-auth-layout>
     <footer class="page-footer deep-purple darken-3">
     </footer>
+    <script>
+        $(document).ready(function () {
+            setTimeout(() => {
+               $('#splash-overlay').hide();
+               $('#welcome').hide();
+               }, 3000);
+        });
+    </script>
 </body>
