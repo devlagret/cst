@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\CoreClient;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\UsersController;
@@ -26,6 +27,7 @@ use App\Http\Controllers\RestoreDataController;
 use App\Http\Controllers\AcctDepositoController;
 use App\Http\Controllers\AcctMutationController;
 use App\Http\Controllers\BalanceSheetController;
+use App\Http\Controllers\InvoiceReportController;
 use App\Http\Controllers\AcctSourceFundController;
 use App\Http\Controllers\JournalVoucherController;
 use App\Http\Controllers\Logs\AuditLogsController;
@@ -38,6 +40,7 @@ use App\Http\Controllers\CoreMemberStatusController;
 use App\Http\Controllers\PreferenceIncomeController;
 use App\Http\Controllers\SystemBranchOpenController;
 use App\Http\Controllers\AcctCreditsAgunanController;
+use App\Http\Controllers\PreferenceCompanyController;
 use App\Http\Controllers\SystemBranchCloseController;
 use App\Http\Controllers\AcctAccountSettingController;
 use App\Http\Controllers\AcctCreditsAccountController;
@@ -99,7 +102,6 @@ use App\Http\Controllers\AcctCreditsAccountPaidOffReportController;
 use App\Http\Controllers\AcctDepositoAccountClosedReportController;
 use App\Http\Controllers\SavingsMandatoryHasntPaidReportController;
 use App\Http\Controllers\AcctNominativeSavingsReportPickupController;
-use App\Http\Controllers\PreferenceCompanyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -898,6 +900,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [CreditsPaymentReportController::class, 'index'])->name('index');
         Route::post('/viewport', [CreditsPaymentReportController::class, 'viewport'])->name('viewport');
     });
+   
      //CoreDusun pages
      Route::prefix('dusun')->controller(CoreDusunController::class)->name('dusun.')->group(function () {
         Route::get('/', 'index')->name('index');
@@ -999,6 +1002,12 @@ Route::middleware('auth')->group(function () {
         Route::post('/process-add','processAdd')->name('process-add');
     });
 
+     //InvoiceReport pages
+     Route::prefix('invoice-report')->name('in-report.')->group(function () {
+        Route::get('/', [InvoiceReportController::class, 'index'])->name('index');
+        Route::post('/viewport', [InvoiceReportController::class, 'viewport'])->name('viewport');
+    });
+    
     //Whatsapp pages
     // Route::prefix('whatsapp')->name('whatsapp.')->group(function () {
     //     Route::get('/', [WhatsappController::class, 'index'])->name('index');
@@ -1010,6 +1019,9 @@ Route::middleware('auth')->group(function () {
 });
 
 // Route::resource('users', UsersController::class);
+
+Route::post('invoiceReport', [InvoiceReportController::class, 'exportToExcel']);
+Route::post('/exportToExcel', [InvoiceReportController::class, 'filter']);
 
 Route::get('/auth/redirect/{provider}', [SocialiteLoginController::class, 'redirect']);
 

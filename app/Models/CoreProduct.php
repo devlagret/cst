@@ -48,4 +48,6 @@ class CoreProduct extends Model
    public function invoice() {
       return $this->hasMany(AcctInvoice::class,'product_id','product_id');
    }
+
+   
 }
