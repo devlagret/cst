@@ -150,7 +150,7 @@ class InvoiceReportController extends Controller
         $pdf::Image( $path, 4, 4, 40, 20, 'PNG', '', 'LT', false, 300, 'L', false, false, 1, false, false, false);
         $pdf::writeHTML($export, true, false, false, false, '');
 
-        $filename = 'DAFTAR PIUTANG - '.Carbon::now()->format('Y-m-d-Hisu').'.pdf';
+        $filename = 'LAPORAN INVOICE - '.Carbon::now()->format('Y-m-d-Hisu').'.pdf';
         $pdf::Output($filename, 'I');
     }
 
@@ -160,7 +160,7 @@ class InvoiceReportController extends Controller
         $preferencecompany	= PreferenceCompany::select('company_name')->first();
         $spreadsheet        = new Spreadsheet();
 
-        $invoice = AcctInvoice::with('product','client','items')
+        $invoice = AcctInvoice::with('product.type','client','items')
         ->where('invoice_date','>=', Carbon::parse($sesi['start_date'])->format('Y-m-d'))
         ->where('invoice_date','<=', Carbon::parse($sesi['end_date'])->format('Y-m-d'))
         ->orderBy('invoice_no');
@@ -169,11 +169,11 @@ class InvoiceReportController extends Controller
         if(count($invoice)>=0){
             $spreadsheet->getProperties()->setCreator($preferencecompany['company_name'])
                                             ->setLastModifiedBy($preferencecompany['company_name'])
-                                            ->setTitle("DAFTAR TAGIHAN ANGSURAN PINJAMAN")
+                                            ->setTitle("LAPORAN INVOICE")
                                             ->setSubject("")
-                                            ->setDescription("DAFTAR TAGIHAN ANGSURAN PINJAMAN")
-                                            ->setKeywords("DAFTAR, TAGIHAN, ANGSURAN, PINJAMAN")
-                                            ->setCategory("DAFTAR TAGIHAN ANGSURAN PINJAMAN");
+                                            ->setDescription("LAPORAN INVOICE")
+                                            ->setKeywords("LAPORAN, INVOICE")
+                                            ->setCategory("LAPORAN INVOICE");
 
             $spreadsheet->setActiveSheetIndex(0);
             $spreadsheet->getActiveSheet()->getPageSetup()->setFitToWidth(1);
@@ -187,29 +187,38 @@ class InvoiceReportController extends Controller
             $spreadsheet->getActiveSheet()->getColumnDimension('I')->setWidth(20);
          
 
-            $spreadsheet->getActiveSheet()->mergeCells("B1:L1");
+            $spreadsheet->getActiveSheet()->mergeCells("B1:I1");
             $spreadsheet->getActiveSheet()->getStyle('B1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
             $spreadsheet->getActiveSheet()->getStyle('B1')->getFont()->setBold(true)->setSize(16);
-            $spreadsheet->getActiveSheet()->getStyle('B3:L3')->getBorders()->getAllBorders()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
-            $spreadsheet->getActiveSheet()->getStyle('B3:L3')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-            $spreadsheet->getActiveSheet()->getStyle('B3:L3')->getFont()->setBold(true);
-            $spreadsheet->getActiveSheet()->setCellValue('B1',"DAFTAR TAGIHAN ANGSURAN PINJAMAN");
+            $spreadsheet->getActiveSheet()->getStyle('B4:I4')->getBorders()->getAllBorders()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
+            $spreadsheet->getActiveSheet()->getStyle('B4:I4')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+            $spreadsheet->getActiveSheet()->getStyle('B4:I4')->getFont()->setBold(true);
+            $spreadsheet->getActiveSheet()->setCellValue('B1',"LAPORAN INVOICE");
+            
+            $spreadsheet->getActiveSheet()->mergeCells("B2:I2");
+            $spreadsheet->getActiveSheet()->getStyle('B2')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+            $spreadsheet->getActiveSheet()->getStyle('B2')->getFont()->setSize(10);
+            $spreadsheet->getActiveSheet()->getStyle('B4:I4')->getBorders()->getAllBorders()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
+            $spreadsheet->getActiveSheet()->getStyle('B4:I4')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+            $spreadsheet->getActiveSheet()->getStyle('B4:I4')->getFont();
+            $spreadsheet->getActiveSheet()->setCellValue('B2',"Periode ".date('d-m-Y',strtotime($sesi['start_date']))." S.D. ".date('d-m-Y',strtotime($sesi['end_date'])));
+            
 
-            $spreadsheet->getActiveSheet()->setCellValue('B3',"No");
-            $spreadsheet->getActiveSheet()->setCellValue('C3',"No. Invoice");
-            $spreadsheet->getActiveSheet()->setCellValue('D3',"Tanggal");
-            $spreadsheet->getActiveSheet()->setCellValue('E3',"Client");
-            $spreadsheet->getActiveSheet()->setCellValue('F3',"Alamat");
-            $spreadsheet->getActiveSheet()->setCellValue('G3',"Produk");
-            $spreadsheet->getActiveSheet()->setCellValue('H3',"Tipe");
-            $spreadsheet->getActiveSheet()->setCellValue('I3',"Status Pembayaran");
+            $spreadsheet->getActiveSheet()->setCellValue('B4',"No");
+            $spreadsheet->getActiveSheet()->setCellValue('C4',"No. Invoice");
+            $spreadsheet->getActiveSheet()->setCellValue('D4',"Tanggal");
+            $spreadsheet->getActiveSheet()->setCellValue('E4',"Client");
+            $spreadsheet->getActiveSheet()->setCellValue('F4',"Alamat");
+            $spreadsheet->getActiveSheet()->setCellValue('G4',"Produk");
+            $spreadsheet->getActiveSheet()->setCellValue('H4',"Tipe");
+            $spreadsheet->getActiveSheet()->setCellValue('I4',"Status Pembayaran");
 
             $no=0;
             $totalplafon = 0;
             $totalangspokok = 0;
             $totalangsmargin = 0;
             $totaltotal = 0;
-            $j=4;
+            $j=5;
             foreach($invoice as $key=>$val){
                 $no++;
 
@@ -230,13 +239,13 @@ class InvoiceReportController extends Controller
                 $spreadsheet->getActiveSheet()->setCellValue('E'.$j, $val->client->name);        
                 $spreadsheet->getActiveSheet()->setCellValue('F'.$j, $val->client->address);        
                 $spreadsheet->getActiveSheet()->setCellValue('G'.$j, $val->client->name);        
-                $spreadsheet->getActiveSheet()->setCellValue('H'.$j, "hai");
-                $spreadsheet->getActiveSheet()->setCellValue('I'.$j, "Lunas");
+                $spreadsheet->getActiveSheet()->setCellValue('H'.$j, $val->product->type->name);
+                $spreadsheet->getActiveSheet()->setCellValue('I'.$j, AppHelper::paymentStatus($val->invoice_status));
                 $j++;
             }
 
             $i = $j;
-            $filename='DAFTAR PIUTANG - '.Carbon::now()->format('Y-m-d-Hisu').'.xls';
+            $filename='LAPORAN INVOICE - '.Carbon::now()->format('Y-m-d-Hisu').'.xls';
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
             header('Content-Disposition: attachment;filename="'.$filename.'"');
             header('Cache-Control: max-age=0');
