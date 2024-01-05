@@ -37,8 +37,8 @@ class CoreProductController extends Controller
         $sessiondata = Session::get('product-data');
         $type = ProductType::get()->pluck('name','product_type_id');
         $pymentType = Configuration::productPaymentType();
-        $addons = Session::get('product-addon-data');
-        $data = CoreProduct::with('client','addons')->find($product_id);
+        $addons = Session::get('product-addon-data')??[];
+        $data = CoreProduct::with('client','addons','termin')->find($product_id);
         if(empty($addons)){
             foreach($data->addons as $val){
                 $dataadon = collect()->put('name', $val->name);
@@ -50,7 +50,9 @@ class CoreProductController extends Controller
                 $addon->put($val->product_addon_id, $dataadon);
                 Session::put('product-addon-data', $addon->toArray());
             }
+            $addons = $addon->toArray();
         }
+
         return view('content.CoreProduct.Edit.index', compact('sessiondata','data','type','pymentType','addons'));
     }
     public function elemenAdd(Request $request)
@@ -107,20 +109,48 @@ class CoreProductController extends Controller
         }
     }
     public function processEdit(Request $request) {
-         try {
-         DB::beginTransaction();
-         $cp=CoreProduct::find($request->product_id);
-         $cp->name      =$request->name;
-         $cp->code      =$request->code;
-         $cp->account_id=$request->account_id;
-         $cp->save();
-         DB::commit();
-         return redirect()->route('product.index')->with(['pesan' => 'Produk berhasil diedit', 'alert' => 'success']);
-         } catch (\Exception $e) {
-         DB::rollBack();
-         report($e);
-         return redirect()->route('product.index')->with(['pesan' => 'Produk berhasil diedit', 'alert' => 'danger']);
-         }
+        $addon = Session::get('product-addon-data');
+        try {
+        DB::beginTransaction();
+        $cp=CoreProduct::find($request->product_id);
+        $cp->name                = $request->name;
+        $cp->client_id           = $request->client_id;
+        $cp->remark              = $request->product_remark;
+        $cp->product_type_id     = $request->product_type_id;
+        $cp->payment_period      = $request->payment_period;
+        $cp->start_dev_date      = $request->start_date;
+        $cp->trial_date          = $request->trial_date;
+        $cp->usage_date          = $request->usage_date;
+        $cp->maintenance_date    = $request->maintenance_date;
+        $cp->maintenance_price   = $request->maintenance_price;
+        $cp->payment_type        = $request->payment_type;
+        $cp->save();
+        $cp->termin()->forceDelete();
+        $cp->addons()->forceDelete();
+        foreach($request->termin as $key => $value){
+            $cp->termin()->create([
+                'order' => $key,
+                'amount'=> $value['amount']
+            ]);
+        }
+        if(!empty($addon)){
+            foreach($addon as $val){
+                $cp->addons()->create([
+                    'name' => $val['name'],
+                    'date' => $val['date'],
+                    'amount' => $val['amount'],
+                    'remark' => $val['remark']
+                ]);
+            }
+        }
+        DB::commit();
+        return redirect()->route('product.index')->with(['pesan' => 'Produk berhasil diedit', 'alert' => 'success']);
+        } catch (\Exception $e) {
+        DB::rollBack();
+        dd($e);
+        report($e);
+        return redirect()->route('product.index')->with(['pesan' => 'Produk berhasil diedit', 'alert' => 'danger']);
+        }
     }
     public function delete($product_id) {
         try {
