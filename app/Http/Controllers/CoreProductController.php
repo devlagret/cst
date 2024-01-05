@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Session;
 use App\DataTables\CoreProduct\ProductDataTable;
 use App\DataTables\CoreProduct\CoreClientDataTable;
 use App\Helpers\Configuration;
+use App\Models\CoreProductAddon;
 
 class CoreProductController extends Controller
 {
@@ -110,6 +111,8 @@ class CoreProductController extends Controller
     }
     public function processEdit(Request $request) {
         $addon = Session::get('product-addon-data');
+        // dump($request->all());
+        // dd($addon);
         try {
         DB::beginTransaction();
         $cp=CoreProduct::find($request->product_id);
@@ -126,7 +129,7 @@ class CoreProductController extends Controller
         $cp->payment_type        = $request->payment_type;
         $cp->save();
         $cp->termin()->forceDelete();
-        $cp->addons()->forceDelete();
+        // $cp->addons()->forceDelete();
         foreach($request->termin as $key => $value){
             $cp->termin()->create([
                 'order' => $key,
@@ -134,13 +137,20 @@ class CoreProductController extends Controller
             ]);
         }
         if(!empty($addon)){
-            foreach($addon as $val){
-                $cp->addons()->create([
-                    'name' => $val['name'],
-                    'date' => $val['date'],
-                    'amount' => $val['amount'],
-                    'remark' => $val['remark']
-                ]);
+            $deleteexcept=collect();
+            foreach($addon as $k => $val){
+                if(Str::isUuid($k)){
+                    $cp->addons()->create([
+                        'name' => $val['name'],
+                        'date' => $val['date'],
+                        'amount' => $val['amount'],
+                        'remark' => $val['remark']
+                    ]);
+                }else{
+                    $deleteexcept->push($k);
+                }
+                CoreProductAddon::whereNotIn('product_addon_id',$deleteexcept)->forceDelete();
+               
             }
         }
         DB::commit();

@@ -82,8 +82,8 @@
                                     <label class="col-lg-4 col-form-label fw-bold fs-6">Termin ${no}</label>
                                     <div class="col-lg-8 fv-row">
                                         <input type="text" name="termin[${no}][view]" id="termin_${no}_view" onchange="formatTermin(this.id,${no})"
-                                            class="form-control form-control-lg form-control-solid" placeholder="Nominal Termin" value="`+(teminold[index]===undefinied?toRp(teminold[index]):'')+`"/>
-                                        <input type="hidden" name="termin[${no}][amount]" id="termin_${no}"/>
+                                            class="form-control form-control-lg form-control-solid" placeholder="Nominal Termin" value="`+(teminold[index]===undefined?'':toRp(teminold[index]))+`"/>
+                                        <input type="hidden" name="termin[${no}][amount]" id="termin_${no}" value="`+(teminold[index]===undefined?'':teminold[index])+`"/>
                                     </div>
                                 </div>`);
                     } else {
@@ -91,8 +91,8 @@
                                     <label class="col-lg-4 col-form-label fw-bold fs-6">Termin ${no}</label>
                                     <div class="col-lg-8 fv-row">
                                         <input type="text" name="termin[${no}][view]" id="termin_${no}_view" onchange="formatTermin(this.id,${no})"
-                                            class="form-control form-control-lg form-control-solid" placeholder="Nominal Termin" value="`+(teminold[index]===undefinied?toRp(teminold[index]):'')+`"/>
-                                        <input type="hidden" name="termin[${no}][amount]" id="termin_${no}"/>
+                                            class="form-control form-control-lg form-control-solid" placeholder="Nominal Termin" value="`+(teminold[index]===undefined?'':toRp(teminold[index]))+`"/>
+                                        <input type="hidden" name="termin[${no}][amount]" id="termin_${no}" value="`+(teminold[index]===undefined?'':teminold[index])+`"/>
                                     </div>
                                 </div>`);
                     }
@@ -105,8 +105,8 @@
                                     <label class="col-lg-4 col-form-label fw-bold fs-6">Termin ${no}</label>
                                     <div class="col-lg-8 fv-row">
                                         <input type="text" name="termin[${no}][view]" id="termin_${no}_view" onchange="formatTermin(this.id,${no})"
-                                            class="form-control form-control-lg form-control-solid" placeholder="Nominal Termin" value="`+(teminold[index]===undefinied?toRp(teminold[index]):'')+`"/>
-                                        <input type="hidden" name="termin[${no}][amount]" id="termin_${no}"/>
+                                            class="form-control form-control-lg form-control-solid" placeholder="Nominal Termin" value="`+(teminold[index]===undefined?'':toRp(teminold[index]))+`"/>
+                                        <input type="hidden" name="termin[${no}][amount]" id="termin_${no}" value="`+(teminold[index]===undefined?'':teminold[index])+`"/>
                                     </div>
                                 </div>`);
                     }

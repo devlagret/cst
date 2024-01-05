@@ -1,44 +1,99 @@
 
 <td class="text-center">
-    @if($model->invoice_type==3)
-    <a type="button" href="{{route('invoice.print-maintenance',$model->invoice_id)}}" class="btn btn-sm btn-primary btn-active-light-primary">
-        Nota Maintenance
-    </a>
     @if($model->invoice_status==0)
-        <button type="button" data-bs-toggle="modal" data-bs-target="#kt_modal_pay_{{$model->invoice_id}}" class="btn p-2 btn-sm btn-success btn-active-light-success">
+    <button type="button" data-bs-toggle="modal" data-bs-target="#kt_modal_print_{{$model->invoice_id}}" class="btn ms-1 mt-1 btn-sm btn-success btn-active-light-success">
+        <i class="bi bi-printer-fill fs-2"></i>Cetak
+    </button>
+    <a type="button" href="{{route('invoice.print',$model->invoice_id)}}" class="btn ms-1 mt-1 btn-sm btn-warning btn-active-light-warning">
+        <i class="bi bi-pencil-square fs-2"></i>
+        Edit
+    </a>
+    <button type="button" data-bs-toggle="modal" data-bs-target="#kt_modal_reject_{{$model->invoice_id}}" class="btn ms-1 mt-1 btn-sm btn-danger btn-active-light-danger">
+        <i class="fa-regular fa-circle-xmark fs-2"></i>Reject
+    </button> 
+    @endif
+    @if($model->invoice_status==1)
+        <button type="button" data-bs-toggle="modal" data-bs-target="#kt_modal_pay_{{$model->invoice_id}}" class="btn ms-1 mt-1 btn-sm btn-success btn-active-light-success">
             <i class="bi bi-cash  fs-2"></i>Bayar
         </button>
-    @endif
-    @else
-    <a type="button" href="{{route('invoice.product',$model->invoice_id)}}" class="btn btn-sm btn-info btn-active-light-info">
-        Nota Produk
-    </a>
-    <a type="button" href="{{route('invoice.product',$model->invoice_id)}}" class="btn btn-sm btn-success btn-active-light-success">
-        Nota Addon
-    </a>
+        <a type="button" href="{{route('invoice.print',$model->invoice_id)}}" class="btn ms-1 mt-1 btn-sm btn-primary btn-active-light-primary">
+            Cetak
+        </a>
     @endif
 </td>
-
-<div class="modal fade" tabindex="-1" id="kt_modal_delete_{{$model->invoice_id}}">
+@if($model->invoice_status==0)
+<div class="modal fade" tabindex="-1" id="kt_modal_reject_{{$model->invoice_id}}">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">Hapus Produk</h3>
+                <h3 class="modal-title">Cetak Invoice</h3>
                 <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
                     <span class="bi bi-x-lg"></span>
                 </div>
             </div>
             <div class="modal-body">
-                <p>Apakah anda yakin ingin menghapus Produk?</p>
+                <div class="row mb-6">
+                    <div class="col-2">Produk</div>
+                    <div class="col-auto">:</div>
+                    <div class="col-9 text-start">{{str($model->product->name)->limit(33)}}</div>
+                </div>
+                <div class="row mb-6">
+                    <div class="col-2">Client</div>
+                    <div class="col-auto">:</div>
+                    <div class="col-9 text-start">{{str($model->client->name)->limit(33)}}</div>
+                </div>
+                <div class="row mb-6 text-start">
+                    <div class="col">
+                        Apakah Anda Yakin Ingin Mereject Invoice?
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-bs-dismiss="modal">Tidak</button>
-                <a href="{{route('invoice.delete',$model->invoice_id)}}" class="btn btn-danger">Iya</a>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Tidak</button>
+                <a type="button" href="{{route('invoice.print',$model->invoice_id)}}" class="btn btn-danger btn-active-light-danger">
+                    Iya
+                </a>
             </div>
         </div>
     </div>
 </div>
-@if($model->invoice_status==0)
+<div class="modal fade" tabindex="-1" id="kt_modal_print_{{$model->invoice_id}}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Cetak Invoice</h3>
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <span class="bi bi-x-lg"></span>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-6">
+                    <div class="col-2">Produk</div>
+                    <div class="col-auto">:</div>
+                    <div class="col-9 text-start">{{str($model->product->name)->limit(33)}}</div>
+                </div>
+                <div class="row mb-6">
+                    <div class="col-2">Client</div>
+                    <div class="col-auto">:</div>
+                    <div class="col-9 text-start">{{str($model->client->name)->limit(33)}}</div>
+                </div>
+                <div class="row mb-6 text-start">
+                    <div class="col">
+                        Apakah Anda Yakin Ingin Mencetak Nota Untuk Pertama Kali? Setelah dicetak invoice <b>tidak bisa diubah atau diedit</b>!
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Tidak</button>
+                <a type="button" href="{{route('invoice.print',$model->invoice_id)}}" class="btn btn-success btn-active-light-success">
+                    Iya
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
+@if($model->invoice_status==1)
 <div class="modal fade" tabindex="-1" id="kt_modal_pay_{{$model->invoice_id}}">
     <div class="modal-dialog">
         <div class="modal-content">
