@@ -3,6 +3,7 @@
 use App\Models\CoreClient;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AssetController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AccountController;
@@ -1007,6 +1008,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [InvoiceReportController::class, 'index'])->name('index');
         Route::post('/viewport', [InvoiceReportController::class, 'viewport'])->name('viewport');
     });
+
+     //Asset pages
+     Route::prefix('asset')->name('as-report.')->group(function () {
+        Route::get('/', [AssetController::class, 'index'])->name('index');
+        Route::post('/viewport', [AssetController::class, 'viewport'])->name('viewport');
+    });
     
     //Whatsapp pages
     // Route::prefix('whatsapp')->name('whatsapp.')->group(function () {
@@ -1019,9 +1026,6 @@ Route::middleware('auth')->group(function () {
 });
 
 // Route::resource('users', UsersController::class);
-
-Route::post('invoiceReport', [InvoiceReportController::class, 'exportToExcel']);
-Route::post('/exportToExcel', [InvoiceReportController::class, 'filter']);
 
 Route::get('/auth/redirect/{provider}', [SocialiteLoginController::class, 'redirect']);
 

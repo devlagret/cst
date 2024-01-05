@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ProductSeeder::class,
             AcctInvoiceSeeder::class,
+            AssetSeeder::class,
         ]);
     }
 }
