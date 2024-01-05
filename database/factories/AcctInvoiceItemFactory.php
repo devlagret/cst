@@ -22,8 +22,11 @@ class AcctInvoiceItemFactory extends Factory
     {
         $faker = \Faker\Factory::create();
         
+        $twoYearsAgo = Carbon::now()->subYears(2); 
+        $currentDate = Carbon::now(); 
+        $randomDate = $faker->dateTimeBetween($twoYearsAgo, $currentDate)->format('Y-m-d');
         return [
-            'payment_date' =>Carbon::parse($this->faker->dateTimeThisDecade('+2 years'))->format('Y-m-d'),
+            'payment_date' =>$randomDate,
             'item_id' => null, 
             'account_id' => null, 
             'remark' => $faker->sentence(),

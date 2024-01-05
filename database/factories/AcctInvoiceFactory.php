@@ -28,9 +28,12 @@ class AcctInvoiceFactory extends Factory
 
         $client = CoreClient::factory()->create();
         $product = CoreProduct::factory()->create();
-        
+        $twoYearsAgo = Carbon::now()->subYears(2); 
+        $currentDate = Carbon::now(); 
+        $randomDate = $faker->dateTimeBetween($twoYearsAgo, $currentDate)->format('Y-m-d');
+
         return [
-            'invoice_date' => Carbon::parse($this->faker->dateTimeThisDecade('+2 years'))->format('Y-m-d'),
+            'invoice_date' => $randomDate,
             'client_id' => $client->client_id,
             'product_id' => $product->product_id,
             'invoice_no' => $faker->unique()->word,
