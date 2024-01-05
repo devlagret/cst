@@ -143,14 +143,18 @@ class JournalHelper extends AppHelper
      * @param string|null $prepend_transaction_code
      * @return void
      */
-    public static function reverse(int $journal_voucher_id,string $prepedn_desc=null,string $prepend_transaction_code=null)
+    public static function reverse(int|string $journal_voucher_IdOrCode,string $prepedn_desc=null,string $prepend_transaction_code=null)
     {
         $token = Str::uuid(); $code ='H';
-        $journal = AcctJournalVoucher::with('items')->find($journal_voucher_id);
+        if(is_int($journal_voucher_IdOrCode)){
+            $journal = AcctJournalVoucher::with('items')->find($journal_voucher_IdOrCode);
+        }else{
+            $journal = AcctJournalVoucher::with('items')->where('transaction_journal_no',$journal_voucher_IdOrCode)->latest()->first();
+        }
         if(is_null($prepend_transaction_code)&&!is_null($prepedn_desc)){
             $code = preg_replace('/[^A-Z]/', '', $prepedn_desc);
         }
-        AcctJournalVoucher::create([
+        $journalnew=AcctJournalVoucher::create([
             'company_id' => $journal['company_id'],
             'transaction_module_id' => $journal['transaction_module_id'],
             'journal_voucher_status' => $journal['journal_voucher_status'],
@@ -167,11 +171,9 @@ class JournalHelper extends AppHelper
         ]);
         $journal->reverse_state = 1;
         $journal->save();
-        $jv = AcctJournalVoucher::where('journal_voucher_token', $token)->first();
         foreach ($journal->items as $key) {
-            AcctJournalVoucherItem::create([
+            $journalnew->items()->create([
                 'company_id' => $key['company_id'],
-                'journal_voucher_id' => $jv['journal_voucher_id'],
                 'account_id' => $key['account_id'],
                 'journal_voucher_amount' => $key['journal_voucher_amount'],
                 'account_id_status' => 1 - $key['account_id_status'],
