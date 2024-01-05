@@ -16,6 +16,7 @@ use App\Models\PreferenceCompany;
 use App\Models\AcctCreditsAccount;
 use Illuminate\Support\Facades\Auth;
 use App\Models\AcctSavingsMemberDetail;
+use App\Models\ProductType;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class InvoiceReportController extends Controller
@@ -26,8 +27,8 @@ class InvoiceReportController extends Controller
         $acct_invoice_item = AcctInvoiceItem::all();
         $core_product = CoreProduct::all();
         $core_client = CoreClient::all()->pluck('name','client_id');
-        $core_client_addresses = CoreClient::pluck('address', 'address');
-        return view('content.InvoiceReport.index', compact('acct_invoice','acct_invoice_item','core_product','core_client','core_client_addresses'));
+        $product_type = ProductType::pluck('name', 'name');
+        return view('content.InvoiceReport.index', compact('acct_invoice','acct_invoice_item','core_product','core_client', 'product_type'));
     }
 
     public function viewport(Request $request)

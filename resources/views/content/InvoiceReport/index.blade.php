@@ -14,11 +14,11 @@
                     <div class="row mb-6">
                         <div class="col-lg-3 fv-row">
                             <label class="col-lg-4 col-form-label fw-bold fs-6 required">{{ __('Tanggal Mulai') }}</label>
-                            <input type="date" name="start_date" id="start_date" class="form-control form-control-solid form-select-lg" placeholder="Pilih tanggal"/>
+                            <input type="date" name="start_date" id="start_date" class="form-control form-control-solid form-select-lg" placeholder="Pilih tanggal" value=""/>
                         </div>
                         <div class="col-lg-3 fv-row">
                             <label class="col-lg-4 col-form-label fw-bold fs-6 required">{{ __('Tanggal Akhir') }}</label>
-                            <input type="date" name="end_date" id="end_date" class=" form-control form-control-solid form-select-lg" placeholder="Pilih tanggal"/>
+                            <input type="date" name="end_date" id="end_date" class="form-control form-control-solid form-select-lg" placeholder="Pilih tanggal" value=""/>
                         </div>
                         <div class="col-lg-3 fv-row">
                             <label class="col-lg-4 col-form-label fw-bold fs-6">{{ __('Client') }}</label>
@@ -30,16 +30,17 @@
                             </select>
                         </div>
                         <div class="col-lg-3 fv-row">
-                            <label class="col-lg-4 col-form-label fw-bold fs-6">{{ __('Alamat') }}</label>
-                            <select name="address" id="address" aria-label="{{ __('Alamat') }}" data-control="select2" data-placeholder="{{ __('Pilih Alamat..') }}" data-allow-clear="true" class="form-select form-select-solid form-select-lg">
-                                <option value="">{{ __('Pilih Alamat..') }}</option>
-                                @foreach($core_client_addresses as $address => $address)
-                                     <option data-kt-flag="{{ $address }}" value="{{ $address }}" {{ $address === old('client_id', '') ? 'selected' : '' }}>{{ $address }}</option>
-                                @endforeach 
+                            <label class="col-lg-4 col-form-label fw-bold fs-6">{{ __('Type') }}</label>
+                            <select name="type" id="type" aria-label="{{ __('Type') }}" data-control="select2" data-placeholder="{{ __('Pilih Type..') }}" data-allow-clear="true" class="form-select form-select-solid form-select-lg">
+                                <option value="">{{ __('Pilih Type..') }}</option>
+                                    @foreach($product_type as $key => $value)
+                                        <option data-kt-flag="{{ $key }}" value="{{ $key }}" {{ $key === old('name', '' ?? '') ? 'selected' :'' }}>{{ $value }}</option>
+                                    @endforeach
                             </select>
                         </div>
                     </div>
                 </div>
+                
                 <div class="card-footer d-flex justify-content-end py-6 px-9">
                     <button type="submit" class="btn btn-primary me-2" id="kt_nominative_deposito_submit" id="view" name="view" value="excel">
                         <i class="bi bi-file-earmark-excel"></i> {{__('Export Excel')}}
@@ -52,3 +53,14 @@
         </div>
     </div>
 </x-base-layout>
+
+<script>
+    // Mendapatkan tanggal hari ini
+    const today = new Date().toISOString().split('T')[0];
+    
+    // Mengatur nilai default ke input tanggal mulai
+    document.getElementById('start_date').value = today;
+    
+    // Mengatur nilai default ke input tanggal akhir
+    document.getElementById('end_date').value = today;
+</script>
