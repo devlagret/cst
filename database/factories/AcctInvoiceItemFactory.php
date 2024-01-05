@@ -46,8 +46,6 @@ class AcctInvoiceItemFactory extends Factory
             'deleted_id' => null,
             'created_at' => $faker->dateTimeBetween('-2 years', 'now'),
             'updated_at' => $faker->dateTimeBetween('-2 years', 'now'),
-            // Jika terdapat field 'deleted_at', kamu bisa mengatur secara acak untuk mensimulasikan soft delete
-            //'deleted_at' => $faker->optional(0.1)->dateTimeBetween('-1 year', 'now')
         ];
     }
 }
