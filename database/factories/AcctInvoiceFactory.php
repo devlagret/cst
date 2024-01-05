@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-
+use Carbon\Carbon;
 use App\Models\CoreClient;
 use App\Models\AcctInvoice;
 use App\Models\CoreProduct;
@@ -30,7 +30,7 @@ class AcctInvoiceFactory extends Factory
         $product = CoreProduct::factory()->create();
         
         return [
-            'invoice_date' => $faker->date(),
+            'invoice_date' => Carbon::parse($this->faker->dateTimeThisDecade('+2 years'))->format('Y-m-d'),
             'client_id' => $client->client_id,
             'product_id' => $product->product_id,
             'invoice_no' => $faker->unique()->word,

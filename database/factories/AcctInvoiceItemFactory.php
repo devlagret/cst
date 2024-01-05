@@ -1,7 +1,7 @@
 <?php
 
 namespace Database\Factories;
-
+use Carbon\Carbon;
 use App\Models\AcctInvoice;
 use Illuminate\Support\Str;
 use Faker\Factory as Faker;
@@ -23,7 +23,7 @@ class AcctInvoiceItemFactory extends Factory
         $faker = \Faker\Factory::create();
         
         return [
-            'payment_date' => $faker->date(),
+            'payment_date' =>Carbon::parse($this->faker->dateTimeThisDecade('+2 years'))->format('Y-m-d'),
             'item_id' => null, 
             'account_id' => null, 
             'remark' => $faker->sentence(),
