@@ -45,7 +45,7 @@ class AssetDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('asset-menu')
+                    ->setTableId('asset_id')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->stateSave(true)
