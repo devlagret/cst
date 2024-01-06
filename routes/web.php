@@ -3,6 +3,7 @@
 use App\Models\CoreClient;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AssetController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AccountController;
@@ -974,11 +975,11 @@ Route::middleware('auth')->group(function () {
     });
     Route::prefix('invoice')->controller(InvoiceController::class)->name('invoice.')->group(function () {
         Route::get('/',  'index')->name('index');
-        Route::get('/pay/{invoice_id}', 'repayment')->name('pay');
-        Route::get('/product-print/{product_id}', 'product')->name('product');
+        Route::get('/pay/{invoice_id}', 'repaymentMaint')->name('pay');
         Route::get('/maintenance/{product_id}', 'maintenance')->name('maintenance');
         Route::post('maintenance-process', 'processMaintenance')->name('process-maintenance');
-        Route::get('maintenance-print/{invoice_id}', 'printMaintenance')->name('print-maintenance');
+        Route::post('month', 'month')->name('month');
+        Route::get('print/{invoice_id}', 'print')->name('print');
         Route::get('/add/{product_id}', 'add')->name('add');
         Route::get('/list-add', 'listAdd')->name('list-add');
         Route::post('/add', 'processAdd')->name('process-add');
@@ -1007,6 +1008,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [InvoiceReportController::class, 'index'])->name('index');
         Route::post('/viewport', [InvoiceReportController::class, 'viewport'])->name('viewport');
     });
+
+     //Asset pages
+     Route::prefix('asset')->name('as-report.')->group(function () {
+        Route::get('/', [AssetController::class, 'index'])->name('index');
+        Route::post('/viewport', [AssetController::class, 'viewport'])->name('viewport');
+    });
     
     //Whatsapp pages
     // Route::prefix('whatsapp')->name('whatsapp.')->group(function () {
@@ -1019,9 +1026,6 @@ Route::middleware('auth')->group(function () {
 });
 
 // Route::resource('users', UsersController::class);
-
-Route::post('invoiceReport', [InvoiceReportController::class, 'exportToExcel']);
-Route::post('/exportToExcel', [InvoiceReportController::class, 'filter']);
 
 Route::get('/auth/redirect/{provider}', [SocialiteLoginController::class, 'redirect']);
 

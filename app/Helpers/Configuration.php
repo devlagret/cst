@@ -1,9 +1,18 @@
 <?php
 namespace App\Helpers;
+
+use Carbon\Carbon;
+use Illuminate\Support\Collection;
+
 class Configuration
 {
+	/**
+	 * Get Month
+	 *
+	 * @return Collection
+	*/
 	public static function Month(){
-		$month  = array(
+		return collect([
             '01'    => "Januari",
             '02'    => "Februari",
             '03'    => "Maret",
@@ -16,8 +25,7 @@ class Configuration
             '10'    => "Oktober",
             '11'    => "November",
             '12'    => "Desember",
-        ); 
-		return $month;
+        ]);
 	}
 	public static function MonthName(){
 		$month_name = array(
@@ -590,6 +598,21 @@ class Configuration
 	}
 	public static function productPaymentType() {
 		 return [0=>'Fix',1=>'Berubah'];
+	}
+	/**
+	 * Get +&- 1 Year from now
+	 *
+	 * @param Carbon $now carbon time (parse,unformated)
+	 * @return array
+	 */
+	public static function years(Carbon $now=null) {
+		if(is_null($now)){
+			$now = Carbon::now();
+		}
+		$b = $now->subYear()->format('Y');
+		$n = $now->addYear()->format('Y');
+		$a = $now->addYear()->format('Y');
+		return [$b=>$b,$n=>$n,$a=>$a];
 	}
 }
 ?>

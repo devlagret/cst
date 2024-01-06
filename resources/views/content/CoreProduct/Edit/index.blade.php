@@ -67,6 +67,12 @@
             }
         }
         function generateTermin(i) {
+            @php $id = 0; $ct = $data->termin()->count(); @endphp
+            var teminold = {
+              @foreach ($data->termin as $t)
+                  {{$id++}}:'{{$t->amount}}'{{$id!=$ct?',':''}}
+              @endforeach
+            };
             var terminLength = $('.termin-item').length
             if (terminLength == 0) {
                 for (let index = 0; index < i; index++) {
@@ -76,8 +82,8 @@
                                     <label class="col-lg-4 col-form-label fw-bold fs-6">Termin ${no}</label>
                                     <div class="col-lg-8 fv-row">
                                         <input type="text" name="termin[${no}][view]" id="termin_${no}_view" onchange="formatTermin(this.id,${no})"
-                                            class="form-control form-control-lg form-control-solid" placeholder="Nominal Termin" />
-                                        <input type="hidden" name="termin[${no}][amount]" id="termin_${no}"/>
+                                            class="form-control form-control-lg form-control-solid" placeholder="Nominal Termin" value="`+(teminold[index]===undefined?'':toRp(teminold[index]))+`"/>
+                                        <input type="hidden" name="termin[${no}][amount]" id="termin_${no}" value="`+(teminold[index]===undefined?'':teminold[index])+`"/>
                                     </div>
                                 </div>`);
                     } else {
@@ -85,8 +91,8 @@
                                     <label class="col-lg-4 col-form-label fw-bold fs-6">Termin ${no}</label>
                                     <div class="col-lg-8 fv-row">
                                         <input type="text" name="termin[${no}][view]" id="termin_${no}_view" onchange="formatTermin(this.id,${no})"
-                                            class="form-control form-control-lg form-control-solid" placeholder="Nominal Termin" />
-                                        <input type="hidden" name="termin[${no}][amount]" id="termin_${no}"/>
+                                            class="form-control form-control-lg form-control-solid" placeholder="Nominal Termin" value="`+(teminold[index]===undefined?'':toRp(teminold[index]))+`"/>
+                                        <input type="hidden" name="termin[${no}][amount]" id="termin_${no}" value="`+(teminold[index]===undefined?'':teminold[index])+`"/>
                                     </div>
                                 </div>`);
                     }
@@ -99,8 +105,8 @@
                                     <label class="col-lg-4 col-form-label fw-bold fs-6">Termin ${no}</label>
                                     <div class="col-lg-8 fv-row">
                                         <input type="text" name="termin[${no}][view]" id="termin_${no}_view" onchange="formatTermin(this.id,${no})"
-                                            class="form-control form-control-lg form-control-solid" placeholder="Nominal Termin" />
-                                        <input type="hidden" name="termin[${no}][amount]" id="termin_${no}"/>
+                                            class="form-control form-control-lg form-control-solid" placeholder="Nominal Termin" value="`+(teminold[index]===undefined?'':toRp(teminold[index]))+`"/>
+                                        <input type="hidden" name="termin[${no}][amount]" id="termin_${no}" value="`+(teminold[index]===undefined?'':teminold[index])+`"/>
                                     </div>
                                 </div>`);
                     }
@@ -161,8 +167,8 @@
                 if ($("#payment_period").val() < 0) {
                     $(this).val(0);
                 }
-                if ($("#payment_period").val() > 10) {
-                    $(this).val(10);
+                if ($("#payment_period").val() > 5) {
+                    $(this).val(5);
                 }
                 generateTermin($("#payment_period").val());
             }
@@ -298,7 +304,6 @@
             $('#termin_total').val(total);
             $('#termin_total_view').val(toRp(total));
         }
-        //==============================END VALIDATION FORM ADD MEMBER ===============================\\
     </script>
 @endsection
 @section('styles')
@@ -346,7 +351,7 @@
         </div>
         <div id="kt_product_add_view">
             <form id="kt_product_add_view_form" class="form" method="POST"
-                action="{{ route('product.process-add') }}" enctype="multipart/form-data">
+                action="{{ route('product.process-edit') }}" enctype="multipart/form-data">
                 @csrf
                 @method('POST')
                 <div class="card-body border-top p-9">
@@ -364,7 +369,8 @@
                                         placeholder="Masukan Nama Produk"
                                         value="{{ old('name', $sessiondata['name'] ?? $data->name) }}" autocomplete="off"
                                         onchange="function_elements_add(this.name, this.value)" />
-                                </div>
+                                        <input type="hidden" name="product_id" id="product_id"
+                                        value="{{ $data->product_id }}" /></div>
                             </div>
                             <div class="row mb-6">
                                 <label
@@ -486,7 +492,7 @@
                             <div class="row mb-6">
                                 <label class="col-lg-4 col-form-label fw-bold fs-6">{{ __('Jumlah Termin') }}</label>
                                 <div class="col-lg-8 fv-row">
-                                    <input type="number" min="1" max="5" name="payment_period"
+                                    <input type="number" min="1" max="5" name="payment_period" value="{{$data->termin()->count()??''}}"
                                         id="payment_period" class="form-control form-control-lg form-control-solid"
                                         placeholder="Jumlah Termin" />
                                 </div>
@@ -558,7 +564,7 @@
                                     $no = 1;
                                 @endphp
                                 <tbody class="table-group-divider" id="table-addon-content">
-                                    @foreach ($addons as $key => $val)
+                                        @foreach ($addons as $key => $val)
                                         <tr class="product-addon" id="pa-{{ $key }}"
                                             data-id="{{ $key }}">
                                             <td>{{ $no++ }}</td>

@@ -306,7 +306,7 @@
                     @endif
                 </div>
                 <div class="card-footer d-flex justify-content-end py-6 px-9">
-                    <div class="border row w-1/3 border-slate-400 rounded p-3">
+                    <div class="border row border-slate-400 rounded p-3">
                         <div class="row mb-6">
                             <label
                                 class="col-lg-4 col-form-label fw-bold fs-6">{{ __('Subtotal') }}</label>
@@ -316,6 +316,7 @@
                                 <input type="hidden" name="sbs_amount" value="0" id="sbs_amount" />
                             </div>
                         </div>
+                        @if(appHelper()->config('use_discount'))
                         <div class="row mb-6">
                             <label
                                 class="col-lg-4 col-form-label fw-bold fs-6">{{ __('Diskon') }}</label>
@@ -328,6 +329,8 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
+                        @if(appHelper()->config('use_ppn'))
                         <div class="row mb-6">
                             <label
                                 class="col-lg-4 col-form-label fw-bold fs-6">{{ __('PPN') }}</label>
@@ -340,6 +343,7 @@
                                  </div>
                             </div>
                         </div>
+                        @endif
                         <div class="row mb-6">
                             <label
                                 class="col-lg-4 col-form-label fw-bold fs-6">{{ __('Total') }}</label>
