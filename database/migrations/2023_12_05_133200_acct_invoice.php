@@ -20,6 +20,7 @@ return new class extends Migration
                 $table->foreign('client_id')->references('client_id')->on('core_client')->onUpdate('cascade')->onDelete('set null');
                 $table->unsignedBigInteger('product_id')->nullable();
                 $table->foreign('product_id')->references('product_id')->on('core_product')->onUpdate('cascade')->onDelete('set null');
+                $table->unsignedBigInteger('payment_bank')->nullable();
                 $table->string('invoice_no')->nullable();
                 $table->string('remark')->nullable();
                 $table->decimal('subtotal_amount',20)->nullable()->default(0);

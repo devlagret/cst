@@ -43,7 +43,10 @@ return new class extends Migration
                 $table->unsignedBigInteger('deleted_id')->nullable();
                 $table->timestamps();
                 $table->softDeletesTz();
-            }); 
+            });
+            DB::table('acct_balance_sheet_report')->insert([
+                [ 'report_no' => 1,  'account_name1' => 'ASET LANCAR','report_type1'=>1,'report_tab1'=>0,'report_bold1'=>1,'account_name2' => 'KEWAJIBAN LANCAR','report_type2'=>1,'report_tab2'=>1,'report_bold2'=>1],
+             ]);
         }
     }
 

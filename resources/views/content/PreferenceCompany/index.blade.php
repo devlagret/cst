@@ -29,9 +29,13 @@
             if ($('#use_ppn').is(":checked")) {
                 $('#ppn_percentage').attr('disabled', false);
                 $('#ppn_percentage').removeClass('disabled');
+                $('#ppn_account').attr('disabled', false);
+                $('#ppn_account').removeClass('disabled');
             } else {
                 $('#ppn_percentage').attr('disabled', true);
                 $('#ppn_percentage').addClass('disabled');
+                $('#ppn_account').attr('disabled', true);
+                $('#ppn_account').addClass('disabled');
             }
         }
         $(document).ready(function() {
@@ -42,7 +46,27 @@
         });
     </script>
 @endsection
-
+@section('styles')
+    <style type="text/css">
+        .input-group > .select2-container--bootstrap5 {
+            width: auto !important;
+            flex: 1 1 auto !important;
+        }
+        .input-group > .select2-container--bootstrap5 .select2-selection--single {
+            height: 100% !important;
+            line-height: inherit !important;
+            padding: 0.5rem 1rem !important;
+        }
+        .input-group:not(.has-validation) > .select2-container--bootstrap5 .select2-selection--single :not(:last-child) {
+            border-top-right-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+        }
+        [aria-disabled="true"]{
+            background-color: #EFF2F5;
+            opacity: 1;
+        }
+    </style>
+@endsection
 <x-base-layout>
     <div class="card mb-5 mb-xl-10">
         <div class="card-header border-0">
@@ -86,12 +110,15 @@
                             <div class="col-lg-9 fv-row">
                                 <div class="input-group mb-3">
                                     <div class="input-group-text">
-                                    <input name="company[use_ppn]" class="form-check-input mt-0" {{(old('use_ppn', $company->use_ppn ?? 0)?'checked':'')}} id="use_ppn"
+                                    <input name="company[use_ppn]" class="form-check-input mt-0" {{(old('use_ppn',appHelper()->config('use_ppn') ?? 0)?'checked':'')}} id="use_ppn"
                                             type="checkbox" value="1" aria-label="Checkbox for ppn input">
                                     </div>
                                     <input name="company[ppn_percentage]" type="number"
                                         min="0"id="ppn_percentage" max="100" step="0.1"
-                                        class="form-control" placeholder="Jumlah PPN" value="{{old('ppn_percentage', $company->ppn_percentage ?? '')}}" aria-label="PPN">
+                                        class="form-control" placeholder="Jumlah PPN" value="{{old('ppn_percentage',appHelper()->config('ppn_percentage') ?? '')}}" aria-label="PPN">
+                                    <span class="input-group-text">%</span>
+                                    <span class="input-group-text">Akun : </span>
+                                    {{ html()->select('account[ppn_account]', $account, $data->where('name', 'ppn_account')->pluck('account_id'))->class(['form-select', 'form-control', 'form-select-lg'])->attributes(['id'=>'ppn_account','data-control' => 'select2', 'aria-label' => 'Pilih Akun', 'data-placeholder' => 'Pilih Akun', 'data-allow-clear' => 'true', 'autocomplete' => 'off']) }}
                                 </div>
                             </div>
                         </div>

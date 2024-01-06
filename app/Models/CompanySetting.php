@@ -14,7 +14,6 @@ class CompanySetting extends Model
     protected $primaryKey   = 'setting_id';
     
     protected $guarded = [
-        'company_id',
         'created_at',
         'updated_at',
     ];

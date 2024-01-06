@@ -26,7 +26,7 @@ class PreferenceCompanyController extends Controller
         DB::beginTransaction();
         $company->company_name=$request->company['company_name'];
         $company->company_address=$request->company['company_address'];
-        if($request->has('use_ppn')){
+        if($request->has('company.use_ppn')){
             AppHelper::setConfig(['use_ppn'=>$request->company['use_ppn'],'ppn_percentage'=>$request->company['ppn_percentage']]);
         }else{
             AppHelper::setConfig(['use_ppn'=>0,'ppn_percentage'=>0]);
