@@ -974,11 +974,11 @@ Route::middleware('auth')->group(function () {
     });
     Route::prefix('invoice')->controller(InvoiceController::class)->name('invoice.')->group(function () {
         Route::get('/',  'index')->name('index');
-        Route::get('/pay/{invoice_id}', 'repaymentMaint')->name('pay');
+        Route::post('/pay/{invoice_id}', 'repaymentMaint')->name('pay');
         Route::get('/maintenance/{product_id}', 'maintenance')->name('maintenance');
         Route::post('maintenance-process', 'processMaintenance')->name('process-maintenance');
         Route::post('month', 'month')->name('month');
-        Route::get('print/{invoice_id}', 'print')->name('print');
+        Route::get('print/{invoice_id}/{preview?}', 'print')->name('print');
         Route::get('/add/{product_id}', 'add')->name('add');
         Route::get('/list-add', 'listAdd')->name('list-add');
         Route::post('/add', 'processAdd')->name('process-add');

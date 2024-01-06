@@ -14,8 +14,8 @@ class AcctInvoiceSeeder extends Seeder
      */
     public function run(): void
     {
-        AcctInvoice::factory()->count(5)
-        ->has(AcctInvoiceItem::factory()->count(3),'items')
+        AcctInvoice::factory()->count(10)
+        ->has(AcctInvoiceItem::factory()->count(1),'items')
         ->create();
     }
 }

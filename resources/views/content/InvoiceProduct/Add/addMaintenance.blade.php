@@ -56,6 +56,7 @@
             $('#total_amount_view').val(toRp((total+ppnamount)));
         }
         function getMonth() {
+            loading();
             var year = $('#year').val();
             var id = $('#product_id').val();
             $.ajax({
@@ -69,6 +70,9 @@
                 success: function (response) {
                     $('#month').html(response);
                     autoRemark();
+                    setTimeout(() => {
+                        loading(0);
+                    }, 200);
                 }
             });
         }
@@ -395,7 +399,7 @@
                                 <div class="input-group">
                                     <input type="number" name="ppn_percentage" min='0'
                                         class="form-control" autocomplete="off"
-                                        value="{{ old('ppn_percentage', $sessiondata['ppn_percentage'] ?? 0) }}"
+                                        value="{{ old('ppn_percentage', $sessiondata['ppn_percentage'] ?? appHelper()->config('ppn_percentage')) }}"
                                         data-kt-autosize="true"
                                         onchange="function_elements_add(this.name, this.value)" placeholder="PPN %"
                                         id="ppn_percentage" />

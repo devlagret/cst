@@ -16,9 +16,11 @@
         <button type="button" data-bs-toggle="modal" data-bs-target="#kt_modal_pay_{{$model->invoice_id}}" class="btn ms-1 mt-1 btn-sm btn-success btn-active-light-success">
             <i class="bi bi-cash  fs-2"></i>Bayar
         </button>
-        <a type="button" href="{{route('invoice.print',$model->invoice_id)}}" class="btn ms-1 mt-1 btn-sm btn-primary btn-active-light-primary">
+        <div class=" mt-1 ">
+        <a role="button" type="button" href="{{route('invoice.print',$model->invoice_id)}}" class="btn btn-primary ">
             Cetak
         </a>
+        </div>
     @endif
 </td>
 @if($model->invoice_status==0)
@@ -95,7 +97,7 @@
 @endif
 @if($model->invoice_status==1)
 <div class="modal fade" tabindex="-1" id="kt_modal_pay_{{$model->invoice_id}}">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title">Bayar Invoice</h3>
@@ -104,9 +106,10 @@
                 </div>
             </div>
             <form action="{{route('invoice.pay',$model->invoice_id)}}" id="form_pay_{{$model->invoice_id}}" method="post">
-            <div class="modal-body">
+                @csrf
+            <div class="modal-body mx-4">
                 <div class="row mb-6">
-                    <label class="col-lg-4 col-form-label fw-bold fs-6 ">{{ __('Jumlah Tagihan') }}</label>
+                    <label class="col-lg-4 col-form-label text-start fw-bold fs-6 ">{{ __('Jumlah Tagihan') }}</label>
                     <div class="col-lg-8 fv-row">
                         <input type="text" name="total_amount_view" id="total_amount_view_{{$model->invoice_id}}"
                             class="form-control form-control-lg form-control-solid"
@@ -120,13 +123,32 @@
                     </div>
                 </div>
                 <div class="row mb-6">
-                    <label class="col-lg-4 col-form-label fw-bold fs-6 ">{{ __('Metode Pembayaran') }}</label>
+                    <label class="col-lg-4 col-form-label text-start fw-bold fs-6 ">{{ __('Metode Pembayaran') }}</label>
+                    <div class="col-lg-8 row fv-row">
+                        @php
+                            $i = 0;
+                        @endphp
+                        @foreach ($paymentType as $key => $val)
+                        <div class="col text-start col-form-label">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" {{($i==1?'checked':'')}} type="radio" onclick="cPymt({{$key}},{{$model->invoice_id}})" name="payment_method" id="payment_type_{{$model->invoice_id}}" value="{{$key}}">
+                                <label class="form-check-label" for="payment_type_{{$model->invoice_id}}">{{$val}}</label>
+                            </div>
+                        </div>
+                        @php
+                            $i++;
+                        @endphp
+                        @endforeach
+                    </div>
+                </div>
+                <div class="row  mb-6" id="payment_bank_view_{{$model->invoice_id}}">
+                    <label class="col-lg-4 col-form-label text-start fw-bold fs-6 ">{{ __('Bank') }}</label>
                     <div class="col-lg-8 fv-row">
-                        {!! html()->select('payment_type_{{$model->invoice_id}}', $paymentType,0)->attributes(['data-control'=>"select2", 'aria-label'=>"Pilih No.Perkiraan", 'data-placeholder'=>"Pilih No. Perkiraan",'autocomplete'=>'off', 'data-allow-clear'=>"true",'onchange'=>"function_elements_add(this.name, this.value)" ])->class(['form-select form-select-solid form-select-lg']) !!}
+                        {!! html()->select('payment_bank', $paymentType,0)->attributes(['data-control'=>"select2",'id'=>'payment_type_{{$model->invoice_id}}', 'aria-label'=>"Pilih No.Perkiraan", 'data-placeholder'=>"Pilih No. Perkiraan",'autocomplete'=>'off', 'data-allow-clear'=>"true",'onchange'=>"function_elements_add(this.name, this.value)" ])->class(['form-select form-select-solid form-select-lg']) !!}
                     </div>
                 </div>
                 <div class="row mb-6">
-                    <label class="col-lg-4 col-form-label fw-bold fs-6 ">{{ __('Dibayar') }}</label>
+                    <label class="col-lg-4 col-form-label text-start fw-bold fs-6 ">{{ __('Dibayar') }}</label>
                     <div class="col-lg-8 fv-row">
                         <input type="text" name="payed_amount_view" onchange="calcReturn({{$model->invoice_id}})" id="payed_amount_view_{{$model->invoice_id}}"
                             class="form-control form-control-lg form-control-solid required"
@@ -136,7 +158,7 @@
                     </div>
                 </div>
                 <div class="row mb-6">
-                    <label class="col-lg-4 col-form-label fw-bold fs-6 ">{{ __('Kembalian') }}</label>
+                    <label class="col-lg-4 col-form-label fw-bold text-start fs-6 ">{{ __('Kembalian') }}</label>
                     <div class="col-lg-8 fv-row">
                         <input type="text" name="change_amount" id="change_amount_view_{{$model->invoice_id}}"
                             class="form-control form-control-lg form-control-solid"

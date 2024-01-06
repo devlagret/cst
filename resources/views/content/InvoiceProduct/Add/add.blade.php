@@ -32,8 +32,27 @@
             var total = sbs-(sbs*discountpercentage/100);
             $('#total_amount').val(total);
             $('#total_amount_view').val(toRp(total));
+            countPPN();
+        }
+        function countPPN() {
+            var sbs = parseInt($('#sbs_amount').val() || 0);
+            var ppnpercentage = $('#ppn_percentage').val() || 0;
+            var ppnamount = parseInt(sbs * ppnpercentage / 100);
+            var total = parseInt($('#total_amount').val());
+            if (ppnpercentage) {
+                $('#ppn_amount').val(ppnamount);
+                $('#ppn_amount_view').val(toRp(ppnamount));
+                function_elements_add('ppn_amount', ppnamount);
+            } else {
+                $('#ppn_amount').val('');
+                $('#ppn_amount_view').val('');
+                function_elements_add('ppn_amount', '');
+            }
+            $('#total_amount').val((total+ppnamount));
+            $('#total_amount_view').val(toRp((total+ppnamount)));
         }
         $(document).ready(function () {
+            countPPN();
             var total = 0;
             $('.cb-termin').each(function (index, element) {
                 if($(this).is(":checked")){
@@ -43,6 +62,13 @@
                 $('#sbs_amount_view').val(toRp(total));
                 countDiscont();
             });
+            if ($('#ppn_amount').val() != ''&&$('#ppn_amount').val() !== undefined) {
+                var total = $('#sbs_amount').val();
+                var ppn = $('#ppn_amount').val();
+                $('#ppn_percentage').val((parseInt((ppn)) / parseInt(total) * 100));
+                $('#ppn_amount_view').val(toRp(ppn));
+                countDiscont();
+            }
             $('.cb-addon').each(function (index, element) {
                 if($(this).is(":checked")){
                     total += parseInt($('#addon-amount-'+$(this).val()).val());
@@ -62,6 +88,23 @@
                 $(this).val(100);
                }
                countDiscont();
+            });
+            $('#ppn_percentage').change(function(e) {
+                e.preventDefault();
+                if ($(this).val() < 0) {
+                    $(this).val(0);
+                }
+                countDiscont();
+            });
+            $('#ppn_amount_view').change(function(e) {
+                e.preventDefault();
+                var total = $('#sbs_amount').val();
+                if (total != '') {
+                    $('#ppn_percentage').val((parseInt((this.value)) / parseInt(total) * 100));
+                    $('#ppn_amount').val(this.value);
+                    $('#ppn_amount_view').val(toRp(this.value));
+                }
+                countDiscont();
             });
         });
         //==============================END VALIDATION FORM ADD MEMBER ===============================\\
@@ -336,10 +379,11 @@
                                 class="col-lg-4 col-form-label fw-bold fs-6">{{ __('PPN') }}</label>
                             <div class="col-lg-8 fv-row">
                                 <div class="input-group">
-                                    <input type="number" name="ppn_percentage" min='0' max='100' class="form-control" value="{{old('ppn_percentage',$sessiondata['ppn_percentage']??0)}}" placeholder="PPN" id="ppn_percentage" />
+                                    <input type="number" name="ppn_percentage" min='0' max='100' class="form-control" value="{{old('ppn_percentage',$sessiondata['ppn_percentage']??appHelper()->config('ppn_percentage'))}}" placeholder="PPN" id="ppn_percentage" />
                                     <span class="input-group-text">%</span>
                                     <span class="input-group-text">Rp.</span>
-                                    <input type="text" name="ppn_amount" class="form-control w-25" value="{{old('ppn_amount',$sessiondata['ppn_amount']??0)}}" data-kt-autosize="true" placeholder="PPN" id="ppn_amount" />
+                                    <input type="text" name="ppn_amount_view" class="form-control w-25" value="{{old('ppn_amount_view',$sessiondata['ppn_amount_view']??0)}}" data-kt-autosize="true" placeholder="PPN" id="ppn_amount_view" />
+                                    <input type="hidden" name="ppn_amount" value="{{old('ppn_amount',$sessiondata['ppn_amount']??0)}}" autocomplete="off" id="ppn_amount" />
                                  </div>
                             </div>
                         </div>

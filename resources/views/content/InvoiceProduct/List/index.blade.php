@@ -3,10 +3,9 @@
         <div class="card-header">
             <h3 class="card-title">Daftar Invoice</h3>
             <div class="card-toolbar">
-                {{-- <a type="button" href="{{ route('product.export') }}" class="btn btn-m btn-light-primary me-2">
-                    <i class="bi bi-download fs-2"></i>
-                    {{ __('Export Data Client') }}
-                </a> --}}
+                <button type="button" id="print-batch-btn" class="btn btn-m btn-light-primary me-2">
+                    <i class="bi bi-printer fs-2"></i>Cetak <span id="batch-count"></span> Nota
+                </button>
                 <a type="button" href="{{ route('invoice.list-add') }}" class="btn btn-m btn-light-primary me-1">
                     <i class="bi bi-plus-square fs-2"></i>
                     {{ __('Tambah Invoice Baru') }}
@@ -25,6 +24,35 @@
             @endpush
             @section('scripts')
             <script>
+                var count = 0;
+                var print ={};
+                function printAdd(id=null) {
+                    if($('#cb-print-batch-'+id).is(':checked')){
+                        print[id]=id;
+                        count++;
+                    }else if(count!=0){
+                        delete print[id];
+                        count--;
+                    }
+                    if(count){
+                        $('#batch-count').html(count);
+                        $('#print-batch-btn').attr('disabled', false);
+                        $('#print-batch-btn').removeClass('disabled');
+                    }else{
+                        $('#batch-count').html('');
+                        $('#print-batch-btn').attr('disabled', true);
+                        $('#print-batch-btn').addClass('disabled');
+                    }
+                 
+                }
+                function cPymt(type,id){ 
+                    if(type){
+                        $('#payment_bank_view_'+id).show();
+                        $('#payment_bank_view_'+id).removeClass('d-none');
+                    }else{
+                        $('#payment_bank_view_'+id).hide();
+                    }
+                }
                 function calcReturn(id) { 
                     var total = $('#total_amount_'+id).val();
                     var payed = parseInt($('#payed_amount_view_'+id).val());
@@ -38,7 +66,7 @@
                  }
                  function checkPayed(id) {
                     var total = parseInt($('#total_amount_'+id).val());
-                    var payed = parseInt($('#payed_amount_view_'+id).val()||0);
+                    var payed = parseInt($('#payed_amount_'+id).val()||0);
                     if(total>payed){
                         if(payed==0){
                             alert("Kolom dibayar harus diisi");
@@ -51,6 +79,13 @@
                         $('#form_pay_'+id).submit();
                     }
                  }
+                 $(document).ready(function () {
+                    if(!$('.cb-batch').length){
+                        $('#batch-count').html('');
+                        $('#print-batch-btn').attr('disabled', true);
+                        $('#print-batch-btn').addClass('disabled');
+                    }
+                 });
             </script>
             @stop
         </div>

@@ -25,6 +25,7 @@ class InvoiceDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addIndexColumn()
             ->addColumn('action', fn($model) =>view('content.InvoiceProduct.List._action-menu')->with(['model'=>$model,'paymentType'=>$this->paymentType]))
+            ->addColumn('action-batch', fn($model) =>view('content.InvoiceProduct.List._action-cb')->with(['model'=>$model,'paymentType'=>$this->paymentType]))
             ->editColumn('client.client_id',fn($query)=>"{$query->client->name}")
             ->editColumn('product.type.product_type_id',fn($query)=>"{$query->product->type->name}")
             ->editColumn('product.product_id',fn($query)=>"{$query->product->name}")
@@ -36,7 +37,7 @@ class InvoiceDataTable extends DataTable
      */
     public function query(AcctInvoice $model): QueryBuilder
     {
-        return $model->newQuery()->with('client',"product.type");
+        return $model->newQuery()->with('client',"product.type")->latest();
     }
 
     /**
@@ -50,10 +51,14 @@ class InvoiceDataTable extends DataTable
                     ->minifiedAjax()
                     ->stateSave(true)
                     ->orderBy(0, 'asc')
-                    ->dom('frtip')
+                    ->dom('Bflrtip')
+                    ->parameters(["lengthMenu"=> [[5, 10, 25, 50, 75, 100,-1 ],[5, 10, 25, 50, 75, 100,'All' ]],
+                        'drawCallback' => "function() { $('.cb-batch').each(function (index, element) { printAdd($(this).data('id'));});}",
+                    ])
                     ->responsive()
                     ->autoWidth(true)
                     ->addTableClass('align-middle table table-row-dashed fs-4 gy-4')
+                    ->buttons([Button::make('reload')])
                     ;
     }
 
@@ -68,8 +73,13 @@ class InvoiceDataTable extends DataTable
             Column::make('invoice_date')->title("Tanggal")->style('width:12%;')->addClass('text-center'),
             Column::make('client.client_id')->title("Client")->width(20),
             Column::make('product.product_id')->title("Produk")->width(10),
-            Column::make('product.type.product_type_id')->title("Tipe")->width(10),
-            Column::computed('action')
+            // Column::make('product.type.product_type_id')->title("Tipe")->width(10),
+            Column::computed('action')->title("Aksi")
+                  ->exportable(false)
+                  ->printable(false)
+                  ->width(10)
+                  ->addClass('text-center'),
+            Column::computed('action-batch')->title("Cetak Batch")
                   ->exportable(false)
                   ->printable(false)
                   ->width(10)
