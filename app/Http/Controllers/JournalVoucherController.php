@@ -48,7 +48,6 @@ class JournalVoucherController extends Controller
     {
         $accountstatus = Configuration::AccountStatus();
         $acctaccount = AcctAccount::select('account_id','account_code','account_name')
-        ->where('data_state',0)
         ->get();
         $session = session()->get('data_journalvoucher');
         $arrayses = session()->get('array_journalvoucher');
