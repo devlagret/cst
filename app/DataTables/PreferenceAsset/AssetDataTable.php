@@ -24,10 +24,9 @@ class AssetDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addIndexColumn()
-            // ->addColumn('action', 'content.PreferenceAsset.List._action-menu')
-            // ->editColumn('asset.asset_id',fn($query)=>"{$query->asset->name}")
-            ->setRowId('id');
+            ->addIndexColumn()            
+            ->addColumn('action', 'content.PreferenceAsset.List._action-menu');
+            // ->editColumn('asset.asset_id',fn($query)=>"{$query->asset->name}");
     }
 
     /**

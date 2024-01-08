@@ -21,7 +21,7 @@ class AcctBankAccountFactory extends Factory
         $faker = \Faker\Factory::create(); 
         return [
             //
-            'bank_account_id' => $faker->numberBetween(0, 3),
+            // 'bank_account_id' => $faker->numberBetween(0, 3),
             'bank_account_code' => $this->faker->bankAccountNumber,
             'bank_account_name' => $this->faker->company,
             'bank_account_no' => $this->faker->bankAccountNumber,

@@ -2,7 +2,7 @@
 </script>
 
 <td class="text-end">
-    <a href="{{ route('asset-data.edit', $model->asset_id) }}" class="btn btn-sm btn-info btn-active-light-info">
+    <a href="" class="btn btn-sm btn-info btn-active-light-info">
         Ubah
     </a>
     <a type="button" data-bs-toggle="modal" data-bs-target="#kt_modal_delete_{{$model->asset_id}}" class="btn btn-sm btn-danger btn-active-light-danger">
@@ -25,7 +25,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Tidak</button>
-                <a href="{{ route('asset-data.delete', $model->asset_id) }}" class="btn btn-primary">Iya</a>
+                <a href="" class="btn btn-primary">Iya</a>
             </div>
         </div>
     </div>

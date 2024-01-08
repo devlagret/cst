@@ -1012,6 +1012,11 @@ Route::middleware('auth')->group(function () {
      //Asset pages
      Route::prefix('asset')->name('as-report.')->group(function () {
          Route::get('/', [AssetController::class, 'index'])->name('index');
+         Route::get('/add', [AssetController::class, 'add'])->name('add');
+         Route::post('/process-add', [AssetController::class, 'processAdd'])->name('process-add');
+         Route::get('/edit/{asset_id}', [AssetController::class, 'edit'])->name('edit');
+         Route::put('/process-edit', [AssetController::class, 'processEdit'])->name('process-edit');
+         Route::get('/delete/{asset_id}', [AssetController::class, 'delete'])->name('delete');
          Route::post('/process-viewport', [AssetController::class, 'viewport'])->name('viewport');
      });
      

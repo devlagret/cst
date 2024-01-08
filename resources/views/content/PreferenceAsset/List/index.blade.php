@@ -7,7 +7,7 @@
                     <i class="bi bi-download fs-2"></i>
                     {{ __('Export Data Client') }}
                 </a> --}}
-                <a type="button" href="#" class="btn btn-m btn-light-primary me-1">
+                <a type="button" href="" class="btn btn-m btn-light-primary me-1">
                     <i class="bi bi-plus-square fs-2"></i>
                     {{ __('Tambah Asset Baru') }}
                 </a>
