@@ -13,7 +13,7 @@ class AcctBankAccount extends Model
      * @var string[]
      */
 
-    protected $table        = 'acct_bank_account'; 
+    protected $table        = 'acct_bank_accounts'; 
     protected $primaryKey   = 'bank_account_id';
     
     protected $guarded = [

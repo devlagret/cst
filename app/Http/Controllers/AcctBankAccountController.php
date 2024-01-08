@@ -17,7 +17,6 @@ class AcctBankAccountController extends Controller
     public function add()
     {
         $acctacount = AcctAccount::select('account_id', 'account_name','account_code')
-        ->where('data_state', 0)
         ->get();
 
         return view('content.AcctBankAccount.Add.index', compact('acctacount'));
@@ -59,10 +58,8 @@ class AcctBankAccountController extends Controller
     {
         $bankaccount = AcctBankAccount::select('bank_account_code', 'bank_account_name', 'bank_account_no', 'account_id', 'bank_account_id')
         ->where('bank_account_id', $id)
-        ->where('data_state', 0)
         ->first();
         $acctacount = AcctAccount::select('account_id', 'account_name','account_code')
-        ->where('data_state', 0)
         ->get();
 
         return view('content.AcctBankAccount.Edit.index', compact('bankaccount','acctacount'));
@@ -83,7 +80,7 @@ class AcctBankAccountController extends Controller
         $bankaccount->bank_account_name = $fields['bank_account_name'];
         $bankaccount->bank_account_no   = $fields['bank_account_no'];
         $bankaccount->account_id        = $fields['account_id'];
-        $bankaccount->updated_id        = auth()->user()->user_id;
+        // $bankaccount->updated_id        = auth()->user()->user_id;
 
         if($bankaccount->save()){
             $message = array(
@@ -103,8 +100,8 @@ class AcctBankAccountController extends Controller
     public function delete($id)
     {
         $bankaccount                = AcctBankAccount::findOrFail($id);
-        $bankaccount->data_state    = 1;
-        $bankaccount->updated_id    = auth()->user()->user_id;
+        
+        $bankaccount->delete();
 
         if($bankaccount->save()){
             $message = array(

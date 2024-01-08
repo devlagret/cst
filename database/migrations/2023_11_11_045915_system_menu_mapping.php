@@ -36,6 +36,7 @@ return new class extends Migration
                 ['user_group_level' => 1,'id_menu' => 62 ],
                 ['user_group_level' => 1,'id_menu' => 63 ],
                 ['user_group_level' => 1,'id_menu' => 64 ],
+                ['user_group_level' => 1,'id_menu' => 65 ],
                 ['user_group_level' => 1,'id_menu' => 7 ],
                 ['user_group_level' => 1,'id_menu' => 71 ],
                 ['user_group_level' => 1,'id_menu' => 711 ],
