@@ -1011,9 +1011,12 @@ Route::middleware('auth')->group(function () {
 
      //Asset pages
      Route::prefix('asset')->name('as-report.')->group(function () {
-        Route::get('/', [AssetController::class, 'index'])->name('index');
-        Route::post('/viewport', [AssetController::class, 'viewport'])->name('viewport');
-    });
+         Route::get('/', [AssetController::class, 'index'])->name('index');
+         Route::post('/process-viewport', [AssetController::class, 'viewport'])->name('viewport');
+     });
+     
+    
+
     
     //Whatsapp pages
     // Route::prefix('whatsapp')->name('whatsapp.')->group(function () {

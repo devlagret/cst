@@ -10,11 +10,18 @@ use App\Models\AssetMenu;
 
 class AssetController extends Controller
 {
+    
     public function index(AssetDataTable $table)
     {
-        Session::forget('data-asset');
-        $data = AssetMenu::all();
+        Session::forget("asset-data");
         return $table->render('content.PreferenceAsset.List.index');
     }
+ 
+
+    // public function listAdd(Request $request)
+    // {
+    //     $data = AssetMenu::all(); 
+    //     return datatables()->of($data)->toJson();
+    // }
 }
 

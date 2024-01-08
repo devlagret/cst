@@ -4,6 +4,7 @@ namespace App\DataTables\PreferenceAsset;
 
 use App\Helpers\Configuration;
 use App\Models\AcctInvoice;
+use App\Models\AssetMenu;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -24,38 +25,38 @@ class AssetDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addIndexColumn()
-            ->addColumn('action', fn($model) =>view('content.PreferenceAsset.List._action-menu'))
-            ->editColumn('client.client_id',fn($query)=>"{$query->client->name}")
-            ->editColumn('product.type.product_type_id',fn($query)=>"{$query->product->type->name}")
-            ->editColumn('product.product_id',fn($query)=>"{$query->product->name}")
+            // ->addColumn('action', 'content.PreferenceAsset.List._action-menu')
+            // ->editColumn('asset.asset_id',fn($query)=>"{$query->asset->name}")
             ->setRowId('id');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    // public function query(AcctInvoice $model): QueryBuilder
-    // {
-    //     return $model->newQuery()->with('client',"product.type");
-    // }
+    public function query(AssetMenu $model)
+    {
+        return $model->newQuery()->orderBy('asset_id', 'ASC');
+    }
+
 
     /**
      * Optional method if you want to use the html builder.
      */
     public function html(): HtmlBuilder
-    {
-        return $this->builder()
-                    ->setTableId('asset_id')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    ->stateSave(true)
-                    ->orderBy(0, 'asc')
-                    ->dom('frtip')
-                    ->responsive()
-                    ->autoWidth(true)
-                    ->addTableClass('align-middle table table-row-dashed fs-4 gy-4')
-                    ;
-    }
+{
+    return $this->builder()
+                ->setTableId('asset-table')
+                ->columns($this->getColumns())
+                ->minifiedAjax()
+                ->stateSave(true)
+                ->orderBy(0, 'asc')
+                ->dom('frtip')
+                ->responsive()
+                ->autoWidth(true)
+                ->addTableClass('align-middle table table-row-dashed fs-4 gy-4');
+                
+}
+
 
     /**
      * Get the dataTable columns definition.
@@ -63,7 +64,7 @@ class AssetDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('asset_id')->title(__('No'))->data('DT_RowIndex') ->addClass('text-center')->style('width:5%;'),
+            Column::make('asset_id')->title(__('No'))->addClass('text-center')->style('width:5%;'),
             Column::make('name')->title("Nama")->style('width:12%;'),
             Column::make('buy_date')->title("Tanggal Beli")->style('width:12%;')->addClass('text-center'),
             Column::make('price')->title("Harga Beli")->width(20),
@@ -72,6 +73,7 @@ class AssetDataTable extends DataTable
             Column::make('residual_amount')->title("Nilai Residu")->width(10),
             Column::make('remark')->title("Keterangan")->width(10),
             Column::computed('action')
+                  ->title(__('Aksi'))
                   ->exportable(false)
                   ->printable(false)
                   ->width(10)

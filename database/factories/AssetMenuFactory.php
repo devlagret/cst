@@ -30,9 +30,6 @@ class AssetMenuFactory extends Factory
             'estimated_age' => $this->faker->numberBetween(17, 50),
             'residual_amount' => $this->faker->numberBetween(10, 100),
             'remark' => $this->faker->sentence,
-            'created_id' => null,
-            'updated_id' => null,
-            'deleted_id' => null,
         ];
  
     }

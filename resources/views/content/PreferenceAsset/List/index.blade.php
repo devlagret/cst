@@ -23,11 +23,11 @@
                 {{ $dataTable->scripts() }}
             @endpush
             @section('scripts')
-            {{-- <script>
+            <script>
                 function calcReturn(id) { 
                     var total = $('#total_amount_'+id).val();
                     var payed = parseInt($('#payed_amount_view_'+id).val());
-                    if(payed<0){
+                    if(payed<0){x
                         payed =0;
                     }
                     $('#payed_amount_'+id).val(payed);
@@ -50,7 +50,7 @@
                         $('#form_pay_'+id).submit();
                     }
                  }
-            </script> --}}
+            </script>
             @stop
         </div>
     </div>
