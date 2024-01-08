@@ -41,9 +41,10 @@ class AcctBankAccountDataTable extends DataTable
     public function query(AcctBankAccount $model)
     {
         return $model->newQuery()
-        ->join('acct_account','acct_account.account_id','=','acct_bank_account.account_id')
-        ->select(DB::raw("CONCAT(acct_account.account_code,' - ',acct_account.account_name) AS full_account"), 'acct_bank_account.bank_account_id', 'acct_bank_account.bank_account_code', 'acct_bank_account.bank_account_name', 'acct_bank_account.bank_account_no','acct_account.account_name','acct_account.account_code','acct_account.account_status')
-        ->where('acct_bank_account.data_state', 0);
+        ->join('acct_account','acct_account.account_id','=','acct_bank_accounts.account_id')
+        ->select(DB::raw("CONCAT(acct_account.account_code,' - ',acct_account.account_name) AS full_account"), 'acct_bank_accounts.bank_account_id', 'acct_bank_accounts.bank_account_code', 'acct_bank_accounts.bank_account_name', 'acct_bank_accounts.bank_account_no','acct_account.account_name','acct_account.account_code','acct_account.account_status')
+        // ->where('acct_bank_account.data_state', 0);
+    ;
     }
 
     /**
@@ -93,7 +94,7 @@ class AcctBankAccountDataTable extends DataTable
      *
      * @return string
      */
-    protected function filename()
+    protected function string()
     {
         return 'AcctBankAccount_' . date('YmdHis');
     }

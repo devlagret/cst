@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\CreatedUpdatedID;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AcctBankAccount extends Model
 {
+    use HasFactory,SoftDeletes,CreatedUpdatedID;
 
     /**
      * The attributes that are mass assignable.
@@ -13,7 +17,7 @@ class AcctBankAccount extends Model
      * @var string[]
      */
 
-    protected $table        = 'acct_bank_account'; 
+    protected $table        = 'acct_bank_accounts'; 
     protected $primaryKey   = 'bank_account_id';
     
     protected $guarded = [

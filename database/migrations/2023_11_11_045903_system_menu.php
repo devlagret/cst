@@ -38,9 +38,11 @@ return new class extends Migration
                [ 'id_menu' => 61, 'id' => 'preference-company', 'type' => 'file','text' => 'Perusahaan','parent' => "6",'menu_level' => "2",],
                [ 'id_menu' => 62, 'id' => 'product-type',       'type' => 'file','text' => 'Tipe Produk','parent' => "6",'menu_level' => "2",],
                [ 'id_menu' => 63, 'id' => 'acct-account-setting','type' => 'file','text' => 'Pengaturan Akun','parent' => "6",'menu_level' => "2",],
+               [ 'id_menu' => 64, 'id' => 'asset',               'type' => 'file','text' => 'Asset','parent' => "6",'menu_level' => "2",],               
+               [ 'id_menu' => 65, 'id' => 'bank-account',        'type' => 'file','text' => 'Account Bank','parent' => "6",'menu_level' => "2",],               
                [ 'id_menu' => 7, 'id' => '#',                     'type' => 'folder', 'text' => 'Laporan','parent' => "#",'menu_level' => "1",],
                [ 'id_menu' => 71, 'id' => 'invoice-report',      'type' => 'file', 'text' => 'Laporan Invoice','parent' => "7",'menu_level' => "2",],
-               [ 'id_menu' => 711, 'id' => 'invoice-report',      'type' => 'file', 'text' => 'Tagihan Invoice','parent' => "71",'menu_level' => "3",],
+               [ 'id_menu' => 711, 'id' => 'invoice-report',      'type' => 'file', 'text' => 'Tagihan Invoice','parent' => "71",'menu_level' => "2",],
                [ 'id_menu' => 72, 'id' => '#',                     'type' => 'file', 'text' => 'Daftar Simp Berjangka Ditutup','parent' => "7",'menu_level' => "2",],
             ]);
         }
