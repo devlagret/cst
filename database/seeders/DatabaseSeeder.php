@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             AcctInvoiceSeeder::class,
             AcctJournalVoucherSeeder::class,
             AssetSeeder::class,
+            AcctBankSeeder::class,
         ]);
     }
 }

@@ -18,6 +18,10 @@ return new class extends Migration
             $table->string('bank_account_no');
             $table->unsignedBigInteger('account_id')->nullable();
             $table->foreign('account_id')->references('account_id')->on('acct_account');
+            $table->unsignedBigInteger('created_id')->nullable();
+            $table->unsignedBigInteger('updated_id')->nullable();
+            $table->unsignedBigInteger('deleted_id')->nullable();
+            $table->softDeletesTz();
             $table->timestamps();
         });
     }
