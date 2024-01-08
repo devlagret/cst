@@ -2,7 +2,7 @@
 </script>
 
 <td class="text-end">
-    <a href="" class="btn btn-sm btn-info btn-active-light-info">
+    <a href="{{ route('as-report.edit', $model->asset_id) }}" class="btn btn-sm btn-info btn-active-light-info">
         Ubah
     </a>
     <a type="button" data-bs-toggle="modal" data-bs-target="#kt_modal_delete_{{$model->asset_id}}" class="btn btn-sm btn-danger btn-active-light-danger">
@@ -25,7 +25,12 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Tidak</button>
-                <a href="" class="btn btn-primary">Iya</a>
+                <form id="deleteForm{{$model->asset_id}}" action="{{ route('as-report.delete', $model->asset_id) }}" method="POST" style="display: inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-primary">Iya</button>
+                </form>
+                {{-- <a href="{{ route('as-report.delete', $model->asset_id) }}" class="btn btn-primary">Iya</a> --}}
             </div>
         </div>
     </div>

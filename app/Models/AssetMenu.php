@@ -9,7 +9,7 @@ class AssetMenu extends Model
 {
     use HasFactory;
     protected $table        = 'asset_menu';
-    protected $primaryKey   = 'asser_id';
+    protected $primaryKey   = 'asset_id';
  
     protected $guarded = [
         'created_at',

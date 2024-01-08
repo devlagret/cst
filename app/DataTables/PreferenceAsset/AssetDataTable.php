@@ -21,13 +21,25 @@ class AssetDataTable extends DataTable
      *
      * @param QueryBuilder $query Results from query() method.
      */
-    public function dataTable(QueryBuilder $query): EloquentDataTable
+    // public function dataTable(QueryBuilder $query): EloquentDataTable
+    // {
+    //     return (new EloquentDataTable($query))
+    //         ->addIndexColumn()            
+    //         ->addColumn('action', 'content.PreferenceAsset.List._action-menu');
+    //         ->editColumn('asset.asset_id',fn($query)=>"{$query->asset->name}");
+    // }
+
+    public function dataTable($query)
     {
-        return (new EloquentDataTable($query))
-            ->addIndexColumn()            
+        return datatables()
+            ->eloquent($query)
+            ->editColumn('asset_id', function (AssetMenu $model) {
+                return [$model->asset_id];
+            })
+            ->addIndexColumn()
             ->addColumn('action', 'content.PreferenceAsset.List._action-menu');
-            // ->editColumn('asset.asset_id',fn($query)=>"{$query->asset->name}");
     }
+
 
     /**
      * Get the query source of dataTable.
@@ -63,7 +75,7 @@ class AssetDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('asset_id')->title(__('No'))->addClass('text-center')->style('width:5%;'),
+            Column::make('asset_id')->title(__('No'))->addClass('text-center')->style('width:5%;')->data('DT_RowIndex'),
             Column::make('name')->title("Nama")->style('width:12%;'),
             Column::make('buy_date')->title("Tanggal Beli")->style('width:12%;')->addClass('text-center'),
             Column::make('price')->title("Harga Beli")->width(20),

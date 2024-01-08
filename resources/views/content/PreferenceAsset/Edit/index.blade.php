@@ -1,7 +1,6 @@
-
 @section('scripts')
 <script>
-const form = document.getElementById('kt_asset_add_view_form');
+const form = document.getElementById('kt_asset_edit_view_form');
 
 var validator = FormValidation.formValidation(
     form,
@@ -69,7 +68,7 @@ var validator = FormValidation.formValidation(
     }
 );
 
-const submitButton = document.getElementById('kt_asset_add_view_form');
+const submitButton = document.getElementById('kt_bank_account_edit_submit');
 submitButton.addEventListener('click', function (e) {
     e.preventDefault();
 
@@ -83,7 +82,19 @@ submitButton.addEventListener('click', function (e) {
                 setTimeout(function () {
                     submitButton.removeAttribute('data-kt-indicator');
 
-                    form.submit();
+                    // submitButton.disabled = false;
+
+                    // Swal.fire({
+                    //     text: "Form has been successfully submitted!",
+                    //     icon: "success",
+                    //     buttonsStyling: false,
+                    //     confirmButtonText: "Ok, got it!",
+                    //     customClass: {
+                    //         confirmButton: "btn btn-primary"
+                    //     }
+                    // });
+
+                    form.submit(); // Submit form
                 }, 2000);
             }
         });
@@ -96,65 +107,61 @@ submitButton.addEventListener('click', function (e) {
     <div class="card mb-5 mb-xl-10">
         <div class="card-header border-0">
             <div class="card-title m-0">
-                <h3 class="fw-bolder m-0">{{ __('Form Tambah Data Asset') }}</h3>
+                <h3 class="fw-bolder m-0">{{ __('Form Ubah Data Asset') }}</h3>
             </div>
 
-            <a href="#" class="btn btn-light align-self-center">
+            <a href="" class="btn btn-light align-self-center">
                 {!! theme()->getSvgIcon("icons/duotune/arrows/arr079.svg", "svg-icon-4 me-1") !!}
                 {{ __('Kembali') }}</a>
         </div>
 
-        <div id="kt_user_add_view">
-            <form id="kt_asset_add_view_form" class="form" method="POST" action="{{ route('as-report.process-add') }}" enctype="multipart/form-data">
+        <div id="kt_user_edit_view">
+            <form id="kt_asset_edit_view_form" class="form" method="POST" action="{{ route('as-report.process-edit') }}" enctype="multipart/form-data">
             @csrf
-            @method('POST')
+            @method('PUT')
                 <div class="card-body border-top p-9">
                     <div class="row mb-6">
                         <label class="col-lg-4 col-form-label fw-bold fs-6 required">{{ __('Nama') }}</label>
                         <div class="col-lg-8 fv-row">
-                            <input type="text" name="name" class="form-control form-control-lg form-control-solid" placeholder="Masukan Nama..." value="{{ old('buy_date', $add_asset->buy_date ?? '') }}" autocomplete="off"/>
-                        </div>
-                    </div>
-                    <div class="row mb-6">
-                        <label class="col-lg-4 col-form-label fw-bold fs-6 required">{{ __('Tanggal Beli') }}</label>
-                        <div class="col-lg-8 fv-row" >
-                            <input type="date" name="buy_date" id="buy_date" class="date form-control form-control-lg form-control-solid" placeholder="Masukan Tanggal Beli..." value="{{ old('buy_date', $add_asset->buy_date ?? '') }}" autocomplete="off"/>
+                            <input type="hidden" name="asset_id" class="form-control form-control-lg form-control-solid" value="{{ old('asset_id', $add_asset->asset_id ?? '') }}"/>
+                            <input type="text" name="name" class="form-control form-control-lg form-control-solid" placeholder="Nama" value="{{ old('name', $add_asset->name ?? '') }}" autocomplete="off"/>
                         </div>
                     </div>
                     <div class="row mb-6">
                         <label class="col-lg-4 col-form-label fw-bold fs-6 required">{{ __('Harga Beli') }}</label>
                         <div class="col-lg-8 fv-row">
-                            <input type="number" name="price" class="form-control form-control-lg form-control-solid" placeholder="Masukan Harga Beli..." value="{{ old('price', $add_asset->price ?? '') }}" autocomplete="off"/>
+                            <input type="number" name="price" class="form-control form-control-lg form-control-solid" placeholder="Harga Beli" value="{{ old('price', $add_asset->price ?? '') }}" autocomplete="off"/>
                         </div>
                     </div>
                     <div class="row mb-6">
                         <label class="col-lg-4 col-form-label fw-bold fs-6 required">{{ __('Nilai Perolehan') }}</label>
                         <div class="col-lg-8 fv-row">
-                            <input type="number" name="acquisition_amount" class="form-control form-control-lg form-control-solid" placeholder="Masukan Nilai Perolehan..." value="{{ old('acquisition_amount', $add_asset->acquisition_amount ?? '') }}" autocomplete="off"/>
+                            <input type="number" name="acquisition_amount" class="form-control form-control-lg form-control-solid" placeholder="Nilai Perolehan" value="{{ old('acquisition_amount', $add_asset->acquisition_amount ?? '') }}" autocomplete="off"/>
                         </div>
                     </div>
                     <div class="row mb-6">
                         <label class="col-lg-4 col-form-label fw-bold fs-6 required">{{ __('Taksiran Usia') }}</label>
                         <div class="col-lg-8 fv-row">
-                            <input type="number" name="estimated_age" class="form-control form-control-lg form-control-solid" placeholder="Masukan Taksiran Usia..." value="{{ old('estimated_age', $add_asset->estimated_age ?? '') }}" autocomplete="off"/>
+                            <input type="number" name="estimated_age" class="form-control form-control-lg form-control-solid" placeholder="Taksiran Usia" value="{{ old('estimated_age', $add_asset->estimated_age ?? '') }}" autocomplete="off"/>
                         </div>
                     </div>
                     <div class="row mb-6">
                         <label class="col-lg-4 col-form-label fw-bold fs-6 required">{{ __('Nilai Residu') }}</label>
                         <div class="col-lg-8 fv-row">
-                            <input type="number" name="residual_amount" class="form-control form-control-lg form-control-solid" placeholder="Masukan Nilai Residu..." value="{{ old('residual_amount', $add_asset->residual_amount ?? '') }}" autocomplete="off"/>
+                            <input type="number" name="residual_amount" class="form-control form-control-lg form-control-solid" placeholder="Nilai Residu" value="{{ old('residual_amount', $add_asset->residual_amount ?? '') }}" autocomplete="off"/>
                         </div>
                     </div>
                     <div class="row mb-6">
                         <label class="col-lg-4 col-form-label fw-bold fs-6 required">{{ __('Keterangan') }}</label>
                         <div class="col-lg-8 fv-row">
-                            <input type="text" name="remark" class="form-control form-control-lg form-control-solid" placeholder="Masukan Keterangan..." value="{{ old('remark', $add_asset->remark ?? '') }}" autocomplete="off"/>
+                            <input type="text" name="remark" class="form-control form-control-lg form-control-solid" placeholder="Keterangan" value="{{ old('remark', $add_asset->remark ?? '') }}" autocomplete="off"/>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-end py-6 px-9">
                     <button type="reset" class="btn btn-white btn-active-light-primary me-2">{{ __('Batal') }}</button>
-                    <button type="submit" class="btn btn-primary" id="kt_asset_add_view_form">
+    
+                    <button type="submit" class="btn btn-primary" id="kt_bank_account_edit_submit">
                         @include('partials.general._button-indicator', ['label' => __('Simpan')])
                     </button>
                 </div>
@@ -162,12 +169,4 @@ submitButton.addEventListener('click', function (e) {
         </div>
     </div>
 </x-base-layout>
-<script>
-    // Mendapatkan tanggal hari ini
-    const today = new Date().toISOString().split('T')[0];
-    
-    // Mengatur nilai default ke input tanggal mulai
-    document.getElementById('buy_date').value = today;
-
-</script>
 

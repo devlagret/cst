@@ -25,8 +25,8 @@ return new class extends Migration
                 $table->unsignedBigInteger('created_id')->nullable();
                 $table->unsignedBigInteger('updated_id')->nullable();
                 $table->unsignedBigInteger('deleted_id')->nullable();
-                $table->timestamps();
                 $table->softDeletesTz();
+                $table->timestamps();
             });
         }
     }
