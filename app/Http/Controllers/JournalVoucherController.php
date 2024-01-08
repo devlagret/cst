@@ -34,8 +34,8 @@ class JournalVoucherController extends Controller
         $corebranch = CoreBranch::select('branch_id', 'branch_name')
         ->get();
         $acctjournalvoucher = AcctJournalVoucher::with('items.account')->where('journal_voucher_status',1)
-        ->where('journal_voucher_date','>=', $session['start_date']??Carbon::now()->format('Y-m-d'))
-        ->where('journal_voucher_date','<=', $session['end_date']??Carbon::now()->format('Y-m-d'));
+        ->where('journal_voucher_date','>=', Carbon::parse($session['start_date'])->format('Y-m-d')??Carbon::now()->format('Y-m-d'))
+        ->where('journal_voucher_date','<=', Carbon::parse($session['end_date'])->format('Y-m-d')??Carbon::now()->format('Y-m-d'));
         if(!empty($session['branch_id'])) {
             $acctjournalvoucher = $acctjournalvoucher->where('branch_id', $session['branch_id']);
         }
