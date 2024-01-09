@@ -52,7 +52,7 @@
             $('#total_amount_view').val(toRp((total+ppnamount)));
         }
         $(document).ready(function () {
-            countPPN();
+            countDiscont();
             var total = 0;
             $('.cb-termin').each(function (index, element) {
                 if($(this).is(":checked")){
@@ -62,13 +62,13 @@
                 $('#sbs_amount_view').val(toRp(total));
                 countDiscont();
             });
-            if ($('#ppn_amount').val() != ''&&$('#ppn_amount').val() !== undefined) {
-                var total = $('#sbs_amount').val();
-                var ppn = $('#ppn_amount').val();
-                $('#ppn_percentage').val((parseInt((ppn)) / parseInt(total) * 100));
-                $('#ppn_amount_view').val(toRp(ppn));
-                countDiscont();
-            }
+            // if ($('#ppn_amount').val() != ''&&$('#ppn_amount').val() !== undefined) {
+            //     var total = $('#sbs_amount').val();
+            //     var ppn = $('#ppn_amount').val();
+            //     $('#ppn_percentage').val((parseInt((ppn)) / parseInt(total) * 100));
+            //     $('#ppn_amount_view').val(toRp(ppn));
+            //     countDiscont();
+            // }
             $('.cb-addon').each(function (index, element) {
                 if($(this).is(":checked")){
                     total += parseInt($('#addon-amount-'+$(this).val()).val());
@@ -354,9 +354,9 @@
                             <label
                                 class="col-lg-4 col-form-label fw-bold fs-6">{{ __('Subtotal') }}</label>
                             <div class="col-lg-8 fv-row">
-                                <input type="text" name="sbs_amount_view" class="form-control form-control form-control-solid" data-kt-autosize="true" readonly
+                                <input type="text" name="sbs_amount_view" class="form-control form-control form-control-solid" autocomplete="off" data-kt-autosize="true" readonly
                                 placeholder="Total" id="sbs_amount_view" />
-                                <input type="hidden" name="sbs_amount" value="0" id="sbs_amount" />
+                                <input type="hidden" name="sbs_amount" value="0" autocomplete="off" id="sbs_amount" />
                             </div>
                         </div>
                         @if(appHelper()->config('use_discount'))
@@ -379,10 +379,10 @@
                                 class="col-lg-4 col-form-label fw-bold fs-6">{{ __('PPN') }}</label>
                             <div class="col-lg-8 fv-row">
                                 <div class="input-group">
-                                    <input type="number" name="ppn_percentage" min='0' max='100' class="form-control" value="{{old('ppn_percentage',$sessiondata['ppn_percentage']??appHelper()->config('ppn_percentage'))}}" placeholder="PPN" id="ppn_percentage" />
+                                    <input type="number" name="ppn_percentage" min='0' max='100' class="form-control" value="{{old('ppn_percentage',$sessiondata['ppn_percentage']??appHelper()->config('ppn_percentage'))}}" autocomplete="off" placeholder="PPN" id="ppn_percentage" />
                                     <span class="input-group-text">%</span>
                                     <span class="input-group-text">Rp.</span>
-                                    <input type="text" name="ppn_amount_view" class="form-control w-25" value="{{old('ppn_amount_view',$sessiondata['ppn_amount_view']??0)}}" data-kt-autosize="true" placeholder="PPN" id="ppn_amount_view" />
+                                    <input type="text" name="ppn_amount_view" class="form-control w-25" value="{{old('ppn_amount_view',$sessiondata['ppn_amount_view']??0)}}" autocomplete="off" data-kt-autosize="true" placeholder="PPN" id="ppn_amount_view" />
                                     <input type="hidden" name="ppn_amount" value="{{old('ppn_amount',$sessiondata['ppn_amount']??0)}}" autocomplete="off" id="ppn_amount" />
                                  </div>
                             </div>

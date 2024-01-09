@@ -95,7 +95,7 @@ class InvoiceController extends Controller
             $invoice->items()->create([
                 'subtotal_amount' =>  $request->sbs_amount,
                 'total_amount' => $request->total_amount,
-                'remark' => "Maintenance",
+                'remark' => "Maintenance Server",
                 'invoice_type' => 3
             ]);
             DB::commit();
@@ -192,6 +192,10 @@ class InvoiceController extends Controller
     {
         $preference = CompanySetting::where('company_id', Auth::user()->company_id)->get();
         $invoice = AcctInvoice::with('product', 'client', 'items')->find($invoice_id);
+        $ppn = 0;
+        if(AppHelper::config('use_ppn')){
+            $ppn = $invoice->tax_ppn_amount;
+        }
         if ($invoice->invoice_status == 0&&!$preview) {
             try {
                 DB::beginTransaction();
@@ -199,7 +203,7 @@ class InvoiceController extends Controller
                     $journalter = JournalHelper::code('SI')->clientId($invoice->client_id)->trsJournalId($invoice->invoice_id)->trsJournalNo($invoice->invoice_no)->appendTitle("Maintenance {$invoice->product->name} {$invoice->client->name}", 1)
                         ->make('Invoice', ($invoice->items()->where('invoice_type', 3)->sum('total_amount')));
                     $journalter->item($preference->where('name', 'receivables_account')->pluck('account_id')[0], 0);
-                    $journalter->item($preference->where('name', 'maintenance_account')->pluck('account_id')[0],1);
+                    $journalter->item($preference->where('name', 'maintenance_account')->pluck('account_id')[0],1,($invoice->items()->where('invoice_type', 3)->sum('total_amount')+$ppn));
                 } else {
                     $product = CoreProduct::with('type')->find($invoice->product_id);
                     $totaltermin =  $invoice->items()->where('invoice_type', 1)->sum('total_amount');
@@ -212,7 +216,7 @@ class InvoiceController extends Controller
                     $totaladd?$remark.="{$c}Addon":'';
                     $journalter = JournalHelper::code('SI')->clientId($invoice->client_id)->trsJournalId($invoice->invoice_id)->trsJournalNo($invoice->invoice_no)->appendTitle("{$remark} {$invoice->name} {$invoice->client->name}", 1)->make('Invoice', (($totaladd??0)+($totaltermin??0)));
                     $journalter->item($preference->where('name', 'receivables_account')->pluck('account_id')[0], 0);
-                    $journalter->item($product->type()->pluck('account_id')[0], 1);
+                    $journalter->item($product->type()->pluck('account_id')[0], 1,(($totaladd??0)+($totaltermin??0)+$ppn));
                 }
                 if(AppHelper::config('use_ppn')){
                     $journalter->item($preference->where('name', 'ppn_account')->pluck('account_id')[0], 0,$invoice->tax_ppn_amount);
@@ -417,7 +421,7 @@ class InvoiceController extends Controller
             $invoice = AcctInvoice::with('product','client')->find($request->invoice_id);
             $invoice->invoice_status = 2;
             $invoice->payed_amount = $request->payed_amount;
-            $invoice->payment_type = $request->product_id;
+            $invoice->payment_type = $request->payment_method;
             // $invoice->payment_bank = $request->payment_bank;
             $invoice->save();
             if ($invoice->invoice_type == 3) {
